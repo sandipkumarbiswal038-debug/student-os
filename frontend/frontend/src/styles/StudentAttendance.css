@@ -1,0 +1,97 @@
+body{
+    margin:0;
+    padding:0;
+    background:#f4f7fc;
+    font-family:Arial, sans-serif;
+}
+
+.student-container{
+    width:85%;
+    max-width:900px;
+    margin:40px auto;
+}
+
+.title{
+    text-align:center;
+    color:#1e3a8a;
+    font-size:38px;
+    margin-bottom:30px;
+}
+
+/* Cards */
+
+.student-card,
+.attendance-card,
+.subject-card{
+    background:#ffffff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.12);
+    margin-bottom:25px;
+}
+
+/* Card Headings */
+
+.student-card h2,
+.attendance-card h2,
+.subject-card h2{
+    color:#2563eb;
+    margin-bottom:20px;
+}
+
+/* Student Information */
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 0;
+    border-bottom:1px solid #e5e7eb;
+    font-size:18px;
+}
+
+.label{
+    color:#2563eb;
+    font-weight:bold;
+}
+
+.info-row span:last-child{
+    color:#040404;
+}
+
+/* Attendance Percentage */
+
+.attendance-card{
+    text-align:center;
+}
+
+.attendance-card h1{
+    font-size:60px;
+    color:#2563eb;
+    margin:15px 0;
+}
+
+/* Table */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th{
+    background:#2563eb;
+    color:white;
+    padding:14px;
+    text-align:center;
+}
+
+td{
+    padding:14px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+tr:hover{
+    background:#eef4ff;
+}
