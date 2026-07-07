@@ -32,8 +32,9 @@ export const facultyData = {
 };
 export const classRoll = [
   { id: 1, name: "Subhashree" },
-  { id: 2, name: "Priya" },
-  { id: 3, name: "Aman" },
-  { id: 4, name: "Riya" },
-  { id: 5, name: "Arjun" },
+  { id: 2, name: "Anita" },
+  { id: 3, name: "Sushree" },
+  { id: 4, name: "jagdish" },
+  { id: 5, name: "Barsa" },
+  { id: 6, name: "Nishit" },
 ];
