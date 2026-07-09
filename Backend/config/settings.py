@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'rest_framework',
+    'rest_framework.authtoken',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -52,6 +53,12 @@ INSTALLED_APPS = [
     'core',
     'notifications',
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
 
 SITE_ID = 1
 
