@@ -1,77 +1,148 @@
 import React from "react";
-import { facultyData, classRoll } from "../data/mockData";
 import "../styles/FacultyAttendance.css";
+
+const students = [
+  { id: 101, name: "Anita Maity" },
+  { id: 102, name: "Rahul Kumar" },
+  { id: 103, name: "Priya Das" },
+  { id: 104, name: "Amit Singh" },
+  { id: 105, name: "Sneha Patel" },
+  { id: 106, name: "Rohit Sharma" },
+];
+
 function FacultyAttendance() {
-    return (
-        <div className="faculty-container">
-                 <h1 className="title">
-            Faculty Attendance
-            </h1>
-            <div className="faculty-card">
+  return (
+    <div className="faculty-container">
 
-    <h2>Class Details</h2>
+      {/* Header */}
+      <div className="top-bar">
+        <input
+          type="text"
+          placeholder="Search student..."
+          className="search-box"
+        />
+      </div>
 
-    <p>
-        <strong>Subject:</strong> {facultyData.subject}
-    </p>
+      <div className="content">
 
-    <p>
-        <strong>Date:</strong> {facultyData.date}
-    </p>
+        {/* Left Side */}
+        <div className="attendance-card">
 
-</div>
-<div className="attendance-list">
+          <h2>Subject Attendance</h2>
 
-    <h2>Mark Attendance</h2>
+          <div className="filters">
 
-    <table>
+            <select>
+              <option>Faculty</option>
+            </select>
 
-        <thead>
+            <select>
+              <option>Program</option>
+            </select>
 
-            <tr>
+            <select>
+              <option>Section</option>
+            </select>
 
-                <th>Student Name</th>
+            <select>
+              <option>Course</option>
+            </select>
 
+            <button className="search-btn">
+              Search
+            </button>
+
+          </div>
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
                 <th>Present</th>
-
                 <th>Absent</th>
+                <th>Not Held</th>
+              </tr>
 
-            </tr>
+            </thead>
 
-        </thead>
+            <tbody>
 
-        <tbody>
-
-            {classRoll.map((student) => (
+              {students.map((student) => (
 
                 <tr key={student.id}>
 
-                    <td>{student.name}</td>
+                  <td>{student.id}</td>
 
-                    <td>
-                        <input type="checkbox" />
-                    </td>
+                  <td>{student.name}</td>
 
-                    <td>
-                        <input type="checkbox" />
-                    </td>
+                  <td>
+                    <input
+                      type="radio"
+                      name={student.id}
+                    />
+                  </td>
+
+                  <td>
+                    <input
+                      type="radio"
+                      name={student.id}
+                    />
+                  </td>
+
+                  <td>
+                    <input
+                      type="radio"
+                      name={student.id}
+                    />
+                  </td>
 
                 </tr>
 
-            ))}
+              ))}
 
-        </tbody>
+            </tbody>
 
-    </table>
-            <div className="button-container">
-    <button className="save-btn">
-        Save Attendance
-    </button>
-</div>
+          </table>
 
-</div>
+          <button className="save-btn">
+            Save Attendance
+          </button>
 
         </div>
-    );
+
+        {/* Right Side */}
+
+        <div className="summary">
+
+          <div className="box yellow">
+            <h3>240</h3>
+            <p>Total Students</p>
+          </div>
+
+          <div className="box green">
+            <h3>230</h3>
+            <p>Present Today</p>
+          </div>
+
+          <div className="box red">
+            <h3>10</h3>
+            <p>Absent Today</p>
+          </div>
+
+          <div className="box blue">
+            <h3>5</h3>
+            <p>Not Held</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  );
 }
-export default  FacultyAttendance;
+
+export default FacultyAttendance;
