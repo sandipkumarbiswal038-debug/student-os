@@ -1,0 +1,173 @@
+.bottom{
+    margin:25px;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+    align-items:start;
+}
+
+.panel{
+    background:white;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+    height:520px;
+    overflow-y:auto;
+}
+
+.panel h2{
+    margin-bottom:25px;
+    font-size:24px;
+    color:#333;
+}
+
+/* Schedule */
+
+.schedule{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.schedule div{
+    padding:18px;
+    background:#f5f1ff;
+    border-radius:18px;
+}
+
+.schedule span{
+    color:#7B2FF7;
+    font-weight:600;
+}
+
+/* Attendance Circle */
+
+.center{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.circle{
+    width:170px;
+    height:170px;
+    border-radius:50%;
+
+    background:conic-gradient(
+        #7B2FF7 0deg,
+        #7B2FF7 330deg,
+        #eee 330deg
+    );
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    margin:20px 0;
+}
+
+.circle h1{
+    width:130px;
+    height:130px;
+
+    background:white;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:38px;
+}
+
+/* Notifications */
+
+.notification-list{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+
+    margin:0;
+    padding:0;
+}
+
+.notification-list li{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:16px 18px;
+
+    background:#F8FBF7;
+
+    border-left:5px solid #67C96B;
+
+    border-radius:16px;
+
+    transition:.3s;
+}
+
+.notification-list li:hover{
+    transform:translateX(6px);
+    background:#ECFDF3;
+}
+
+.notification-title{
+    display:flex;
+    flex-direction:column;
+}
+
+.notification-title h4{
+    font-size:16px;
+    color:#335C43;
+    margin-bottom:5px;
+}
+
+.notification-title span{
+    font-size:13px;
+    color:#888;
+}
+
+.notification-date{
+    font-size:13px;
+    color:#666;
+    white-space:nowrap;
+}
+
+/* Mobile */
+
+@media(max-width:900px){
+
+.bottom{
+    grid-template-columns:1fr;
+}
+
+.panel{
+    height:auto;
+}
+
+}
+.panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.view-all-btn{
+    background:none;
+    border:none;
+    color:#335C43;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.view-all-btn:hover{
+    color:#67C96B;
+}
