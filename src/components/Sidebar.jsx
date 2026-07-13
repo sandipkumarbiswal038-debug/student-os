@@ -1,5 +1,4 @@
 import "./Sidebar.css";
-import profile from "../assets/profile pic.png";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -61,11 +60,11 @@ function Sidebar() {
         </li>
 
         <li>
-          <NavLink to="/notes" className="nav-link">
+          <NavLink to="/notes & assignments" className="nav-link">
   <span className="icon-box notes-icon">
     <FaBook />
   </span>
-  <span>Notes</span>
+  <span>Notes & Assignments</span>
 </NavLink>
         </li>
 
@@ -89,45 +88,54 @@ function Sidebar() {
 
       </ul>
 
-      {/* Bottom Profile */}
+  
+
+      {/*
+      ===========================
+          BOTTOM PROFILE
+      ===========================
+
       <div className="sidebar-bottom">
 
-  <div
-    className="user-profile"
-    onClick={() => setShowMenu(!showMenu)}
-  >
+        <div
+          className="user-profile"
+          onClick={() => setShowMenu(!showMenu)}
+        >
 
-    <img
-      src={profile}
-      alt="Profile"
-      className="user-img"
-    />
+          <img
+            src={profile}
+            alt="Profile"
+            className="user-img"
+          />
 
-    <div>
-      <h4>Name</h4>
-    </div>
+          <div>
+            <h4>Name</h4>
+          </div>
 
-  </div>
+        </div>
 
-  {showMenu && (
+        {showMenu && (
 
-    <ul className="bottom-menu">
+          <ul className="bottom-menu">
 
-      <li>
-        <FaCog />
-        Settings
-      </li>
+            <li>
+              <FaCog />
+              Settings
+            </li>
 
-      <li>
-        <FaSignOutAlt />
-        Logout
-      </li>
+            <li>
+              <FaSignOutAlt />
+              Logout
+            </li>
 
-    </ul>
+          </ul>
 
-  )}
+        )}
 
-</div>
+      </div>
+
+      */}
+
     </aside>
   );
 }

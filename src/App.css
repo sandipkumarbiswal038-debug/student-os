@@ -230,3 +230,66 @@
     }
 
 }
+/* ===========================
+   MOBILE RESPONSIVE
+=========================== */
+
+@media (max-width: 768px){
+
+    .layout{
+        display:block;
+        width:100%;
+        min-height:100vh;
+    }
+
+
+    .main{
+
+        margin-left:0;
+
+        width:100%;
+
+        min-height:100vh;
+
+        padding:15px;
+
+        overflow-x:hidden;
+
+    }
+
+
+    .main::before{
+
+        width:300px;
+        height:300px;
+
+        top:-100px;
+        right:-100px;
+
+    }
+
+
+    .main::after{
+
+        width:300px;
+        height:300px;
+
+        bottom:-100px;
+        left:20%;
+
+    }
+
+}
+
+
+/* Small Mobile Devices */
+
+@media (max-width:480px){
+
+    .main{
+
+        padding:12px;
+
+    }
+
+}

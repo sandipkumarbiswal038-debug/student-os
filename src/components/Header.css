@@ -182,34 +182,126 @@
 
 }
 
+
+
 /* ===========================
    MOBILE RESPONSIVE
 =========================== */
 
 @media(max-width:768px){
 
-.header{
+    .header{
 
-    flex-direction:column;
+        margin:15px;
 
-    align-items:flex-start;
+        padding:15px;
 
-    gap:20px;
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:15px;
+
+        border-radius:20px;
+
+    }
+
+
+    .header-left h2{
+
+        font-size:22px;
+
+    }
+
+
+    .header-left p{
+
+        font-size:13px;
+
+    }
+
+
+    .header-right{
+
+        width:100%;
+
+        display:flex;
+
+        justify-content:space-between;
+
+        gap:10px;
+
+    }
+
+
+    .icon-btn{
+
+        width:42px;
+
+        height:42px;
+
+        font-size:18px;
+
+    }
+
+
+    .profile{
+
+        padding:6px 10px;
+
+        gap:8px;
+
+    }
+
+
+    .profile img{
+
+        width:38px;
+
+        height:38px;
+
+    }
+
+
+    .profile h4{
+
+        font-size:14px;
+
+    }
+
+
+    .profile span{
+
+        font-size:11px;
+
+    }
 
 }
 
-.header-right{
 
-    width:100%;
+/* Small Mobile */
 
-    justify-content:space-between;
+@media(max-width:480px){
 
-}
+    .header{
 
-.profile{
+        margin:10px;
 
-    flex:1;
+    }
 
-}
+
+    .header-left h2{
+
+        font-size:20px;
+
+    }
+
+
+    .profile h4,
+    .profile span{
+
+        display:none;
+
+    }
 
 }
