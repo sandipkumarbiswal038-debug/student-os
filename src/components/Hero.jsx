@@ -21,14 +21,14 @@ function Hero() {
         <div className="hero-left">
 
           <span className="welcome">
-            👋 Welcome Back
+             Welcome Back👋
           </span>
 
           <h1>Name</h1>
 
           <p>Stream • Semester </p>
 
-          <h3>NIIS Institute of Business Adminstration</h3>
+          <h3>NIIS Institute of Business Administration</h3>
 
           <small>
             Check today's classes, attendance,
@@ -59,7 +59,7 @@ function Hero() {
 
             <div>
               {/*<h2>4</h2>*/}
-              <span>Today's Classes</span>
+              <span>Timetable</span>
             </div>
           </div>
 

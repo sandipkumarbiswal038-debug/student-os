@@ -2,358 +2,238 @@
    SIDEBAR
 =========================== */
 
-.sidebar{
-    position:fixed;
-    top:0;
-    left:0;
-
-    width:280px;
-    height:100vh;
-
-    padding:30px 22px;
-
-    display:flex;
-    flex-direction:column;
-
-    background:linear-gradient(
-        180deg,
-        #335C43 0%,
-        #3F704D 45%,
-        #4F7C59 100%
-    );
-
-    color:#fff;
-
-    border-top-right-radius:30px;
-    border-bottom-right-radius:30px;
-
-    box-shadow:8px 0 25px rgba(0,0,0,.15);
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  padding: 30px 22px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    180deg,
+    #335c43 0%,
+    #3f704d 45%,
+    #4f7c59 100%
+  );
+  color: #fff;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  box-shadow: 8px 0 25px rgba(0, 0, 0, 0.15);
 }
 
 /* ===========================
    LOGO
 =========================== */
 
-.logo{
-    display:flex;
-    align-items:center;
-    gap:15px;
-    margin-bottom:35px;
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 35px;
 }
 
-.logo-icon{
-    font-size:42px;
-    color:#FFD54F;
+.college-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 50%;
+  padding: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  margin-bottom: 12px;
 }
 
-.logo h2{
-    font-size:34px;
-    font-weight:700;
-    margin:0;
+.logo-text {
+  text-align: center;
 }
 
-.logo p{
-    font-size:15px;
-    opacity:.8;
-    margin-top:4px;
+.logo-text h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.logo-text p {
+  margin-top: 4px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* ===========================
    MENU
 =========================== */
 
-.sidebar ul{
-    list-style:none;
-    padding:0;
-    margin:0;
-
-    display:flex;
-    flex-direction:column;
-    gap:10px;
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* ===========================
    NAV LINK
 =========================== */
 
-.nav-link{
-
-    display:flex;
-    align-items:center;
-    gap:16px;
-
-    text-decoration:none;
-
-    color:#fff;
-
-    padding:12px 14px;
-
-    border-radius:18px;
-
-    transition:.3s;
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 18px;
+  transition: 0.3s;
 }
 
-.nav-link:hover{
-
-    background:rgba(255,255,255,.15);
-
-    transform:translateX(6px);
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(6px);
 }
 
-.nav-link.active{
-
-    background:#fff;
-
-    color:#335C43;
-
-    font-weight:600;
-
-    box-shadow:0 12px 25px rgba(0,0,0,.15);
+.nav-link.active {
+  background: #fff;
+  color: #335c43;
+  font-weight: 600;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
 }
 
 /* ===========================
    ICON BOX
 =========================== */
 
-.icon-box{
-
-    width:42px;
-    height:42px;
-
-    border-radius:13px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#fff;
-
-    font-size:19px;
-
-    flex-shrink:0;
-
-    box-shadow:0 8px 18px rgba(0,0,0,.18);
+.icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 19px;
+  flex-shrink: 0;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
 }
 
-.icon-box svg{
-    color:#fff;
+.icon-box svg {
+  color: #fff;
 }
 
 /* ===========================
    ICON COLORS
 =========================== */
 
-.dashboard-icon{
-    background:#FFD54F;
+.dashboard-icon {
+  background: #ffd54f;
 }
 
-.attendance-icon{
-    background:#5AD66F;
+.attendance-icon {
+  background: #5ad66f;
 }
 
-.timetable-icon{
-    background:#4EA8FF;
+.timetable-icon {
+  background: #4ea8ff;
 }
 
-.notes-icon{
-    background:#FFC83D;
+.notes-icon {
+  background: #ffc83d;
 }
 
-.notification-icon{
-    background:#FF4F8B;
+.notification-icon {
+  background: #ff4f8b;
 }
 
-.events-icon{
-    background:#9A63FF;
+.events-icon {
+  background: #9a63ff;
 }
 
 /* ===========================
-   PROFILE
+   MOBILE
 =========================== */
 
-/*.sidebar-bottom{
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 15px 20px;
+    border-radius: 0 0 25px 25px;
+  }
 
-    margin-top:auto;
+  .logo {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
 
-    padding-top:20px;
+  .college-logo {
+    width: 60px;
+    height: 60px;
+  }
 
-    border-top:1px solid rgba(255,255,255,.18);
+  .logo-text h2 {
+    font-size: 24px;
+  }
+
+  .logo-text p {
+    font-size: 12px;
+  }
+
+  .sidebar ul {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 8px;
+  }
+
+  .sidebar ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-link {
+    flex-direction: column;
+    gap: 6px;
+    min-width: 75px;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .nav-link:hover {
+    transform: none;
+  }
+
+  .icon-box {
+    width: 38px;
+    height: 38px;
+    font-size: 17px;
+  }
 }
 
-.user-profile{
-
-    display:flex;
-    align-items:center;
-    gap:14px;
-
-    padding:12px;
-
-    background:rgba(255,255,255,.12);
-
-    border-radius:18px;
-}
-
-.user-img{
-
-    width:48px;
-    height:48px;
-
-    border-radius:50%;
-
-    border:3px solid #fff;
-
-    object-fit:cover;
-}
-
-.user-profile h4{
-
-    margin:0;
-
-    font-size:17px;
-}
-
-.user-profile p{
-
-    margin-top:4px;
-
-    font-size:13px;
-
-    opacity:.8;
-}*/
-/* ===========================
-   MOBILE RESPONSIVE
-=========================== */
-
-@media (max-width:768px){
-
-    .sidebar{
-
-        position:relative;
-
-        width:100%;
-
-        height:auto;
-
-        padding:15px 20px;
-
-        border-radius:0 0 25px 25px;
-
-        flex-direction:column;
-
-    }
-
-
-    .logo{
-
-        margin-bottom:20px;
-
-        gap:10px;
-
-    }
-
-
-    .logo-icon{
-
-        font-size:32px;
-
-    }
-
-
-    .logo h2{
-
-        font-size:24px;
-
-    }
-
-
-    .logo p{
-
-        font-size:12px;
-
-    }
-
-
-    .sidebar ul{
-
-        flex-direction:row;
-
-        gap:8px;
-
-        overflow-x:auto;
-
-        padding-bottom:5px;
-
-    }
-
-
-    .sidebar ul::-webkit-scrollbar{
-
-        display:none;
-
-    }
-
-
-    .nav-link{
-
-        flex-direction:column;
-
-        gap:6px;
-
-        padding:10px;
-
-        min-width:75px;
-
-        text-align:center;
-
-        font-size:12px;
-
-    }
-
-
-    .nav-link:hover{
-
-        transform:none;
-
-    }
-
-
-    .icon-box{
-
-        width:38px;
-
-        height:38px;
-
-        font-size:17px;
-
-    }
-
-}
-
-
-/* Small Mobile */
-
-@media (max-width:480px){
-
-    .sidebar{
-
-        padding:12px;
-
-    }
-
-
-    .logo h2{
-
-        font-size:22px;
-
-    }
-
-
-    .nav-link{
-
-        min-width:65px;
-
-        padding:8px;
-
-    }
-
+@media (max-width: 480px) {
+  .sidebar {
+    padding: 12px;
+  }
+
+  .college-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .logo-text h2 {
+    font-size: 22px;
+  }
+
+  .logo-text p {
+    font-size: 11px;
+  }
+
+  .nav-link {
+    min-width: 65px;
+    padding: 8px;
+  }
 }

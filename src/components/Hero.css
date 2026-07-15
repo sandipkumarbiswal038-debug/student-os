@@ -134,13 +134,13 @@
 
     color:white;
 
-    transition:.35s;
+    transition:background 0.3s ease, box-shadow 0.3s ease;
 
 }
 
 .stat-card:hover{
 
-    transform:translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 
     background:rgba(255,255,255,.22);
 
