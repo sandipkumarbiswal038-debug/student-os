@@ -51,8 +51,13 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'accounts',
+    'attendance',
+    'events',
     'core',
     'notifications',
+    "assignments.apps.AssignmentsConfig",
+    'dashboard',
+    'notes',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
