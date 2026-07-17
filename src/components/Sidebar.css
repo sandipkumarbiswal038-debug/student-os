@@ -1,0 +1,239 @@
+/* ===========================
+   SIDEBAR
+=========================== */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  padding: 30px 22px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    180deg,
+    #335c43 0%,
+    #3f704d 45%,
+    #4f7c59 100%
+  );
+  color: #fff;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  box-shadow: 8px 0 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ===========================
+   LOGO
+=========================== */
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 35px;
+}
+
+.college-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 50%;
+  padding: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  margin-bottom: 12px;
+}
+
+.logo-text {
+  text-align: center;
+}
+
+.logo-text h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.logo-text p {
+  margin-top: 4px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ===========================
+   MENU
+=========================== */
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ===========================
+   NAV LINK
+=========================== */
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 18px;
+  transition: 0.3s;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(6px);
+}
+
+.nav-link.active {
+  background: #fff;
+  color: #335c43;
+  font-weight: 600;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ===========================
+   ICON BOX
+=========================== */
+
+.icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 19px;
+  flex-shrink: 0;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.icon-box svg {
+  color: #fff;
+}
+
+/* ===========================
+   ICON COLORS
+=========================== */
+
+.dashboard-icon {
+  background: #ffd54f;
+}
+
+.attendance-icon {
+  background: #5ad66f;
+}
+
+.timetable-icon {
+  background: #4ea8ff;
+}
+
+.notes-icon {
+  background: #ffc83d;
+}
+
+.notification-icon {
+  background: #ff4f8b;
+}
+
+.events-icon {
+  background: #9a63ff;
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 15px 20px;
+    border-radius: 0 0 25px 25px;
+  }
+
+  .logo {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .college-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .logo-text h2 {
+    font-size: 24px;
+  }
+
+  .logo-text p {
+    font-size: 12px;
+  }
+
+  .sidebar ul {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 8px;
+  }
+
+  .sidebar ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-link {
+    flex-direction: column;
+    gap: 6px;
+    min-width: 75px;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .nav-link:hover {
+    transform: none;
+  }
+
+  .icon-box {
+    width: 38px;
+    height: 38px;
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    padding: 12px;
+  }
+
+  .college-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .logo-text h2 {
+    font-size: 22px;
+  }
+
+  .logo-text p {
+    font-size: 11px;
+  }
+
+  .nav-link {
+    min-width: 65px;
+    padding: 8px;
+  }
+}

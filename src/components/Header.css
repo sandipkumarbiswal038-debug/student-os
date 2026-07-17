@@ -1,0 +1,307 @@
+.header{
+
+    margin:25px;
+    padding:18px 28px;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,.65);
+
+    backdrop-filter:blur(20px);
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+
+}
+
+/* ===========================
+   LEFT SECTION
+=========================== */
+
+.header-left h2{
+
+    font-size:28px;
+    color:#335C43;
+    margin-bottom:5px;
+
+}
+
+.header-left p{
+
+    color:#6B7280;
+    font-size:22px;
+    font-weight:500;
+
+}
+
+/* ===========================
+   RIGHT SECTION
+=========================== */
+
+.header-right{
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+}
+
+/* ===========================
+   ICON BUTTONS
+=========================== */
+
+.icon-btn{
+
+    width:48px;
+    height:48px;
+
+    border:none;
+    border-radius:16px;
+
+    background:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    cursor:pointer;
+
+    font-size:20px;
+    color:#335C43;
+
+    position:relative;
+
+    transition:0.3s;
+
+    box-shadow:0 8px 18px rgba(0,0,0,.08);
+
+}
+
+.icon-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 15px 25px rgba(0,0,0,.12);
+
+}
+
+/* ===========================
+   NOTIFICATION BADGE
+=========================== */
+
+.notification .badge{
+
+    position:absolute;
+
+    top:-4px;
+    right:-4px;
+
+    width:20px;
+    height:20px;
+
+    border-radius:50%;
+
+    background:#EC4899;
+    color:white;
+
+    font-size:11px;
+    font-weight:600;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+/* ===========================
+   PROFILE
+=========================== */
+
+.profile{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    background:white;
+
+    padding:8px 16px;
+
+    border-radius:18px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+}
+
+.profile:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.12);
+
+}
+
+.profile:active{
+
+    transform:scale(.98);
+
+}
+
+.profile img{
+
+    width:46px;
+    height:46px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:2px solid #335C43;
+
+}
+
+.profile h4{
+
+    font-size:16px;
+    color:#335C43;
+    font-weight:600;
+
+}
+
+.profile span{
+
+    font-size:13px;
+    color:#777;
+
+}
+
+
+
+/* ===========================
+   MOBILE RESPONSIVE
+=========================== */
+
+@media(max-width:768px){
+
+    .header{
+
+        margin:15px;
+
+        padding:15px;
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:15px;
+
+        border-radius:20px;
+
+    }
+
+
+    .header-left h2{
+
+        font-size:22px;
+
+    }
+
+
+    .header-left p{
+
+        font-size:13px;
+
+    }
+
+
+    .header-right{
+
+        width:100%;
+
+        display:flex;
+
+        justify-content:space-between;
+
+        gap:10px;
+
+    }
+
+
+    .icon-btn{
+
+        width:42px;
+
+        height:42px;
+
+        font-size:18px;
+
+    }
+
+
+    .profile{
+
+        padding:6px 10px;
+
+        gap:8px;
+
+    }
+
+
+    .profile img{
+
+        width:38px;
+
+        height:38px;
+
+    }
+
+
+    .profile h4{
+
+        font-size:14px;
+
+    }
+
+
+    .profile span{
+
+        font-size:11px;
+
+    }
+
+}
+
+
+/* Small Mobile */
+
+@media(max-width:480px){
+
+    .header{
+
+        margin:10px;
+
+    }
+
+
+    .header-left h2{
+
+        font-size:20px;
+
+    }
+
+
+    .profile h4,
+    .profile span{
+
+        display:none;
+
+    }
+
+}
