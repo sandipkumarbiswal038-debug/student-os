@@ -1,263 +1,162 @@
-.profile-page{
-
-    margin:25px;
-
-    display:grid;
-
-    grid-template-columns:320px 1fr;
-
-    gap:30px;
-
-    animation:fadePage .5s ease;
-
+.profile-page {
+    margin: 25px;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 30px;
+    animation: fadePage .5s ease;
 }
 
 /* ===========================
    LEFT PROFILE CARD
 =========================== */
 
-.profile-card{
-
-    background:white;
-
-    border-radius:25px;
-
-    padding:35px 25px;
-
-    text-align:center;
-
-    box-shadow:0 15px 35px rgba(0,0,0,.08);
-
+.profile-card {
+    background: white;
+    border-radius: 25px;
+    padding: 35px 25px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,.08);
 }
 
-.profile-photo{
-
-    width:140px;
-
-    height:140px;
-
-    border-radius:50%;
-
-    object-fit:cover;
-
-    border:5px solid #335C43;
-
-    margin:0 auto 20px;
-
+.profile-photo {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #335C43;
+    margin: 0 auto 20px;
 }
 
-.profile-card h2{
-
-    color:#335C43;
-
-    font-size:26px;
-
-    margin-bottom:8px;
-
+.profile-card h2 {
+    color: #335C43;
+    font-size: 26px;
+    margin-bottom: 8px;
 }
 
-.profile-card p{
-
-    color:#777;
-
-    font-size:15px;
-
-    margin-bottom:30px;
-
+.profile-card p {
+    color: #777;
+    font-size: 15px;
+    margin-bottom: 25px;
 }
 
-.profile-card button{
+/* ===========================
+   BUTTONS
+=========================== */
 
-    width:100%;
-
-    padding:14px;
-
-    border:none;
-
-    border-radius:14px;
-
-    background:#335C43;
-
-    color:white;
-
-    font-size:16px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
-
+.edit-btn,
+.logout-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
-.profile-card button:hover{
+.edit-btn {
+    background: #335C43;
+    color: #fff;
+}
 
-    background:#406f52;
+.edit-btn:hover {
+    background: #406F52;
+}
 
-    transform:translateY(-2px);
+.logout-btn {
+    margin-top: 15px;
+    background: #E53935;
+    color: #fff;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.logout-btn:hover {
+    background: #C62828;
 }
 
 /* ===========================
    RIGHT DETAILS CARD
 =========================== */
 
-.profile-details{
-
-    background:white;
-
-    border-radius:25px;
-
-    padding:35px;
-
-    box-shadow:0 15px 35px rgba(0,0,0,.08);
-
+.profile-details {
+    background: white;
+    border-radius: 25px;
+    padding: 35px;
+    box-shadow: 0 15px 35px rgba(0,0,0,.08);
 }
 
-.profile-details h2{
-
-    color:#335C43;
-
-    font-size:28px;
-
-    margin-bottom:30px;
-
+.profile-details h2 {
+    color: #335C43;
+    font-size: 28px;
+    margin-bottom: 30px;
 }
 
 /* ===========================
    INFO GRID
 =========================== */
 
-.info-box{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
-
-    gap:20px;
-
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 0;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid #e5eee5;
 }
 
-.info-item{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:18px;
-
-    padding:20px;
-
-    background:#F7FBF7;
-
-    border-radius:18px;
-
-    transition:.3s;
-
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 22px;
+    background: #F7FBF7;
+    border-right: 1px solid #e5eee5;
+    border-bottom: 1px solid #e5eee5;
+    transition: .3s;
 }
 
-.info-item:hover{
-
-    transform:translateY(-4px);
-
-    box-shadow:0 12px 25px rgba(0,0,0,.08);
-
+.info-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(0,0,0,.08);
 }
 
-.info-item svg{
-
-    width:50px;
-
-    height:50px;
-
-    padding:12px;
-
-    border-radius:14px;
-
-    background:#335C43;
-
-    color:white;
-
-    font-size:22px;
-
+.info-item svg {
+    width: 50px;
+    height: 50px;
+    padding: 12px;
+    border-radius: 14px;
+    background: #335C43;
+    color: white;
+    font-size: 22px;
 }
 
-.info-item h4{
-
-    color:#335C43;
-
-    font-size:16px;
-
-    margin-bottom:6px;
-
+.info-item h4 {
+    color: #335C43;
+    font-size: 16px;
+    margin-bottom: 6px;
 }
 
-.info-item p{
-
-    color:#666;
-
-    font-size:15px;
-
+.info-item p {
+    color: #666;
+    font-size: 15px;
 }
 
 /* ===========================
    MOBILE
 =========================== */
 
-@media(max-width:992px){
+@media (max-width: 992px) {
 
-.profile-page{
+    .profile-page {
+        grid-template-columns: 1fr;
+    }
 
-    grid-template-columns:1fr;
-
-}
-
-.info-box{
-
-    grid-template-columns:1fr;
-
-}
-
-}
-
-@media(max-width:600px){
-
-.profile-card{
-
-    padding:25px 20px;
-
-}
-
-.profile-details{
-
-    padding:25px 20px;
-
-}
-
-.profile-photo{
-
-    width:110px;
-
-    height:110px;
-
-}
-
-.profile-card h2{
-
-    font-size:22px;
-
-}
-
-.profile-details h2{
-
-    font-size:24px;
-
-}
-
-.info-item{
-
-    padding:16px;
-
-}
-
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
 }

@@ -10,32 +10,31 @@
     backdrop-filter:blur(20px);
 
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
 
     box-shadow:0 12px 30px rgba(0,0,0,.08);
 
 }
 
+
 /* ===========================
    LEFT SECTION
 =========================== */
 
-.header-left h2{
-
-    font-size:28px;
-    color:#335C43;
-    margin-bottom:5px;
-
-}
-
 .header-left p{
 
     color:#6B7280;
+
     font-size:22px;
+
     font-weight:500;
 
 }
+
+
 
 /* ===========================
    RIGHT SECTION
@@ -44,41 +43,50 @@
 .header-right{
 
     display:flex;
+
     align-items:center;
+
     gap:18px;
 
 }
 
+
+
 /* ===========================
-   ICON BUTTONS
+   ICON BUTTON
 =========================== */
 
 .icon-btn{
 
     width:48px;
+
     height:48px;
 
     border:none;
+
     border-radius:16px;
 
     background:white;
 
     display:flex;
+
     justify-content:center;
+
     align-items:center;
 
     cursor:pointer;
 
     font-size:20px;
+
     color:#335C43;
-
-    position:relative;
-
-    transition:0.3s;
 
     box-shadow:0 8px 18px rgba(0,0,0,.08);
 
+    transition:.3s;
+
 }
+
+
 
 .icon-btn:hover{
 
@@ -88,97 +96,143 @@
 
 }
 
+
+
+/* ===========================
+   PROFILE DROPDOWN
+=========================== */
+
+.profile-menu{
+
+    position:relative;
+
+}
+
+
+
+.dropdown{
+
+    position:absolute;
+
+    top:58px;
+
+    right:0;
+
+    width:170px;
+
+    background:white;
+
+    border-radius:16px;
+
+    padding:10px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+
+    z-index:1000;
+
+    animation:dropdownShow .25s ease;
+
+}
+
+
+
+.dropdown button{
+
+    width:100%;
+
+    padding:12px 15px;
+
+    border:none;
+
+    background:transparent;
+
+    color:#335C43;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    text-align:left;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+
+.dropdown button:hover{
+
+    background:#F1F7F1;
+
+}
+
+
+
+/* Dropdown Animation */
+
+@keyframes dropdownShow{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(-10px);
+
+    }
+
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
 /* ===========================
    NOTIFICATION BADGE
 =========================== */
+
+.notification{
+
+    position:relative;
+
+}
+
 
 .notification .badge{
 
     position:absolute;
 
     top:-4px;
+
     right:-4px;
 
     width:20px;
+
     height:20px;
 
     border-radius:50%;
 
     background:#EC4899;
+
     color:white;
 
     font-size:11px;
-    font-weight:600;
 
     display:flex;
+
     justify-content:center;
+
     align-items:center;
-
-}
-
-/* ===========================
-   PROFILE
-=========================== */
-
-.profile{
-
-    display:flex;
-    align-items:center;
-    gap:12px;
-
-    background:white;
-
-    padding:8px 16px;
-
-    border-radius:18px;
-
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-
-    cursor:pointer;
-
-    transition:0.3s;
-
-}
-
-.profile:hover{
-
-    transform:translateY(-4px);
-
-    box-shadow:0 15px 30px rgba(0,0,0,.12);
-
-}
-
-.profile:active{
-
-    transform:scale(.98);
-
-}
-
-.profile img{
-
-    width:46px;
-    height:46px;
-
-    border-radius:50%;
-
-    object-fit:cover;
-
-    border:2px solid #335C43;
-
-}
-
-.profile h4{
-
-    font-size:16px;
-    color:#335C43;
-    font-weight:600;
-
-}
-
-.profile span{
-
-    font-size:13px;
-    color:#777;
 
 }
 
@@ -189,6 +243,7 @@
 =========================== */
 
 @media(max-width:768px){
+
 
     .header{
 
@@ -202,36 +257,28 @@
 
         gap:15px;
 
-        border-radius:20px;
-
     }
 
-
-    .header-left h2{
-
-        font-size:22px;
-
-    }
 
 
     .header-left p{
 
-        font-size:13px;
+        font-size:18px;
 
     }
+
 
 
     .header-right{
 
         width:100%;
 
-        display:flex;
+        justify-content:flex-end;
 
-        justify-content:space-between;
-
-        gap:10px;
+        gap:12px;
 
     }
+
 
 
     .icon-btn{
@@ -245,43 +292,12 @@
     }
 
 
-    .profile{
-
-        padding:6px 10px;
-
-        gap:8px;
-
-    }
-
-
-    .profile img{
-
-        width:38px;
-
-        height:38px;
-
-    }
-
-
-    .profile h4{
-
-        font-size:14px;
-
-    }
-
-
-    .profile span{
-
-        font-size:11px;
-
-    }
-
 }
 
 
-/* Small Mobile */
 
 @media(max-width:480px){
+
 
     .header{
 
@@ -290,17 +306,9 @@
     }
 
 
-    .header-left h2{
+    .dropdown{
 
-        font-size:20px;
-
-    }
-
-
-    .profile h4,
-    .profile span{
-
-        display:none;
+        right:-20px;
 
     }
 

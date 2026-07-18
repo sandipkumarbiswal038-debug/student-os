@@ -1,5 +1,6 @@
 import "./Sidebar.css";
 import { NavLink } from "react-router-dom";
+
 import logo from "../assets/logo.jpg";
 
 import {
@@ -31,6 +32,7 @@ function Sidebar() {
 
       {/* Menu */}
       <ul>
+
         <li>
           <NavLink to="/" className="nav-link">
             <span className="icon-box dashboard-icon">
@@ -59,7 +61,7 @@ function Sidebar() {
         </li>
 
         <li>
-          <NavLink to="/notes & assignments" className="nav-link">
+          <NavLink to="/notes-and-assignments" className="nav-link">
             <span className="icon-box notes-icon">
               <FaBook />
             </span>
@@ -84,6 +86,7 @@ function Sidebar() {
             <span>Events</span>
           </NavLink>
         </li>
+
       </ul>
 
     </aside>

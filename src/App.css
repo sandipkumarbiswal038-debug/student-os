@@ -1,3 +1,23 @@
+/* ===========================
+   GLOBAL
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Outfit",sans-serif;
+    background:#FCFCFA;
+    overflow-x:hidden;
+}
+
+/* ===========================
+   LAYOUT
+=========================== */
+
 .layout{
     display:flex;
     width:100%;
@@ -9,27 +29,28 @@
 =========================== */
 
 .main{
-    margin-left:280px;
-    width:calc(100% - 280px);
+    margin-left:290px;
+    width:calc(100% - 290px);
     min-height:100vh;
-
-    position:relative;
 
     display:flex;
     flex-direction:column;
+
+    position:relative;
 
     overflow-x:hidden;
     overflow-y:auto;
 
     background:#FCFCFA;
+
+    transition:.3s;
 }
 
 /* ===========================
-   TOP RIGHT GREEN BLOB
+   BACKGROUND DECORATION
 =========================== */
 
 .main::before{
-
     content:"";
 
     position:absolute;
@@ -42,30 +63,21 @@
 
     border-radius:50%;
 
-    background:
-    radial-gradient(
+    background:radial-gradient(
         circle,
-        rgba(116,185,120,.18) 0%,
-        rgba(116,185,120,0) 70%
+        rgba(116,185,120,.18),
+        transparent 70%
     );
 
     pointer-events:none;
-
-    z-index:0;
-
 }
 
-/* ===========================
-   BOTTOM LEFT YELLOW BLOB
-=========================== */
-
 .main::after{
-
     content:"";
 
     position:absolute;
 
-    bottom:-200px;
+    bottom:-220px;
     left:35%;
 
     width:550px;
@@ -73,140 +85,22 @@
 
     border-radius:50%;
 
-    background:
-    radial-gradient(
+    background:radial-gradient(
         circle,
-        rgba(255,214,120,.12) 0%,
-        rgba(255,214,120,0) 70%
+        rgba(255,214,120,.12),
+        transparent 70%
     );
 
     pointer-events:none;
-
-    z-index:0;
-
 }
 
 /* ===========================
-   RINGS
+   KEEP CONTENT ABOVE BLOBS
 =========================== */
 
-/* .rings{
-
-    position:absolute;
-
-    top:-60px;
-    left:30px;
-
-    width:160px;
-    height:160px;
-
-    border-radius:50%;
-
-    border:1px solid rgba(180,180,180,.15);
-
-    box-shadow:
-    0 0 0 18px rgba(180,180,180,.10),
-    0 0 0 36px rgba(180,180,180,.08),
-    0 0 0 54px rgba(180,180,180,.05);
-
-    pointer-events:none;
-
-    z-index:0;
-
-} */
-
-/* ===========================
-   DOT PATTERN
-=========================== */
-/* 
-.dots{
-
-    position:absolute;
-
-    top:40px;
-    right:230px;
-
-    width:90px;
-    height:90px;
-
-    background-image:
-    radial-gradient(#B8CDB5 2px, transparent 2px);
-
-    background-size:18px 18px;
-
-    opacity:.7;
-
-    pointer-events:none;
-
-    z-index:0;
-
-} */
-
-/* ===========================
-   TOP WAVE
-=========================== */
-/* 
-.wave{
-
-    position:absolute;
-
-    top:0;
-    right:0;
-
-    width:360px;
-    height:180px;
-
-    background:rgba(116,185,120,.12);
-
-    border-bottom-left-radius:180px;
-
-    pointer-events:none;
-
-    z-index:0;
-
-} */
-
-/* ===========================
-   EXTRA BLOB
-=========================== */
-
-/* .blob{
-
-    position:absolute;
-
-    bottom:120px;
-    right:80px;
-
-    width:180px;
-    height:180px;
-
-    border-radius:50%;
-
-    background:
-    radial-gradient(
-        circle,
-        rgba(91,143,97,.15) 0%,
-        rgba(91,143,97,0) 75%
-    );
-
-    filter:blur(10px);
-
-    pointer-events:none;
-
-    z-index:0;
-
-} */
-
-/* ===========================
-   CONTENT ABOVE BACKGROUND
-=========================== */
-
-.main > *{
-
+.main>*{
     position:relative;
-
     z-index:2;
-
 }
 
 /* ===========================
@@ -216,80 +110,71 @@
 @keyframes fadeIn{
 
     from{
-
         opacity:0;
         transform:translateY(20px);
-
     }
 
     to{
-
         opacity:1;
         transform:translateY(0);
-
     }
 
 }
+
 /* ===========================
-   MOBILE RESPONSIVE
+   TABLET
 =========================== */
 
-@media (max-width: 768px){
+@media(max-width:768px){
 
-    .layout{
-        display:block;
-        width:100%;
-        min-height:100vh;
-    }
+.layout{
 
-
-    .main{
-
-        margin-left:0;
-
-        width:100%;
-
-        min-height:100vh;
-
-        padding:15px;
-
-        overflow-x:hidden;
-
-    }
-
-
-    .main::before{
-
-        width:300px;
-        height:300px;
-
-        top:-100px;
-        right:-100px;
-
-    }
-
-
-    .main::after{
-
-        width:300px;
-        height:300px;
-
-        bottom:-100px;
-        left:20%;
-
-    }
+    display:block;
 
 }
 
+.main{
 
-/* Small Mobile Devices */
+    margin-left:0;
 
-@media (max-width:480px){
+    width:100%;
 
-    .main{
+    padding:15px;
 
-        padding:12px;
+}
 
-    }
+.main::before{
+
+    width:300px;
+    height:300px;
+
+    top:-100px;
+    right:-100px;
+
+}
+
+.main::after{
+
+    width:300px;
+    height:300px;
+
+    bottom:-100px;
+    left:20%;
+
+}
+
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:480px){
+
+.main{
+
+    padding:12px;
+
+}
 
 }

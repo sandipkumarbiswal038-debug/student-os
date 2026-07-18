@@ -1,35 +1,47 @@
 import "./Header.css";
 
-import { FaMoon, FaSun, FaBell } from "react-icons/fa";
+import { FaMoon, FaSun, FaBell, FaUserCircle } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Header() {
+
   const navigate = useNavigate();
 
   const [darkMode, setDarkMode] = useState(false);
   const [greeting, setGreeting] = useState("");
 
+
   // Dark / Light Mode
   const toggleTheme = () => {
+
     setDarkMode(!darkMode);
+
     document.body.classList.toggle("dark-theme");
+
   };
 
-  // Greeting based on current time
+
+  // Greeting
   useEffect(() => {
+
     const updateGreeting = () => {
+
       const hour = new Date().getHours();
 
       if (hour >= 5 && hour < 12) {
         setGreeting("Good Morning");
-      } else if (hour >= 12 && hour < 17) {
+      }
+      else if (hour >= 12 && hour < 17) {
         setGreeting("Good Afternoon");
-      } else if (hour >= 17 && hour < 21) {
+      }
+      else if (hour >= 17 && hour < 21) {
         setGreeting("Good Evening");
-      } else {
+      }
+      else {
         setGreeting("Good Night");
       }
+
     };
 
     updateGreeting();
@@ -37,23 +49,40 @@ function Header() {
     const interval = setInterval(updateGreeting, 60000);
 
     return () => clearInterval(interval);
+
   }, []);
 
+
   return (
+
     <header className="header">
 
-      {/* Left Side */}
+      {/* Left */}
       <div className="header-left">
         <p>{greeting}</p>
       </div>
 
-      {/* Right Side */}
+
+      {/* Right */}
       <div className="header-right">
 
-        {/* Dark / Light Mode */}
-        <button className="icon-btn" onClick={toggleTheme}>
+        {/* Dark Mode */}
+        <button
+          className="icon-btn"
+          onClick={toggleTheme}
+        >
           {darkMode ? <FaSun /> : <FaMoon />}
         </button>
+
+
+        {/* Profile */}
+        <button
+          className="icon-btn"
+          onClick={() => navigate("/profile")}
+        >
+          <FaUserCircle />
+        </button>
+
 
         {/* Notification */}
         <button
@@ -66,7 +95,9 @@ function Header() {
       </div>
 
     </header>
+
   );
+
 }
 
 export default Header;
