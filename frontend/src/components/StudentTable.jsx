@@ -1,421 +1,127 @@
-import React, { useState } from "react";
-
-import { FaCheck, FaTimes, FaSearch } from "react-icons/fa";
+import React from "react";
+import {
+  FaCheckSquare,
+  FaRegSquare
+} from "react-icons/fa";
 
 import "../styles/StudentTable.css";
 
-
 function StudentTable({
-
   students,
-
-  setStudents,
-
-  onSubmit,
-
-  onNotHeld
-
+  updateAttendance,
+  markAllPresent,
+  backPage,
+  saveAttendance,
 }) {
-
-
-  const [search, setSearch] = useState("");
-
-  const [submitted, setSubmitted] = useState(false);
-
-
-
-
-
-  const toggleAttendance = (id) => {
-
-
-    const updatedStudents = students.map((student)=>{
-
-
-      if(student.id === id){
-
-
-        return {
-
-          ...student,
-
-          present: !student.present
-
-        };
-
-
-      }
-
-
-      return student;
-
-
-    });
-
-
-
-    setStudents(updatedStudents);
-
-
-  };
-
-
-
-
-
-
-
-  const handleSubmit = () => {
-
-
-    if(submitted){
-
-      return;
-
-    }
-
-
-    setSubmitted(true);
-
-
-    onSubmit();
-
-
-  };
-
-
-
-
-
-
-  const filteredStudents = students.filter((student)=>
-
-
-    student.name
-
-    .toLowerCase()
-
-    .includes(search.toLowerCase())
-
-
-    ||
-
-    student.roll
-
-    .toLowerCase()
-
-    .includes(search.toLowerCase())
-
-
-  );
-
-
-
-
-
-
 
   return (
 
-
     <div className="student-table-card">
 
+      
+      
 
+      <table className="student-table">
 
+        <thead>
 
+          <tr>
 
-      <div className="table-top">
+            <th>Regd No</th>
 
+            <th>Student Name</th>
 
+            <th>Present</th>
 
-        <h3>
-          Student Attendance
-        </h3>
+            <th>Absent</th>
 
+            <th>Status</th>
 
+          </tr>
 
+        </thead>
 
-        <div className="search-box">
+        <tbody>
+          {students.map((student) => (
 
+  <tr key={student.id}>
 
-          <FaSearch />
+    {/* Registration Number */}
+    <td>{student.roll}</td>
 
+    {/* Student Name */}
+    <td>{student.name}</td>
 
-          <input
+    {/* Present */}
+    <td className="center">
 
-            type="text"
+      <input
+        type="checkbox"
+        className="present-check"
+        checked={student.present}
+        onChange={() => updateAttendance(student.id, true)}
+      />
 
-            placeholder="Search Student"
+    </td>
 
-            value={search}
+    {/* Absent */}
+    <td className="center">
 
-            onChange={(e)=>setSearch(e.target.value)}
+      <input
+        type="checkbox"
+        className="absent-check"
+        checked={!student.present}
+        onChange={() => updateAttendance(student.id, false)}
+      />
 
-          />
+    </td>
 
+    {/* Status */}
+    <td>
 
-        </div>
+      <span
+        className={
+          student.present
+            ? "status present"
+            : "status absent"
+        }
+      >
+        {student.present ? "Present" : "Absent"}
+      </span>
 
+    </td>
 
+  </tr>
 
-      </div>
+))}
+        </tbody>
 
+      </table>
 
+      {/* Bottom Buttons */}
 
-
-
-
-
-      {
-
-        filteredStudents.length === 0 ?
-
-
-        (
-
-          <div className="no-student">
-
-            No students found
-
-          </div>
-
-        )
-
-
-        :
-
-
-
-        (
-
-          <div className="table-wrapper">
-
-
-            <table>
-
-
-              <thead>
-
-                <tr>
-
-                  <th>
-                    Roll No
-                  </th>
-
-
-                  <th>
-                    Student Name
-                  </th>
-
-
-                  <th>
-                    Status
-                  </th>
-
-
-                </tr>
-
-              </thead>
-
-
-
-
-
-              <tbody>
-
-
-              {
-
-                filteredStudents.map((student)=>(
-
-
-                  <tr key={student.id}>
-
-
-                    <td>
-
-                      {student.roll}
-
-                    </td>
-
-
-
-                    <td>
-
-                      {student.name}
-
-                    </td>
-
-
-
-
-                    <td>
-
-
-                      <button
-
-
-                        className={
-
-                          student.present
-
-                          ?
-
-                          "status-btn present"
-
-                          :
-
-                          "status-btn absent"
-
-                        }
-
-
-
-                        onClick={()=>toggleAttendance(student.id)}
-
-
-
-                      >
-
-
-
-                        {
-
-                          student.present ?
-
-
-                          <>
-
-                            <FaCheck />
-
-                            Present
-
-                          </>
-
-
-                          :
-
-
-                          <>
-
-
-                            <FaTimes />
-
-                            Absent
-
-
-                          </>
-
-
-                        }
-
-
-
-                      </button>
-
-
-                    </td>
-
-
-
-                  </tr>
-
-
-
-                ))
-
-              }
-
-
-
-              </tbody>
-
-
-
-            </table>
-
-
-          </div>
-
-
-        )
-
-
-      }
-
-
-
-
-
-
-
-
-      <div className="attendance-actions">
-
-
+      <div className="table-buttons">
 
         <button
-
-          className="not-held-btn"
-
-          onClick={onNotHeld}
-
+          className="back-btn"
+          onClick={backPage}
         >
-
-          Not Held
-
+          ← Back
         </button>
 
-
-
-
-
         <button
-
           className="submit-btn"
-
-          onClick={handleSubmit}
-
-          disabled={submitted}
-
+          onClick={saveAttendance}
         >
-
-
-          {
-
-            submitted
-
-            ?
-
-            "Submitted"
-
-            :
-
-            "Submit Attendance"
-
-          }
-
-
-
+          Submit Attendance
         </button>
 
-
-
-
       </div>
-
-
-
-
-
 
     </div>
-
 
   );
 
 }
-
-
 
 export default StudentTable;

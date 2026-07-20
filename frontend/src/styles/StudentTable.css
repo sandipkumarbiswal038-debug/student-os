@@ -1,269 +1,243 @@
 .student-table-card{
 
-    background:white;
+    margin-top:25px;
 
-    border-radius:16px;
+    background:#fff;
 
-    padding:20px;
+    padding:22px;
 
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    border-radius:18px;
 
-}
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
 
+    border:1px solid #e9ecef;
 
-
-.table-top{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:15px;
+    overflow-x:auto;
 
 }
 
+/* ================= TABLE ================= */
 
-
-.table-top h3{
-
-    margin:0;
-
-    color:#14532d;
-
-    font-size:18px;
-
-}
-
-
-
-.search-box{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
-    border:1px solid #d1d5db;
-
-    padding:8px 12px;
-
-    border-radius:8px;
-
-}
-
-
-
-.search-box input{
-
-    border:none;
-
-    outline:none;
-
-    width:180px;
-
-}
-
-
-
-.table-wrapper{
-
-    overflow:auto;
-
-}
-
-
-
-table{
+.student-table{
 
     width:100%;
 
     border-collapse:collapse;
 
-}
-
-
-
-thead{
-
-    background:#166534;
-
-    color:white;
+    min-width:700px;
 
 }
 
+/* ================= HEADER ================= */
 
+.student-table thead{
 
-th{
-
-    padding:12px;
-
-    text-align:left;
-
-    font-size:14px;
+    background:#0d4d3d;
 
 }
 
+.student-table th{
 
+    color:#fff;
 
-td{
+    padding:15px;
 
-    padding:12px;
+    text-align:center;
 
-    border-bottom:1px solid #e5e7eb;
-
-    font-size:14px;
-
-}
-
-
-
-tbody tr:hover{
-
-    background:#f0fdf4;
-
-}
-
-
-
-.status-btn{
-
-    border:none;
-
-    padding:7px 14px;
-
-    border-radius:20px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:6px;
-
-    cursor:pointer;
+    font-size:15px;
 
     font-weight:600;
 
 }
 
+/* ================= BODY ================= */
 
+.student-table td{
 
-.status-btn.present{
+    padding:15px;
 
-    background:#dcfce7;
+    text-align:center;
 
-    color:#166534;
+    border-bottom:1px solid #ececec;
 
-}
-
-
-
-.status-btn.absent{
-
-    background:#fee2e2;
-
-    color:#dc2626;
+    font-size:14px;
 
 }
 
+.student-table tbody tr:nth-child(even){
 
+    background:#fafafa;
 
-.attendance-actions{
+}
+
+.student-table tbody tr:hover{
+
+    background:#eef8f4;
+
+    transition:.3s;
+
+}
+
+/* ================= CHECKBOX ================= */
+
+.present-check,
+.absent-check{
+
+    width:20px;
+
+    height:20px;
+
+    cursor:pointer;
+
+}
+
+.present-check{
+
+    accent-color:#28a745;
+
+}
+
+.absent-check{
+
+    accent-color:#dc3545;
+
+}
+
+/* ================= STATUS ================= */
+
+.status{
+
+    display:inline-block;
+
+    min-width:90px;
+
+    padding:7px 14px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+.status.present{
+
+    background:#d4edda;
+
+    color:#198754;
+
+}
+
+.status.absent{
+
+    background:#fde2e4;
+
+    color:#dc3545;
+
+}
+
+/* ================= BUTTONS ================= */
+
+.table-buttons{
 
     display:flex;
 
     justify-content:flex-end;
 
-    gap:12px;
+    gap:15px;
 
-    margin-top:20px;
+    margin-top:22px;
 
 }
 
+.back-btn{
 
+    background:#6c757d;
+
+    color:#fff;
+
+    border:none;
+
+    padding:11px 26px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.back-btn:hover{
+
+    background:#545b62;
+
+    transform:translateY(-2px);
+
+}
 
 .submit-btn{
 
-    background:#166534;
+    background:#0d4d3d;
 
-    color:white;
-
-    border:none;
-
-    padding:10px 22px;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-}
-
-
-
-.submit-btn:disabled{
-
-    opacity:.7;
-
-    cursor:not-allowed;
-
-}
-
-
-
-.not-held-btn{
-
-    background:#e5e7eb;
+    color:#fff;
 
     border:none;
 
-    padding:10px 22px;
+    padding:11px 28px;
 
-    border-radius:8px;
+    border-radius:10px;
+
+    font-weight:600;
 
     cursor:pointer;
 
-}
-
-
-
-.no-student{
-
-    text-align:center;
-
-    padding:30px;
-
-    color:#64748b;
+    transition:.3s;
 
 }
 
+.submit-btn:hover{
 
+    background:#0a3d31;
 
-@media(max-width:700px){
+    transform:translateY(-2px);
 
-    .table-top{
+}
 
-        flex-direction:column;
+/* ================= RESPONSIVE ================= */
 
-        gap:12px;
+@media(max-width:992px){
 
-        align-items:stretch;
+.table-buttons{
 
-    }
+justify-content:center;
 
+}
 
-    .search-box input{
+}
 
-        width:100%;
+@media(max-width:768px){
 
-    }
+.student-table{
 
+min-width:650px;
 
-    .attendance-actions{
+}
 
-        flex-direction:column;
+.table-buttons{
 
-    }
+flex-direction:column;
+
+}
+
+.back-btn,
+.submit-btn{
+
+width:100%;
+
+}
 
 }

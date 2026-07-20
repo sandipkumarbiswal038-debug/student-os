@@ -1,404 +1,313 @@
-import React, { useState } from "react";
-import { FaCalendarAlt, FaClock, FaBook, FaUsers } from "react-icons/fa";
-
-import { courseData } from "../data/courseData";
+import React, { useEffect, useState } from "react";
+import {
+  FaUniversity,
+  FaBook,
+  FaLayerGroup,
+  FaUsers,
+  FaCalendarAlt,
+  FaClock,
+} from "react-icons/fa";
 
 import "../styles/AttendanceHeader.css";
 
-function AttendanceHeader({ onLoadStudents }) {
+const courseData = {
+  BCA: {
+    semesters: ["1", "2", "3", "4", "5", "6"],
+    subjects: [
+      "Data Structures",
+      "DBMS",
+      "Operating System",
+      "Java Programming",
+      "Web Technology",
+    ],
+    sections: ["A", "B", "C"],
+  },
 
+  MCA: {
+    semesters: ["1", "2", "3", "4"],
+    subjects: [
+      "Advanced Java",
+      "Cloud Computing",
+      "Machine Learning",
+    ],
+    sections: ["A", "B"],
+  },
 
-  const [formData, setFormData] = useState({
+  BBA: {
+    semesters: ["1", "2", "3", "4", "5", "6"],
+    subjects: [
+      "Marketing",
+      "Finance",
+      "HR Management",
+    ],
+    sections: ["A", "B"],
+  },
+};
 
-    date: "",
-    time: "",
-    course: "",
-    subject: "",
-    section: ""
+function AttendanceHeader({
+  attendanceInfo,
+  onLoadStudents,
+  onNotHeld,
+}) {
 
-  });
+  const today = new Date();
 
+  const [course, setCourse] = useState("");
+  const [semester, setSemester] = useState("");
+  const [section, setSection] = useState("");
+  const [subject, setSubject] = useState("");
 
+  const [date, setDate] = useState(
+    today.toISOString().split("T")[0]
+  );
 
-  const [subjects, setSubjects] = useState([]);
+  const [time, setTime] = useState("");
 
+  // Auto Update Time
+  useEffect(() => {
 
+    const updateClock = () => {
 
-  const handleChange = (e) => {
+      const now = new Date();
 
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
 
-    const { name, value } = e.target;
+      setTime(`${hours}:${minutes}`);
 
+    };
 
+    updateClock();
 
-    setFormData({
+    const timer = setInterval(updateClock, 60000);
 
-      ...formData,
+    return () => clearInterval(timer);
 
-      [name]: value
+  }, []);
 
-    });
+  // Auto Fill Data
+  useEffect(() => {
 
+    if (!attendanceInfo) return;
 
+    setCourse(attendanceInfo.course || "");
+    setSemester(attendanceInfo.semester || "");
+    setSection(attendanceInfo.section || "");
+    setSubject(attendanceInfo.subject || "");
 
-    if (name === "course") {
-
-
-      const selectedCourse = courseData.find(
-
-        (item) => item.course === value
-
-      );
-
-
-      if (selectedCourse) {
-
-        setSubjects(selectedCourse.subjects);
-
-      } 
-      else {
-
-        setSubjects([]);
-
-      }
-
-
-
-      setFormData({
-
-        ...formData,
-
-        course: value,
-
-        subject: "",
-
-        section: ""
-
-      });
-
+    if (attendanceInfo.date) {
+      setDate(attendanceInfo.date);
     }
 
+    if (attendanceInfo.time) {
+      setTime(attendanceInfo.time);
+    }
 
-  };
+  }, [attendanceInfo]);
 
+  const semesters =
+    courseData[course]?.semesters || [];
 
+  const subjects =
+    courseData[course]?.subjects || [];
 
+  const sections =
+    courseData[course]?.sections || [];
 
+  // Load Students
   const handleLoad = () => {
 
-
     if (
-
-      !formData.date ||
-
-      !formData.time ||
-
-      !formData.course ||
-
-      !formData.subject ||
-
-      !formData.section
-
+      !course ||
+      !semester ||
+      !section ||
+      !subject
     ) {
-
-      alert("Please select all fields");
-
+      alert("Please fill all fields.");
       return;
-
     }
 
-
-
-    onLoadStudents(formData);
-
+    onLoadStudents({
+      course,
+      semester,
+      section,
+      subject,
+      date,
+      time,
+    });
 
   };
-
-
-
 
   return (
 
-    <div className="attendance-header-card">
+    <div className="attendance-header">
 
+      {/* Row 1 */}
 
+      <div className="header-row">
 
-      <div className="field-box">
+        <div className="input-group">
 
-        <label>
+          <FaUniversity className="input-icon" />
 
-          <FaCalendarAlt />
+          <select
+            value={course}
+            onChange={(e) => {
 
-          Date
+              setCourse(e.target.value);
 
-        </label>
+              setSemester("");
+              setSection("");
+              setSubject("");
 
+            }}
+          >
 
-        <input
+            <option value="">Course</option>
 
-          type="date"
+            {Object.keys(courseData).map((item) => (
 
-          name="date"
-
-          value={formData.date}
-
-          onChange={handleChange}
-
-        />
-
-      </div>
-
-
-
-
-
-      <div className="field-box">
-
-
-        <label>
-
-          <FaClock />
-
-          Time
-
-        </label>
-
-
-        <input
-
-          type="time"
-
-          name="time"
-
-          value={formData.time}
-
-          onChange={handleChange}
-
-        />
-
-
-      </div>
-
-
-
-
-
-      <div className="field-box">
-
-
-        <label>
-
-          <FaBook />
-
-          Course
-
-        </label>
-
-
-        <select
-
-          name="course"
-
-          value={formData.course}
-
-          onChange={handleChange}
-
-        >
-
-          <option value="">
-
-            Select Course
-
-          </option>
-
-
-          {
-
-            courseData.map((item,index)=>(
-
-              <option
-
-                key={index}
-
-                value={item.course}
-
-              >
-
-                {item.course}
-
+              <option key={item} value={item}>
+                {item}
               </option>
 
-            ))
+            ))}
 
-          }
+          </select>
 
+        </div>
 
-        </select>
+        <div className="input-group">
 
+          <FaLayerGroup className="input-icon" />
 
-      </div>
+          <select
+            value={semester}
+            onChange={(e) =>
+              setSemester(e.target.value)
+            }
+          >
 
+            <option value="">Semester</option>
 
+            {semesters.map((item) => (
 
-
-
-      <div className="field-box">
-
-
-        <label>
-
-          <FaBook />
-
-          Subject
-
-        </label>
-
-
-
-        <select
-
-          name="subject"
-
-          value={formData.subject}
-
-          onChange={handleChange}
-
-          disabled={!formData.course}
-
-        >
-
-
-          <option value="">
-
-            Select Subject
-
-          </option>
-
-
-          {
-
-            subjects.map((subject,index)=>(
-
-              <option
-
-                key={index}
-
-                value={subject}
-
-              >
-
-                {subject}
-
+              <option key={item} value={item}>
+                Semester {item}
               </option>
 
-            ))
+            ))}
 
-          }
+          </select>
 
+        </div>
 
-        </select>
+        <div className="input-group">
 
+          <FaUsers className="input-icon" />
+
+          <select
+            value={section}
+            onChange={(e) =>
+              setSection(e.target.value)
+            }
+          >
+
+            <option value="">Section</option>
+
+            {sections.map((item) => (
+
+              <option key={item} value={item}>
+                Section {item}
+              </option>
+
+            ))}
+
+          </select>
+
+        </div>
+
+        <div className="input-group">
+
+          <FaBook className="input-icon" />
+
+          <select
+            value={subject}
+            onChange={(e) =>
+              setSubject(e.target.value)
+            }
+          >
+
+            <option value="">Subject</option>
+
+            {subjects.map((item) => (
+
+              <option key={item} value={item}>
+                {item}
+              </option>
+
+            ))}
+
+          </select>
+
+        </div>
 
       </div>
 
+      {/* Row 2 */}
 
+      <div className="header-row">
 
+        <div className="input-group">
 
+          <FaCalendarAlt className="input-icon" />
 
-      <div className="field-box">
+          <input
+            type="date"
+            value={date}
+            onChange={(e) =>
+              setDate(e.target.value)
+            }
+          />
 
+        </div>
 
-        <label>
+        <div className="input-group">
 
+          <FaClock className="input-icon" />
+
+          <input
+            type="time"
+            value={time}
+            onChange={(e) =>
+              setTime(e.target.value)
+            }
+          />
+
+        </div>
+
+        <button
+          className="load-btn"
+          onClick={handleLoad}
+        >
           <FaUsers />
+          &nbsp; Load Students
+        </button>
 
-          Section
-
-        </label>
-
-
-
-        <select
-
-          name="section"
-
-          value={formData.section}
-
-          onChange={handleChange}
-
+        <button
+          type="button"
+          className="not-held-btn"
+          onClick={onNotHeld}
         >
-
-
-          <option value="">
-
-            Select Section
-
-          </option>
-
-
-
-          {
-
-            formData.course &&
-
-            courseData
-
-            .find(
-
-              item=>item.course===formData.course
-
-            )
-
-            ?.sections
-
-            .map((section,index)=>(
-
-              <option
-
-                key={index}
-
-                value={section}
-
-              >
-
-                {section}
-
-              </option>
-
-            ))
-
-          }
-
-
-        </select>
-
+          Not Held
+        </button>
 
       </div>
-
-
-
-
-
-      <button
-
-        className="load-btn"
-
-        onClick={handleLoad}
-
-      >
-
-        Load Students
-
-      </button>
-
-
 
     </div>
 
   );
 
 }
-
-
 
 export default AttendanceHeader;

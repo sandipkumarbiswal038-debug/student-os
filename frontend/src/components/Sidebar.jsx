@@ -1,78 +1,170 @@
+import "../styles/Sidebar.css";
+import profile from "../assets/profile pic.png.jpeg";
+
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+
 import {
   FaHome,
+  FaCalendarAlt,
+  FaBook,
   FaClipboardCheck,
-  FaChalkboardTeacher,
-  FaChartBar,
-  FaUser,
+  FaBell,
+  FaCalendarCheck,
   FaCog,
   FaSignOutAlt,
+  FaGraduationCap,
+  FaHistory,
+  FaChalkboardTeacher
 } from "react-icons/fa";
 
-import "../styles/Sidebar.css";
-import logo from "../assets/niis.logo.png";
-
 function Sidebar() {
+  const [showMenu, setShowMenu] = useState(false);
+
   return (
-    <div className="sidebar">
+    <aside className="sidebar">
 
-      <div>
+      {/* Logo */}
+      <div className="logo">
+        <FaGraduationCap className="logo-icon" />
 
-        <div className="logo-section">
+        <div>
+          <h2>NIIS</h2>
+          <p>Student Portal</p>
+        </div>
+      </div>
 
-          <img src={logo} alt="NIIS Logo" className="logo" />
+      {/* Menu */}
+      <ul>
+
+        {/* Dashboard */}
+        <li>
+          <NavLink to="/" className="nav-link">
+            <span className="icon-box dashboard-icon">
+              <FaHome />
+            </span>
+
+            <span>Dashboard</span>
+          </NavLink>
+        </li>
+
+        {/* Attendance */}
+        <li>
+          <NavLink to="/attendance" className="nav-link">
+            <span className="icon-box attendance-icon">
+              <FaClipboardCheck />
+            </span>
+
+            <span>Attendance</span>
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink to="/my-classes" className="nav-link">
+
+             <span className="icon-box classes-icon">
+               <FaChalkboardTeacher />
+        </span>
+
+        <span>My Classes</span>
+
+     </NavLink>
+    </li>
+
+        {/* Attendance History */}
+        <li>
+          <NavLink to="/attendance-history" className="nav-link">
+            <span className="icon-box history-icon">
+              <FaHistory />
+            </span>
+
+            <span>Attendance History</span>
+          </NavLink>
+        </li>
+
+        {/* Timetable */}
+        <li>
+          <NavLink to="/timetable" className="nav-link">
+            <span className="icon-box timetable-icon">
+              <FaCalendarAlt />
+            </span>
+
+            <span>Timetable</span>
+          </NavLink>
+        </li>
+
+        {/* Notes */}
+        <li>
+          <NavLink to="/notes" className="nav-link">
+            <span className="icon-box notes-icon">
+              <FaBook />
+            </span>
+
+            <span>Notes</span>
+          </NavLink>
+        </li>
+
+        {/* Notifications */}
+        <li>
+          <NavLink to="/notifications" className="nav-link">
+            <span className="icon-box notification-icon">
+              <FaBell />
+            </span>
+
+            <span>Notifications</span>
+          </NavLink>
+        </li>
+
+        {/* Events */}
+        <li>
+          <NavLink to="/events" className="nav-link">
+            <span className="icon-box events-icon">
+              <FaCalendarCheck />
+            </span>
+
+            <span>Events</span>
+          </NavLink>
+        </li>
+
+      </ul>
+
+      {/* Bottom Profile */}
+      <div className="sidebar-bottom">
+
+        <div
+          className="user-profile"
+          onClick={() => setShowMenu(!showMenu)}
+        >
+          <img
+            src={profile}
+            alt="Profile"
+            className="user-img"
+          />
 
           <div>
-            <h2>NIIS</h2>
-            <p>Faculty Portal</p>
+            <h4>Name</h4>
           </div>
-
         </div>
 
-        <div className="menu">
+        {showMenu && (
+          <ul className="bottom-menu">
 
-          <div className="menu-item">
-            <FaHome />
-            <span>Dashboard</span>
-          </div>
+            <li>
+              <FaCog />
+              <span>Settings</span>
+            </li>
 
-          <div className="menu-item active">
-            <FaClipboardCheck />
-            <span>Attendance</span>
-          </div>
+            <li>
+              <FaSignOutAlt />
+              <span>Logout</span>
+            </li>
 
-          <div className="menu-item">
-            <FaChalkboardTeacher />
-            <span>My Classes</span>
-          </div>
-
-          <div className="menu-item">
-            <FaChartBar />
-            <span>Reports</span>
-          </div>
-
-          <div className="menu-item">
-            <FaUser />
-            <span>Profile</span>
-          </div>
-
-          <div className="menu-item">
-            <FaCog />
-            <span>Settings</span>
-          </div>
-
-        </div>
+          </ul>
+        )}
 
       </div>
 
-      <div className="logout">
-
-        <FaSignOutAlt />
-
-        <span>Logout</span>
-
-      </div>
-
-    </div>
+    </aside>
   );
 }
 

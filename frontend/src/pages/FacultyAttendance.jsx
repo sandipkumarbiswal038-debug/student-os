@@ -1,309 +1,356 @@
+import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
-
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import AttendanceHeader from "../components/AttendanceHeader";
 import StudentTable from "../components/StudentTable";
-
-import { supabase } from "../lib/supabase";
+import TodayClasses from "../components/TodayClasses";
 
 import "../styles/FacultyAttendance.css";
 
-
 function FacultyAttendance() {
+  const location = useLocation();
 
+  const selectedClassData = location.state; 
 
   const [students, setStudents] = useState([]);
 
   const [showTable, setShowTable] = useState(false);
 
-  const [attendanceInfo, setAttendanceInfo] = useState(null);
+  const [selectedClass, setSelectedClass] = useState(
+  !!selectedClassData
+  );
 
-  const [message, setMessage] = useState("");
+  const [search, setSearch] = useState("");
 
+  const [attendanceInfo, setAttendanceInfo] = useState({
+   course: selectedClassData?.course || "",
+   semester: selectedClassData?.semester || "",
+   section: selectedClassData?.section || "",
+   subject: selectedClassData?.subject || "",
+   date: new Date().toISOString().split("T")[0],
+   time: selectedClassData?.time || "",
+ });
 
+  const studentList = [
 
+    {
+      id:1,
+      roll:"220001",
+      name:"Rahul Sharma",
+      present:true,
+    },
 
-  // Load Students from Supabase
+    {
+      id:2,
+      roll:"220002",
+      name:"Priya Das",
+      present:false,
+    },
 
-  const handleLoadStudents = async (data) => {
+    {
+      id:3,
+      roll:"220003",
+      name:"Aman Kumar",
+      present:true,
+    },
 
+    {
+      id:4,
+      roll:"220004",
+      name:"Sneha Roy",
+      present:true,
+    },
+
+    {
+      id:5,
+      roll:"220005",
+      name:"Rohit Singh",
+      present:false,
+    },
+
+  ];
+
+    // ================= Load Students =================
+
+  const handleSelectClass = (selectedClassData) => {
+    setSelectedClass(true);
+    setAttendanceInfo({
+    course: selectedClassData.course,
+    semester: selectedClassData.semester,
+    section: selectedClassData.section,
+    subject: selectedClassData.subject,
+    date: new Date().toISOString().split("T")[0],
+    time: selectedClassData.time,
+  });
+};
+
+    const handleLoadStudents = (data) => {
 
     setAttendanceInfo(data);
 
-
-
-    const { course, section } = data;
-
-
-
-    const { data: studentData, error } = await supabase
-
-      .from("students")
-
-      .select("*")
-
-      .eq("course", course)
-
-      .eq("section", section);
-
-
-
-
-    if (error) {
-
-
-      console.log("Attendance Error:", error);
-
-      setMessage("error . message");
-
-      return;
-
-    }
-
-
-
-
-
-    const formattedStudents = studentData.map((student)=>({
-
-
-      id: student.id,
-
-      roll: student.roll,
-
-      name: student.name,
-
-      present: true
-
-
-    }));
-
-
-
-    setStudents(formattedStudents);
-
+    setStudents(studentList);
 
     setShowTable(true);
 
-
-    setMessage("");
-
-
-
   };
 
+  // ================= Search =================
 
+  const filteredStudents = students.filter((student) =>
 
+    student.name
+      .toLowerCase()
+      .includes(search.toLowerCase()) ||
 
-
-
-
-  // Save Attendance
-
-  const handleSubmitAttendance = async () => {
-
-
-    if(!attendanceInfo){
-
-      return;
-
-    }
-
-
-
-    const attendanceRecords = students.map((student)=>({
-
-
-
-      student_id: student.id,
-
-
-      attendance_date: attendanceInfo.date,
-
-
-      attendance_time: attendanceInfo.time,
-
-
-      course: attendanceInfo.course,
-
-
-      subject: attendanceInfo.subject,
-
-
-      section: attendanceInfo.section,
-
-
-      status: student.present ? "Present" : "Absent"
-
-
-
-    }));
-
-
-
-
-
-    const { error } = await supabase
-
-      .from("attendance")
-
-      .insert(attendanceRecords);
-
-
-
-
-
-    if(error){
-
-
-      console.log("Attendance Error:", error);
-
-      setMessage("error. message");
-
-
-      return;
-
-    }
-
-
-
-
-    setMessage("Attendance submitted successfully ✅");
-
-
-  };
-
-
-
-
-
-
-
-  // Not Held
-
-  const handleNotHeld = () => {
-
-
-    setShowTable(false);
-
-
-    setMessage("Class marked as Not Held");
-
-
-  };
-
-
-
-
-
-
-
-  return (
-
-
-    <div className="attendance-layout">
-
-
-
-      <Sidebar />
-
-
-
-      <div className="attendance-main">
-
-
-
-        <Header />
-
-
-
-        <div className="attendance-content">
-
-
-
-          <div className="page-title">
-
-
-            <h2>
-              Mark Attendance
-            </h2>
-
-
-            <p>
-              Manage daily student attendance
-            </p>
-
-
-          </div>
-
-
-
-
-
-          <AttendanceHeader
-
-            onLoadStudents={handleLoadStudents}
-
-          />
-
-
-
-
-
-          {
-
-            showTable &&
-
-
-            <StudentTable
-
-              students={students}
-
-              setStudents={setStudents}
-
-              onSubmit={handleSubmitAttendance}
-
-              onNotHeld={handleNotHeld}
-
-            />
-
-
-          }
-
-
-
-
-
-
-          {
-
-            message &&
-
-            <div className="attendance-message">
-
-              {message}
-
-            </div>
-
-
-          }
-
-
-
-        </div>
-
-
-      </div>
-
-
-    </div>
-
+    student.roll
+      .toLowerCase()
+      .includes(search.toLowerCase())
 
   );
 
+  // ================= Present / Absent =================
+
+  const updateAttendance = (id, isPresent) => {
+
+    const updatedStudents = students.map((student) =>
+
+      student.id === id
+        ? {
+            ...student,
+            present: isPresent,
+          }
+        : student
+
+    );
+
+    setStudents(updatedStudents);
+
+  };
+
+  // ================= Mark All Present =================
+
+  const markAllPresent = () => {
+
+    const updatedStudents = students.map((student) => ({
+
+      ...student,
+
+      present: true,
+
+    }));
+
+    setStudents(updatedStudents);
+
+  };
+    // ================= Back =================
+
+  const backPage = () => {
+
+    setShowTable(false);
+
+    setSelectedClass(false);
+
+    setStudents([]);
+
+    setSearch("");
+
+  };
+
+  // ================= Not Held =================
+
+  const handleNotHeld = () => {
+
+    if (!attendanceInfo.subject) {
+
+      alert("Please load students first.");
+
+      return;
+
+    }
+
+    alert(
+      `Class marked as Not Held\n\nSubject : ${attendanceInfo.subject}`
+    );
+
+  };
+
+  // ================= Submit Attendance =================
+
+  const saveAttendance = () => {
+
+    if (students.length === 0) {
+
+      alert("Please load students first.");
+
+      return;
+
+    }
+
+    const attendanceData = {
+
+      course: attendanceInfo.course,
+
+      semester: attendanceInfo.semester,
+
+      section: attendanceInfo.section,
+
+      subject: attendanceInfo.subject,
+
+      date: attendanceInfo.date,
+
+      time: attendanceInfo.time,
+
+      students: students.map((student) => ({
+
+        regdNo: student.roll,
+
+        name: student.name,
+
+        status: student.present
+          ? "Present"
+          : "Absent",
+
+      })),
+
+    };
+
+    console.log("Attendance Data :", attendanceData);
+
+    alert("Attendance Submitted Successfully!");
+
+  };
+    
+
+  
+
+  
+
+  return (
+  <div className="attendance-layout">
+
+    <Sidebar />
+
+    <div className="attendance-main">
+
+      <Header />
+
+      <div className="attendance-container">
+
+        <div className="attendance-title">
+
+          <h1>Mark Attendance</h1>
+
+        </div>
+
+        {!selectedClass && (
+          <TodayClasses onSelectClass={handleSelectClass} />
+        )}
+
+        {selectedClass && (
+          <AttendanceHeader
+            attendanceInfo={attendanceInfo}
+            onLoadStudents={handleLoadStudents}
+            onNotHeld={handleNotHeld}
+          />
+        )}
+
+        {showTable && (
+
+          <>
+
+            {/* Search + Mark All Present */}
+
+            <div className="attendance-tools">
+
+              <input
+                type="text"
+                className="search-box"
+                placeholder="🔍 Search Student..."
+                value={search}
+                onChange={(e) =>
+                  setSearch(e.target.value)
+                }
+              />
+
+              <label className="mark-all-card">
+
+                <input
+                  type="checkbox"
+                  onChange={markAllPresent}
+                />
+
+                <span>Mark All Present</span>
+
+              </label>
+
+            </div>
+
+            <div className="attendance-summary">
+
+              <span>
+
+                Total :
+                <b> {students.length}</b>
+
+              </span>
+
+              <span>
+
+                Present :
+                <b>
+                  {" "}
+                  {
+                    students.filter(
+                      (student) => student.present
+                    ).length
+                  }
+                </b>
+
+              </span>
+
+              <span>
+
+                Absent :
+                <b>
+                  {" "}
+                  {
+                    students.filter(
+                      (student) => !student.present
+                    ).length
+                  }
+                </b>
+
+              </span>
+
+            </div>
+
+            <StudentTable
+              students={filteredStudents}
+              updateAttendance={updateAttendance}
+              markAllPresent={markAllPresent}
+              backPage={backPage}
+              saveAttendance={saveAttendance}
+            />
+                        {/* Bottom Buttons */}
+
+           
+              
+
+            
+
+          </>
+
+        )}
+
+      </div>
+
+    </div>
+
+  </div>
+
+);
+
 }
-
-
 
 export default FacultyAttendance;
