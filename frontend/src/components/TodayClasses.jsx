@@ -59,7 +59,7 @@ function TodayClasses({ onSelectClass }) {
 
           <div
             key={item.id}
-            className="class-card"
+            className="today-class-card"
           >
 
             <div className="card-top">

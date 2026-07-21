@@ -1,22 +1,28 @@
+/* ===========================
+   TABLE CARD
+=========================== */
+
 .student-table-card{
 
-    margin-top:25px;
+    margin-top:22px;
 
     background:#fff;
 
+    border-radius:20px;
+
     padding:22px;
 
-    border-radius:18px;
+    border:1px solid #E8ECEF;
 
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
-
-    border:1px solid #e9ecef;
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
 
     overflow-x:auto;
 
 }
 
-/* ================= TABLE ================= */
+/* ===========================
+   TABLE
+=========================== */
 
 .student-table{
 
@@ -24,15 +30,17 @@
 
     border-collapse:collapse;
 
-    min-width:700px;
+    min-width:780px;
 
 }
 
-/* ================= HEADER ================= */
+/* ===========================
+   HEADER
+=========================== */
 
 .student-table thead{
 
-    background:#0d4d3d;
+    background:#335C43;
 
 }
 
@@ -40,17 +48,19 @@
 
     color:#fff;
 
-    padding:15px;
+    padding:16px;
 
     text-align:center;
 
     font-size:15px;
 
-    font-weight:600;
+    font-weight:700;
 
 }
 
-/* ================= BODY ================= */
+/* ===========================
+   BODY
+=========================== */
 
 .student-table td{
 
@@ -58,27 +68,55 @@
 
     text-align:center;
 
-    border-bottom:1px solid #ececec;
+    border-bottom:1px solid #EDF1F4;
 
     font-size:14px;
+
+    color:#444;
 
 }
 
 .student-table tbody tr:nth-child(even){
 
-    background:#fafafa;
+    background:#FAFCFB;
 
 }
 
 .student-table tbody tr:hover{
 
-    background:#eef8f4;
+    background:#F0F8F4;
 
     transition:.3s;
 
 }
 
-/* ================= CHECKBOX ================= */
+/* ===========================
+   EMPTY DATA
+=========================== */
+
+.no-data{
+
+    padding:35px;
+
+    text-align:center;
+
+    color:#888;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+/* ===========================
+   CHECKBOX
+=========================== */
+
+.center{
+
+    text-align:center;
+
+}
 
 .present-check,
 .absent-check{
@@ -93,75 +131,86 @@
 
 .present-check{
 
-    accent-color:#28a745;
+    accent-color:#2E8B57;
 
 }
 
 .absent-check{
 
-    accent-color:#dc3545;
+    accent-color:#E74C3C;
 
 }
 
-/* ================= STATUS ================= */
+/* ===========================
+   STATUS
+=========================== */
 
 .status{
 
-    display:inline-block;
+    display:inline-flex;
 
-    min-width:90px;
+    justify-content:center;
 
-    padding:7px 14px;
+    align-items:center;
 
-    border-radius:20px;
+    min-width:95px;
+
+    padding:8px 15px;
+
+    border-radius:30px;
 
     font-size:13px;
 
-    font-weight:600;
+    font-weight:700;
 
 }
 
 .status.present{
 
-    background:#d4edda;
+    background:#DDF7E7;
 
-    color:#198754;
+    color:#219653;
 
 }
 
 .status.absent{
 
-    background:#fde2e4;
+    background:#FDE7E9;
 
-    color:#dc3545;
+    color:#E74C3C;
 
 }
 
-/* ================= BUTTONS ================= */
+/* ===========================
+   BUTTONS
+=========================== */
 
 .table-buttons{
 
     display:flex;
 
-    justify-content:flex-end;
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:25px;
 
     gap:15px;
 
-    margin-top:22px;
-
 }
 
-.back-btn{
-
-    background:#6c757d;
-
-    color:#fff;
+.back-btn,
+.submit-btn{
 
     border:none;
 
-    padding:11px 26px;
+    height:46px;
 
-    border-radius:10px;
+    padding:0 28px;
+
+    border-radius:12px;
+
+    font-size:15px;
 
     font-weight:600;
 
@@ -171,9 +220,17 @@
 
 }
 
+.back-btn{
+
+    background:#6C757D;
+
+    color:#fff;
+
+}
+
 .back-btn:hover{
 
-    background:#545b62;
+    background:#565E64;
 
     transform:translateY(-2px);
 
@@ -181,39 +238,36 @@
 
 .submit-btn{
 
-    background:#0d4d3d;
+    background:#335C43;
 
     color:#fff;
-
-    border:none;
-
-    padding:11px 28px;
-
-    border-radius:10px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
 
 }
 
 .submit-btn:hover{
 
-    background:#0a3d31;
+    background:#274937;
 
     transform:translateY(-2px);
 
 }
 
-/* ================= RESPONSIVE ================= */
+/* ===========================
+   RESPONSIVE
+=========================== */
 
 @media(max-width:992px){
 
 .table-buttons{
 
-justify-content:center;
+    flex-direction:column;
+
+}
+
+.back-btn,
+.submit-btn{
+
+    width:100%;
 
 }
 
@@ -223,20 +277,13 @@ justify-content:center;
 
 .student-table{
 
-min-width:650px;
+    min-width:700px;
 
 }
 
-.table-buttons{
+.student-table-card{
 
-flex-direction:column;
-
-}
-
-.back-btn,
-.submit-btn{
-
-width:100%;
+    padding:18px;
 
 }
 

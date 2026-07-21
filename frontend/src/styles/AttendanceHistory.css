@@ -1,538 +1,846 @@
-/* ==========================
-   PAGE
-========================== */
+/* ==========================================
+   ATTENDANCE HISTORY
+   PAGE LAYOUT
+========================================== */
 
-.history-toolbar {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
+.history-page{
+    padding:20px;
+    animation:fadeIn .4s ease;
 }
 
-.history-toolbar input {
-  width: 340px;
-  padding: 12px 16px;
-  border: 1px solid #dcdcdc;
-  border-radius: 10px;
-  outline: none;
-  font-size: 15px;
-  transition: 0.3s;
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
-.history-toolbar input:focus {
-  border-color: #0d4d3d;
-  box-shadow: 0 0 0 3px rgba(13,77,61,.12);
+/* ==========================================
+   TITLE
+========================================== */
+
+.attendance-title{
+    margin-bottom:20px;
 }
 
-/* ==========================
-   CARD
-========================== */
+.attendance-title h1{
+    font-size:30px;
+    color:#0d4d3d;
+    font-weight:700;
+}
+
+.attendance-title p{
+    color:#666;
+    margin-top:6px;
+    font-size:15px;
+}
+
+/* ==========================================
+   SEARCH + EXPORT
+========================================== */
+
+.history-toolbar{
+    display:flex;
+    gap:15px;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.history-toolbar input{
+    flex:1;
+    height:48px;
+    border:none;
+    outline:none;
+    background:#fff;
+    border-radius:14px;
+    padding:0 18px;
+    font-size:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.history-toolbar input:focus{
+    box-shadow:0 0 0 3px rgba(13,77,61,.15);
+}
+
+.export-btn{
+    height:48px;
+    padding:0 24px;
+    border:none;
+    border-radius:14px;
+    background:#0d4d3d;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.export-btn:hover{
+    background:#08372c;
+    transform:translateY(-2px);
+}
+
+/* ==========================================
+   FILTERS
+========================================== */
+
+.history-filters{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:15px;
+}
+
+.filter-card{
+    background:#fff;
+    border-radius:18px;
+    padding:14px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.filter-card label{
+    display:block;
+    margin-bottom:8px;
+    color:#777;
+    font-size:13px;
+    font-weight:600;
+}
+
+.filter-card select{
+    width:100%;
+    height:44px;
+    border:none;
+    outline:none;
+    border-radius:10px;
+    background:#f5f7fa;
+    padding:0 14px;
+    font-size:14px;
+    color:#0d4d3d;
+    font-weight:600;
+}
+
+.filter-card select:focus{
+    box-shadow:0 0 0 3px rgba(13,77,61,.12);
+}
+
+/* ==========================================
+   SUMMARY CARDS
+========================================== */
+
+.history-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:15px;
+}
+
+.summary-card{
+    background:white;
+    border-radius:18px;
+    padding:16px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.summary-card:hover{
+    transform:translateY(-5px);
+}
+
+.summary-card h2{
+    color:#0d4d3d;
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+.summary-card p{
+    color:#666;
+    font-size:15px;
+}
+/* ==========================================
+   HISTORY TABLE
+========================================== */
 
 .history-card{
-
-    background:#fff;
-
-    padding:25px;
-
-    border-radius:15px;
-
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
-
-    overflow-x:auto;
-
+    
+    width:100%;
+    table-layout:fixed;
+    border-collapse:collapse;
+    font-size:14px;
 }
 
-/* ==========================
-   TABLE
-========================== */
-
 .history-table{
-
     width:100%;
-
     border-collapse:collapse;
-
+    table-layout:fixed;
+    font-size:13px;
 }
 
 .history-table thead{
-
     background:#0d4d3d;
-
-    color:#fff;
-
 }
 
 .history-table th{
-
-    padding:15px;
-
+    background:#0d5a46;
+    color:#fff;
+    padding:12px 8px;
     text-align:center;
-
-    font-size:15px;
-
+    font-size:14px;
+    font-weight:600;
 }
 
 .history-table td{
-
-    padding:15px;
-
+    padding:12px 8px;
     text-align:center;
-
     border-bottom:1px solid #ececec;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
 
+.history-table tbody tr{
+    transition:.3s;
+}
+
+.history-table tbody tr:nth-child(even){
+    background:#fafafa;
 }
 
 .history-table tbody tr:hover{
-
-    background:#f7fbf9;
-
+    background:#eef8f4;
 }
 
-/* ==========================
+/* ==========================================
+   BADGES
+========================================== */
+
+.date-badge{
+    background:#eef7f1;
+    color:#0d4d3d;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:600;
+}
+
+.course-badge{
+    background:#e8f0ff;
+    color:#2457a6;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:600;
+}
+
+.subject-cell{
+    font-weight:600;
+    color:#0d4d3d;
+}
+
+.present-count{
+    background:#dff6e8;
+    color:#14854B;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:600;
+    font-size:11px;
+}
+
+.absent-count{
+    background:#fde2e4;
+    color:#dc3545;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:600;
+    font-size:11px;
+}
+
+/* ==========================================
    STATUS
-========================== */
+========================================== */
 
 .status{
-
-    padding:6px 14px;
-
+    display:inline-block;
+    padding:4px 10px;
     border-radius:20px;
-
-    font-size:13px;
-
+    font-size:11px;
     font-weight:600;
-
 }
 
-.held{
-
-    background:#d4edda;
-
-    color:#198754;
-
+.status.held{
+    background:#dff6e8;
+    color:#14854B;
 }
 
-.not-held{
-
-    background:#f8d7da;
-
+.status.not-held{
+    background:#fde2e4;
     color:#dc3545;
-
 }
 
-.present{
-
-    background:#d4edda;
-
-    color:#198754;
-
+.status.present{
+    background:#dff6e8;
+    color:#14854B;
 }
 
-.absent{
-
-    background:#f8d7da;
-
+.status.absent{
+    background:#fde2e4;
     color:#dc3545;
-
 }
 
-/* ==========================
-   VIEW BUTTON
-========================== */
+/* ==========================================
+   ACTION BUTTONS
+========================================== */
 
-.view-btn{
+.action-buttons{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:6px;
+    flex-wrap:nowrap;
+}
 
-    background:#0d4d3d;
+.view-btn,
+.edit-btn{
 
-    color:white;
+    min-width:64px;
+    height:34px;
 
     border:none;
-
-    padding:8px 18px;
-
     border-radius:8px;
 
-    cursor:pointer;
-
+    font-size:13px;
     font-weight:600;
 
-    transition:.3s;
-
+    cursor:pointer;
 }
 
-.view-btn:hover{
-
-    background:#083528;
-
+.view-btn{
+    background:#0d5a46;
+    color:white;
 }
 
-/* ==========================
-   MODAL
-========================== */
+.edit-btn{
+    background:#d97706;
+    color:white;
+}
 
-.modal-overlay{
+.edit-btn:hover{
+    background:#b45309;
+}
 
-    position:fixed;
-
-    inset:0;
-
-    background:rgba(0,0,0,.45);
+.locked-tag{
 
     display:flex;
-
+    align-items:center;
     justify-content:center;
 
+    min-width:72px;
+    height:34px;
+
+    padding:0 10px;
+
+    background:#f3f4f6;
+    color:#6b7280;
+
+    border:1px solid #d1d5db;
+    border-radius:8px;
+
+    font-size:12px;
+    font-weight:600;
+
+    white-space:nowrap;
+}
+
+
+/* ==========================================
+   MODAL
+========================================== */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    display:flex;
+    justify-content:center;
     align-items:center;
-
-    z-index:999;
-
+    z-index:9999;
     padding:20px;
-
 }
 
 .attendance-modal{
-
-    width:900pxpx;
-
-    max-width:95%;
-
-    max-height:90vh;
-
+    width:90%;
+    max-width:900px;
+    max-height:88vh;
     background:#fff;
-
-    border-radius:16px;
-
-    overflow:hidden;
-
+    border-radius:20px;
     display:flex;
-
     flex-direction:column;
-
-    animation:popup .25s ease;
-
-    box-shadow:0 15px 40px rgba(0,0,0,.25);
-
+    overflow:hidden;
+    animation:popup .3s ease;
+    box-shadow:0 20px 45px rgba(0,0,0,.25);
 }
 
 @keyframes popup{
-
-from{
-
-transform:scale(.9);
-
-opacity:0;
-
+    from{
+        transform:scale(.9);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
 }
 
-to{
-
-transform:scale(1);
-
-opacity:1;
-
-}
-
-}
+/* ==========================================
+   MODAL HEADER
+========================================== */
 
 .modal-header{
-
     background:#0d4d3d;
-
-    color:white;
-
-    padding:18px 25px;
-
+    color:#fff;
+    padding:18px 24px;
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     flex-shrink:0;
+}
 
+.modal-header h2{
+    margin:0;
+    font-size:24px;
+}
+
+.modal-subtitle{
+    margin-top:5px;
+    font-size:14px;
+    opacity:.9;
 }
 
 .close-btn{
-
+    width:42px;
+    height:42px;
     border:none;
-
-    width:36px;
-
-    height:36px;
-
     border-radius:50%;
-
-    cursor:pointer;
-
-    background:white;
-
+    background:#fff;
     color:#0d4d3d;
-
     font-size:18px;
-
+    cursor:pointer;
     font-weight:bold;
-
+    transition:.3s;
 }
+
+.close-btn:hover{
+    transform:rotate(90deg);
+}
+
+/* ==========================================
+   MODAL CONTENT
+========================================== */
 
 .modal-content{
-
-    padding:25px;
-
-    overflow-y:auto;
-
     flex:1;
-
+    overflow-y:auto;
+    padding:24px;
 }
 
-.modal-content p{
-
-    margin:10px 0;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    color:#555;
-
+.modal-content::-webkit-scrollbar{
+    width:8px;
 }
 
-.modal-content strong{
+.modal-content::-webkit-scrollbar-thumb{
+    background:#0d4d3d;
+    border-radius:20px;
+}
 
+.modal-content::-webkit-scrollbar-track{
+    background:#f1f1f1;
+}
+
+/* ==========================================
+   INFO GRID
+========================================== */
+
+.modal-info-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:22px;
+}
+
+.info-box{
+    background:#f5f8f6;
+    border-radius:14px;
+    padding:15px;
+}
+
+.info-box h4{
+    margin:0;
+    color:#777;
+    font-size:12px;
+}
+
+.info-box p{
+    margin-top:8px;
+    font-size:15px;
     color:#0d4d3d;
-
+    font-weight:600;
 }
 
-/* ==========================
+/* ==========================================
+   PRESENT / ABSENT CARDS
+========================================== */
+
+.attendance-count{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.count-card{
+    border-radius:14px;
+    padding:18px;
+    text-align:center;
+}
+
+.count-card h3{
+    margin:0;
+    font-size:28px;
+}
+
+.count-card p{
+    margin-top:6px;
+    font-size:14px;
+}
+
+.present-card{
+    background:#dff6e8;
+    color:#14854B;
+}
+
+.absent-card{
+    background:#fde2e4;
+    color:#dc3545;
+}
+
+/* ==========================================
    STUDENT TABLE
-========================== */
+========================================== */
 
 .student-heading{
-
-    margin:25px 0 15px;
-
+    margin:20px 0 15px;
     color:#0d4d3d;
-
 }
 
 .student-history-table{
-
     width:100%;
-
     border-collapse:collapse;
-
 }
 
 .student-history-table thead{
-
     background:#0d4d3d;
-
-    color:white;
-
 }
 
 .student-history-table th{
-
+    color:#fff;
     padding:12px;
-
+    text-align:center;
 }
 
 .student-history-table td{
-
     padding:12px;
-
-    text-align:center;
-
     border-bottom:1px solid #ececec;
+    text-align:center;
+}
 
+.student-history-table tbody tr:nth-child(even){
+    background:#fafafa;
 }
 
 .student-history-table tbody tr:hover{
-
-    background:#f7fbf9;
-
+    background:#eef8f4;
 }
 
-/* ==========================
+/* ==========================================
+   SAVE BUTTON
+========================================== */
+
+.save-edit-btn{
+    width:100%;
+    margin-top:20px;
+    height:48px;
+    border:none;
+    border-radius:12px;
+    background:#0d4d3d;
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.save-edit-btn:hover{
+    background:#08372c;
+    transform:translateY(-2px);
+}
+
+/* ==========================================
    NOT HELD
-========================== */
+========================================== */
 
 .not-held-text{
-
-    text-align:center;
-
-    padding:30px;
-
-    color:#dc3545;
-
+    margin-top:20px;
+    padding:18px;
+    background:#fff4d6;
+    border-left:5px solid #f0ad4e;
+    border-radius:12px;
+    color:#8a6d3b;
     font-weight:600;
-
-    font-size:17px;
-
 }
 
-/* ==========================
+/* ==========================================
    RESPONSIVE
-========================== */
+========================================== */
+
+@media(max-width:992px){
+
+.history-summary{
+    grid-template-columns:1fr;
+}
+
+.history-filters{
+    grid-template-columns:1fr;
+}
+
+.modal-info-grid{
+    grid-template-columns:1fr;
+}
+
+.attendance-count{
+    grid-template-columns:1fr;
+}
+
+}
 
 @media(max-width:768px){
 
 .history-toolbar{
-
-justify-content:center;
-
+    flex-direction:column;
 }
 
-.history-toolbar input{
-
-width:100%;
-
+.export-btn{
+    width:100%;
 }
 
-.history-table{
-
-font-size:13px;
-
+.attendance-modal{
+    width:96%;
 }
 
-.history-table th,
-.history-table td{
-
-padding:10px;
-
+.history-card{
+    overflow-x:hidden;
 }
 
-.modal-content p{
+.action-buttons{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:nowrap;
 
-flex-direction:column;
+.view-btn,
+.edit-btn{
+    width:100%;
+}
+/* ===================================
+   MODAL INFO GRID
+=================================== */
 
-gap:4px;
+.modal-info-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
 
+.info-box{
+    background:#f8faf9;
+    border:1px solid #e5ece8;
+    border-radius:14px;
+    padding:14px;
+    transition:.3s;
+}
+
+.info-box:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(0,0,0,.08);
+}
+
+.info-box h4{
+    margin:0;
+    font-size:12px;
+    color:#888;
+    font-weight:600;
+}
+
+.info-box p{
+    margin-top:6px;
+    font-size:15px;
+    font-weight:600;
+    color:#0d4d3d;
+}
+
+/* ===================================
+   ATTENDANCE COUNT
+=================================== */
+
+.attendance-count{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    margin:20px 0;
+}
+
+.count-card{
+    padding:18px;
+    border-radius:16px;
+    text-align:center;
+}
+
+.count-card h3{
+    margin:0;
+    font-size:30px;
+}
+
+.count-card p{
+    margin-top:5px;
+    font-size:14px;
+    font-weight:600;
+}
+
+.present-card{
+    background:#e8f8ef;
+    color:#1b8f4c;
+}
+
+.absent-card{
+    background:#fdeaea;
+    color:#dc3545;
+}
+
+/* ===================================
+   LOCK MESSAGE
+=================================== */
+
+.lock-message{
+    margin:18px 0;
+    padding:15px;
+    border-radius:12px;
+    background:#fff8e6;
+    border-left:5px solid #f5a623;
+    color:#8a5b00;
+    font-size:14px;
+    font-weight:600;
+    line-height:1.5;
+}
+
+/* ===================================
+   LOCKED BUTTON
+=================================== */
+
+.locked-tag{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:68px;
+    padding:0 14px;
+    height:34px;
+    border-radius:8px;
+    background:#ececec;
+    color:#666;
+    font-size:13px;
+    font-weight:600;
+}
+
+/* ===================================
+   STUDENT TABLE
+=================================== */
+
+.student-heading{
+    margin:20px 0 12px;
+    color:#0d4d3d;
+    font-size:18px;
 }
 
 .student-history-table{
-
-font-size:13px;
-
+    width:100%;
+    border-collapse:collapse;
 }
-/* ===========================
-   EDIT BUTTON
-=========================== */
 
+.student-history-table thead{
+    background:#0d4d3d;
+}
+
+.student-history-table th{
+    color:#fff;
+    padding:10px;
+    font-size:13px;
+}
+
+.student-history-table td{
+    padding:10px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+}
+
+.student-history-table tbody tr:hover{
+    background:#f6fbf8;
+}
+
+/* ===================================
+   RESPONSIVE
+=================================== */
+
+@media (max-width:768px){
+
+    .modal-info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .attendance-count{
+        grid-template-columns:1fr;
+    }
+
+  @media(max-width:1200px){
+
+.history-table{
+    font-size:13px;
+}
+
+.view-btn,
 .edit-btn{
-
-  margin-top:8px;
-
-  background:#ffc107;
-
-  color:#222;
-
-  border:none;
-
-  padding:8px 18px;
-
-  border-radius:8px;
-
-  cursor:pointer;
-
-  font-size:14px;
-
-  font-weight:600;
-
-  transition:.3s;
-
+    min-width:58px;
+    font-size:12px;
 }
 
-.edit-btn:hover{
-
-  background:#e0a800;
+}  
 
 }
-
-/* ===========================
-   LOCKED TAG
-=========================== */
-
-.locked-tag{
-
-  display:inline-block;
-
-  margin-top:8px;
-
-  background:#f8d7da;
-
-  color:#dc3545;
-
-  padding:8px 14px;
-
-  border-radius:20px;
-
-  font-size:13px;
-
-  font-weight:600;
-
+.history-table th:nth-child(1),
+.history-table td:nth-child(1){
+    width:110px;
 }
 
-/* ===========================
-   SAVE BUTTON
-=========================== */
-
-.save-edit-btn{
-
-  margin-top:25px;
-
-  width:100%;
-
-  height:46px;
-
-  border:none;
-
-  border-radius:10px;
-
-  background:#0d4d3d;
-
-  color:#fff;
-
-  font-size:15px;
-
-  font-weight:600;
-
-  cursor:pointer;
-
-  transition:.3s;
-
+.history-table th:nth-child(3),
+.history-table td:nth-child(3){
+    width:80px;
 }
 
-.save-edit-btn:hover{
-
-  background:#083528;
-
-}
-
-/* ===========================
-   CHECKBOX
-=========================== */
-
-.student-history-table input{
-
-  width:20px;
-
-  height:20px;
-
-  cursor:pointer;
-
-  accent-color:#0d4d3d;
-
-}
-
-/* ===========================
-   MODAL SCROLL
-=========================== */
-
-.modal-content{
-
-  max-height:70vh;
-
-  overflow-y:auto;
-
+.history-table th:nth-child(4),
+.history-table td:nth-child(4){
+    width:70px;
 }
 
 }

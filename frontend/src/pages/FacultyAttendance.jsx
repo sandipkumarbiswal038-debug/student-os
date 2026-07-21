@@ -1,356 +1,698 @@
-import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
+import AttendanceTabs from "../components/AttendanceTabs";
+import TodayClasses from "../components/TodayClasses";
 import AttendanceHeader from "../components/AttendanceHeader";
 import StudentTable from "../components/StudentTable";
-import TodayClasses from "../components/TodayClasses";
+import AttendanceSuccessModal from "../components/AttendanceSuccessModal";
+
+import AttendanceHistory from "./AttendanceHistory";
+import MyClasses from "./MyClasses";
 
 import "../styles/FacultyAttendance.css";
 
+
 function FacultyAttendance() {
+
+
   const location = useLocation();
 
-  const selectedClassData = location.state; 
+  const selectedClassData = location.state;
 
-  const [students, setStudents] = useState([]);
 
-  const [showTable, setShowTable] = useState(false);
 
-  const [selectedClass, setSelectedClass] = useState(
-  !!selectedClassData
-  );
+  // ================= STATES =================
 
-  const [search, setSearch] = useState("");
 
-  const [attendanceInfo, setAttendanceInfo] = useState({
-   course: selectedClassData?.course || "",
-   semester: selectedClassData?.semester || "",
-   section: selectedClassData?.section || "",
-   subject: selectedClassData?.subject || "",
-   date: new Date().toISOString().split("T")[0],
-   time: selectedClassData?.time || "",
- });
+  const [activeTab,setActiveTab] = useState("attendance");
 
-  const studentList = [
+
+  const [selectedClass,setSelectedClass] =
+  useState(!!selectedClassData);
+
+
+
+  const [showTable,setShowTable] =
+  useState(false);
+
+
+
+  const [showSuccessModal,setShowSuccessModal] =
+  useState(false);
+
+
+
+  const [students,setStudents] =
+  useState([]);
+
+
+
+  const [search,setSearch] =
+  useState("");
+
+
+
+
+  const [attendanceInfo,setAttendanceInfo] =
+  useState({
+
+    course:selectedClassData?.course || "",
+
+    semester:selectedClassData?.semester || "",
+
+    section:selectedClassData?.section || "",
+
+    subject:selectedClassData?.subject || "",
+
+    date:new Date().toISOString().split("T")[0],
+
+    time:selectedClassData?.time || ""
+
+  });
+
+
+
+
+
+  // ================= STUDENT DATA =================
+
+
+  const studentList=[
+
 
     {
       id:1,
       roll:"220001",
       name:"Rahul Sharma",
-      present:true,
+      present:true
     },
+
 
     {
       id:2,
       roll:"220002",
       name:"Priya Das",
-      present:false,
+      present:false
     },
+
 
     {
       id:3,
       roll:"220003",
       name:"Aman Kumar",
-      present:true,
+      present:true
     },
+
 
     {
       id:4,
       roll:"220004",
       name:"Sneha Roy",
-      present:true,
+      present:true
     },
+
 
     {
       id:5,
       roll:"220005",
       name:"Rohit Singh",
-      present:false,
-    },
+      present:false
+    }
+
 
   ];
 
-    // ================= Load Students =================
 
-  const handleSelectClass = (selectedClassData) => {
+
+
+
+  // ================= SELECT CLASS =================
+
+
+  const handleSelectClass=(classData)=>{
+
+
+     // Attendance tab open karo
+    setActiveTab("attendance");
+
+
+    // Class select karo
     setSelectedClass(true);
-    setAttendanceInfo({
-    course: selectedClassData.course,
-    semester: selectedClassData.semester,
-    section: selectedClassData.section,
-    subject: selectedClassData.subject,
-    date: new Date().toISOString().split("T")[0],
-    time: selectedClassData.time,
-  });
-};
 
-    const handleLoadStudents = (data) => {
+
+    setAttendanceInfo({
+
+      course:classData.course,
+
+      semester:classData.semester,
+
+      section:classData.section,
+
+      subject:classData.subject,
+
+      date:new Date().toISOString().split("T")[0],
+
+      time:classData.time
+
+    });
+
+
+  };
+
+
+
+
+
+
+
+  // ================= LOAD STUDENTS =================
+
+
+  const handleLoadStudents=(data)=>{
+
 
     setAttendanceInfo(data);
 
+
     setStudents(studentList);
+
 
     setShowTable(true);
 
+
   };
 
-  // ================= Search =================
 
-  const filteredStudents = students.filter((student) =>
+
+
+
+
+
+  // ================= SEARCH =================
+
+
+  const filteredStudents =
+  students.filter(student=>
 
     student.name
-      .toLowerCase()
-      .includes(search.toLowerCase()) ||
+    .toLowerCase()
+    .includes(search.toLowerCase())
+
+    ||
 
     student.roll
-      .toLowerCase()
-      .includes(search.toLowerCase())
+    .toLowerCase()
+    .includes(search.toLowerCase())
+
 
   );
 
-  // ================= Present / Absent =================
 
-  const updateAttendance = (id, isPresent) => {
 
-    const updatedStudents = students.map((student) =>
 
-      student.id === id
-        ? {
-            ...student,
-            present: isPresent,
-          }
-        : student
+
+
+
+
+  // ================= UPDATE =================
+
+
+  const updateAttendance=(id,status)=>{
+
+
+    const updated =
+    students.map(student=>
+
+      student.id===id
+
+      ?
+
+      {
+        ...student,
+        present:status
+      }
+
+      :
+
+      student
+
 
     );
 
-    setStudents(updatedStudents);
+
+    setStudents(updated);
+
 
   };
 
-  // ================= Mark All Present =================
 
-  const markAllPresent = () => {
 
-    const updatedStudents = students.map((student) => ({
 
-      ...student,
 
-      present: true,
 
-    }));
 
-    setStudents(updatedStudents);
+  // ================= MARK ALL =================
+
+
+  const markAllPresent=()=>{
+
+
+    setStudents(
+
+      students.map(student=>({
+
+        ...student,
+
+        present:true
+
+      }))
+
+    );
+
 
   };
-    // ================= Back =================
 
-  const backPage = () => {
 
-    setShowTable(false);
+
+
+
+
+
+
+  // ================= BACK =================
+
+
+  const backPage=()=>{
+
 
     setSelectedClass(false);
+
+    setShowTable(false);
 
     setStudents([]);
 
     setSearch("");
 
+
   };
 
-  // ================= Not Held =================
 
-  const handleNotHeld = () => {
 
-    if (!attendanceInfo.subject) {
 
-      alert("Please load students first.");
 
-      return;
 
-    }
+
+
+  // ================= NOT HELD =================
+
+
+  const handleNotHeld=()=>{
+
 
     alert(
-      `Class marked as Not Held\n\nSubject : ${attendanceInfo.subject}`
+      `Class marked as Not Held\n${attendanceInfo.subject}`
     );
+
 
   };
 
-  // ================= Submit Attendance =================
 
-  const saveAttendance = () => {
 
-    if (students.length === 0) {
 
-      alert("Please load students first.");
+
+
+
+  // ================= SAVE =================
+
+
+  const saveAttendance=()=>{
+
+
+    if(students.length===0){
+
+      alert("Please load students first");
 
       return;
 
     }
 
-    const attendanceData = {
 
-      course: attendanceInfo.course,
 
-      semester: attendanceInfo.semester,
+    console.log({
 
-      section: attendanceInfo.section,
+      attendanceInfo,
 
-      subject: attendanceInfo.subject,
+      students
 
-      date: attendanceInfo.date,
+    });
 
-      time: attendanceInfo.time,
 
-      students: students.map((student) => ({
 
-        regdNo: student.roll,
+    setShowSuccessModal(true);
 
-        name: student.name,
-
-        status: student.present
-          ? "Present"
-          : "Absent",
-
-      })),
-
-    };
-
-    console.log("Attendance Data :", attendanceData);
-
-    alert("Attendance Submitted Successfully!");
 
   };
-    
 
-  
 
-  
+
+
+
+
+
+  // ================= CLOSE MODAL =================
+
+
+  const handleCloseSuccessModal=()=>{
+
+
+    setShowSuccessModal(false);
+
+    setSelectedClass(false);
+
+    setShowTable(false);
+
+    setStudents([]);
+
+  };
+
+
+
+
+
+
+
+
 
   return (
-  <div className="attendance-layout">
 
-    <Sidebar />
 
-    <div className="attendance-main">
+<div className="attendance-layout">
 
-      <Header />
 
-      <div className="attendance-container">
 
-        <div className="attendance-title">
+<Sidebar />
 
-          <h1>Mark Attendance</h1>
 
-        </div>
 
-        {!selectedClass && (
-          <TodayClasses onSelectClass={handleSelectClass} />
-        )}
+<div className="attendance-main">
 
-        {selectedClass && (
-          <AttendanceHeader
-            attendanceInfo={attendanceInfo}
-            onLoadStudents={handleLoadStudents}
-            onNotHeld={handleNotHeld}
-          />
-        )}
 
-        {showTable && (
 
-          <>
+<Header />
 
-            {/* Search + Mark All Present */}
 
-            <div className="attendance-tools">
 
-              <input
-                type="text"
-                className="search-box"
-                placeholder="🔍 Search Student..."
-                value={search}
-                onChange={(e) =>
-                  setSearch(e.target.value)
-                }
-              />
+<AttendanceTabs
 
-              <label className="mark-all-card">
+activeTab={activeTab}
 
-                <input
-                  type="checkbox"
-                  onChange={markAllPresent}
-                />
+setActiveTab={setActiveTab}
 
-                <span>Mark All Present</span>
+/>
 
-              </label>
 
-            </div>
 
-            <div className="attendance-summary">
 
-              <span>
 
-                Total :
-                <b> {students.length}</b>
+<div className="attendance-container">
 
-              </span>
 
-              <span>
 
-                Present :
-                <b>
-                  {" "}
-                  {
-                    students.filter(
-                      (student) => student.present
-                    ).length
-                  }
-                </b>
 
-              </span>
 
-              <span>
+{/* ================= ATTENDANCE ================= */}
 
-                Absent :
-                <b>
-                  {" "}
-                  {
-                    students.filter(
-                      (student) => !student.present
-                    ).length
-                  }
-                </b>
 
-              </span>
 
-            </div>
+{
 
-            <StudentTable
-              students={filteredStudents}
-              updateAttendance={updateAttendance}
-              markAllPresent={markAllPresent}
-              backPage={backPage}
-              saveAttendance={saveAttendance}
-            />
-                        {/* Bottom Buttons */}
+activeTab==="attendance" &&
 
-           
-              
 
-            
+<>
 
-          </>
 
-        )}
+{
 
-      </div>
+!selectedClass &&
 
-    </div>
 
-  </div>
+<TodayClasses
 
-);
+onSelectClass={handleSelectClass}
+
+/>
+
 
 }
+
+
+
+{
+
+selectedClass &&
+
+
+<AttendanceHeader
+
+attendanceInfo={attendanceInfo}
+
+onLoadStudents={handleLoadStudents}
+
+onNotHeld={handleNotHeld}
+
+/>
+
+
+}
+
+
+
+
+{
+
+showTable &&
+
+
+<>
+
+
+<div className="attendance-tools">
+
+
+<input
+
+className="search-box"
+
+placeholder="Search Student..."
+
+value={search}
+
+onChange={(e)=>setSearch(e.target.value)}
+
+/>
+
+
+
+<label className="mark-all-card">
+
+
+<input
+
+type="checkbox"
+
+onChange={markAllPresent}
+
+/>
+
+
+Mark All Present
+
+
+</label>
+
+
+</div>
+
+
+
+
+
+<div className="attendance-summary">
+
+
+<span>
+
+Total :
+
+<b>{students.length}</b>
+
+</span>
+
+
+
+<span>
+
+Present :
+
+<b>
+
+{
+
+students.filter(
+s=>s.present
+).length
+
+}
+
+</b>
+
+</span>
+
+
+
+
+<span>
+
+Absent :
+
+<b>
+
+{
+
+students.filter(
+s=>!s.present
+).length
+
+}
+
+</b>
+
+</span>
+
+
+
+</div>
+
+
+
+
+
+
+
+<StudentTable
+
+students={filteredStudents}
+
+updateAttendance={updateAttendance}
+
+backPage={backPage}
+
+saveAttendance={saveAttendance}
+
+/>
+
+
+
+
+
+
+<AttendanceSuccessModal
+
+open={showSuccessModal}
+
+attendanceInfo={attendanceInfo}
+
+students={students}
+
+onClose={handleCloseSuccessModal}
+
+/>
+
+
+
+
+</>
+
+
+}
+
+
+
+
+</>
+
+
+}
+
+
+
+
+
+
+
+
+{/* ================= MY CLASSES ================= */}
+
+
+
+{
+
+activeTab==="classes" &&
+
+
+<MyClasses
+  onStartAttendance={handleSelectClass}
+ />
+
+
+
+}
+
+
+
+
+
+
+
+
+{/* ================= HISTORY ================= */}
+
+
+
+{
+
+activeTab==="history" &&
+
+
+<AttendanceHistory />
+
+
+
+}
+
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+  );
+
+}
+
 
 export default FacultyAttendance;

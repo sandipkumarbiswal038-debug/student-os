@@ -1,137 +1,228 @@
-import { useNavigate } from "react-router-dom";
 import React from "react";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
+
 import "../styles/MyClasses.css";
-
-
 
 import {
   FaUsers,
   FaBook,
   FaClock,
   FaMapMarkerAlt,
-  FaArrowRight,
 } from "react-icons/fa";
 
+
 const classes = [
+
   {
-    id: 1,
-    subject: "Machine Learning",
-    course: "MCA",
-    semester: "Semester 2",
-    section: "A",
-    room: "Lab-201",
-    time: "10:00 AM - 11:00 AM",
-    students: 45,
-    status: "Active",
+    id:1,
+    subject:"Machine Learning",
+    course:"MCA",
+    semester:"Semester 2",
+    section:"A",
+    room:"Lab-201",
+    time:"10:00 AM - 11:00 AM",
+    students:45,
+    status:"Active",
   },
+
+
   {
-    id: 2,
-    subject: "Cloud Computing",
-    course: "MCA",
-    semester: "Semester 2",
-    section: "B",
-    room: "Room-302",
-    time: "11:30 AM - 12:30 PM",
-    students: 42,
-    status: "Active",
+    id:2,
+    subject:"Cloud Computing",
+    course:"MCA",
+    semester:"Semester 2",
+    section:"B",
+    room:"Room-302",
+    time:"11:30 AM - 12:30 PM",
+    students:42,
+    status:"Active",
   },
+
+
   {
-    id: 3,
-    subject: "Operating System",
-    course: "BCA",
-    semester: "Semester 3",
-    section: "A",
-    room: "Room-105",
-    time: "2:00 PM - 3:00 PM",
-    students: 48,
-    status: "Upcoming",
-  },
+    id:3,
+    subject:"Operating System",
+    course:"BCA",
+    semester:"Semester 3",
+    section:"A",
+    room:"Room-105",
+    time:"2:00 PM - 3:00 PM",
+    students:48,
+    status:"Upcoming",
+  }
+
+
 ];
 
-function MyClasses() {
 
-  const navigate = useNavigate();
 
-  return (
-    <div className="attendance-layout">
+function MyClasses({onStartAttendance}) {
 
-      <Sidebar />
 
-      <div className="attendance-main">
+return (
 
-        <Header />
+<div className="classes-page">
 
-        <div className="attendance-container">
 
-          <div className="attendance-title">
-            <h1>My Classes</h1>
-            <p>All assigned classes for the faculty</p>
-          </div>
+<div className="attendance-title">
 
-          <div className="classes-grid">
+<h1>
+My Classes
+</h1>
 
-            {classes.map((item) => (
+<p>
+View your assigned classes and start attendance
+</p>
 
-              <div key={item.id} className="class-card">
+</div>
 
-                <div className="card-top">
 
-                  <div className="subject-icon">
-                    <FaBook />
-                  </div>
 
-                  <span className={item.status.toLowerCase()}>
-                    {item.status}
-                  </span>
 
-                </div>
+<div className="classes-grid">
 
-                <h2>{item.subject}</h2>
 
-                <p>
-                  {item.course} • {item.semester} • Section {item.section}
-                </p>
+{
 
-                <div className="info">
+classes.map((item)=>(
 
-                  <span>
-                    <FaClock />
-                    {item.time}
-                  </span>
 
-                  <span>
-                    <FaMapMarkerAlt />
-                    {item.room}
-                  </span>
+<div 
+key={item.id}
+className="class-card"
+>
 
-                  <span>
-                    <FaUsers />
-                    {item.students} Students
-                  </span>
 
-                </div>
 
-               <button
-                 className="take-btn"
-                 onClick={() => navigate("/attendance")}
-               >
-                 Take Attendance
-               </button>
+<div className="card-top">
 
-              </div>
 
-            ))}
+<div className="subject-icon">
 
-          </div>
+<FaBook />
 
-        </div>
+</div>
 
-      </div>
 
-    </div>
-  );
+
+<span 
+className={
+item.status.toLowerCase()
 }
+>
+
+{item.status}
+
+</span>
+
+
+
+</div>
+
+
+
+
+
+<h2>
+{item.subject}
+</h2>
+
+
+
+
+<p>
+
+{item.course}
+
+&nbsp; • &nbsp;
+
+{item.semester}
+
+&nbsp; • &nbsp;
+
+Section {item.section}
+
+</p>
+
+
+
+
+
+<div className="info">
+
+
+<span>
+
+<FaClock />
+
+{item.time}
+
+</span>
+
+
+
+<span>
+
+<FaMapMarkerAlt />
+
+{item.room}
+
+</span>
+
+
+
+<span>
+
+<FaUsers />
+
+{item.students} Students
+
+</span>
+
+
+
+</div>
+
+
+
+
+
+<button
+
+className="take-btn"
+
+onClick={()=>onStartAttendance(item)}
+
+>
+
+Take Attendance
+
+</button>
+
+
+
+
+
+</div>
+
+
+))
+
+
+}
+
+
+
+</div>
+
+
+
+</div>
+
+
+);
+
+
+}
+
 
 export default MyClasses;

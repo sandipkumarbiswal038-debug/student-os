@@ -1,99 +1,104 @@
 import React from "react";
-import {
-  FaCheckSquare,
-  FaRegSquare
-} from "react-icons/fa";
-
 import "../styles/StudentTable.css";
 
 function StudentTable({
   students,
   updateAttendance,
-  markAllPresent,
   backPage,
   saveAttendance,
 }) {
-
   return (
-
     <div className="student-table-card">
-
-      
-      
 
       <table className="student-table">
 
         <thead>
-
           <tr>
-
+            <th>Sl No.</th>
             <th>Regd No</th>
-
             <th>Student Name</th>
-
             <th>Present</th>
-
             <th>Absent</th>
-
             <th>Status</th>
-
           </tr>
-
         </thead>
 
         <tbody>
-          {students.map((student) => (
 
-  <tr key={student.id}>
+          {students.length === 0 ? (
 
-    {/* Registration Number */}
-    <td>{student.roll}</td>
+            <tr>
+              <td colSpan="6" className="no-data">
+                No students found.
+              </td>
+            </tr>
 
-    {/* Student Name */}
-    <td>{student.name}</td>
+          ) : (
 
-    {/* Present */}
-    <td className="center">
+            students.map((student, index) => (
 
-      <input
-        type="checkbox"
-        className="present-check"
-        checked={student.present}
-        onChange={() => updateAttendance(student.id, true)}
-      />
+              <tr key={student.id}>
 
-    </td>
+                {/* Serial Number */}
+                <td>{index + 1}</td>
 
-    {/* Absent */}
-    <td className="center">
+                {/* Registration Number */}
+                <td>{student.roll}</td>
 
-      <input
-        type="checkbox"
-        className="absent-check"
-        checked={!student.present}
-        onChange={() => updateAttendance(student.id, false)}
-      />
+                {/* Student Name */}
+                <td>{student.name}</td>
 
-    </td>
+                {/* Present */}
+                <td className="center">
 
-    {/* Status */}
-    <td>
+                  <input
+                    type="checkbox"
+                    className="present-check"
+                    checked={student.present}
+                    onChange={() =>
+                      updateAttendance(student.id, true)
+                    }
+                  />
 
-      <span
-        className={
-          student.present
-            ? "status present"
-            : "status absent"
-        }
-      >
-        {student.present ? "Present" : "Absent"}
-      </span>
+                </td>
 
-    </td>
+                {/* Absent */}
+                <td className="center">
 
-  </tr>
+                  <input
+                    type="checkbox"
+                    className="absent-check"
+                    checked={!student.present}
+                    onChange={() =>
+                      updateAttendance(student.id, false)
+                    }
+                  />
 
-))}
+                </td>
+
+                {/* Status */}
+                <td>
+
+                  <span
+                    className={
+                      student.present
+                        ? "status present"
+                        : "status absent"
+                    }
+                  >
+                    {student.present
+                      ? "Present"
+                      : "Absent"}
+                  </span>
+
+                </td>
+
+              </tr>
+
+            ))
+
+          )}
+
         </tbody>
 
       </table>
@@ -113,15 +118,13 @@ function StudentTable({
           className="submit-btn"
           onClick={saveAttendance}
         >
-          Submit Attendance
+          Submit Attendance →
         </button>
 
       </div>
 
     </div>
-
   );
-
 }
 
 export default StudentTable;

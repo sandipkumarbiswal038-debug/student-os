@@ -288,10 +288,9 @@ function AttendanceHeader({
 
         <button
           className="load-btn"
-          onClick={handleLoad}
+          onClick={() => onLoadStudents(attendanceInfo)}
         >
-          <FaUsers />
-          &nbsp; Load Students
+          Load Students
         </button>
 
         <button

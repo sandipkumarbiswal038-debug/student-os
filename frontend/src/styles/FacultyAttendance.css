@@ -16,8 +16,8 @@
 /* ================= Title ================= */
 
 .attendance-title{
-    margin-top:25px;
-    margin-left:5px;
+    margin-top:10px;
+    margin-bottom:25px;
 }
 
 .attendance-title h1 {
@@ -233,7 +233,7 @@
 
   .attendance-container{
 
-    padding:20px;
+    padding:18px 30px 20px;
 
   }
 
@@ -257,5 +257,5 @@
     width:100%;
 
   }
-
+  
 }

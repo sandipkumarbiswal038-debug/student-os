@@ -1,0 +1,107 @@
+/* ===========================
+   TABS CONTAINER
+=========================== */
+
+.attendance-tabs{
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    gap:28px;
+
+    width:100%;
+
+    margin:20px 0 30px;
+}
+
+
+/* ===========================
+   TAB BUTTON
+=========================== */
+
+.tab-btn{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:14px 24px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#ffffff;
+
+    color:#335C43;
+
+    font-size:15px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    transition:.3s;
+}
+
+.tab-btn:hover{
+
+    transform:translateY(-3px);
+
+    background:#3F704D;
+
+    color:#fff;
+
+}
+
+
+/* ===========================
+   ACTIVE TAB
+=========================== */
+
+.tab-btn.active{
+
+    background:#335C43;
+
+    color:#fff;
+
+     box-shadow:0 10px 25px rgba(51,92,67,.25);
+}
+
+
+/* ===========================
+   ICON
+=========================== */
+
+.tab-btn svg{
+
+    font-size:18px;
+}
+
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+.attendance-tabs{
+
+    flex-wrap:wrap;
+
+    gap:12px;
+}
+
+.tab-btn{
+
+    flex:1;
+
+    justify-content:center;
+
+    padding:12px;
+}
+
+}

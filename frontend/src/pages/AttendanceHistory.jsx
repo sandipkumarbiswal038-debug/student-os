@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
+
 import "../styles/AttendanceHistory.css";
 
 function AttendanceHistory() {
 
+  // ================= DUMMY DATA =================
+
   const attendanceData = [
+
     {
       id: 1,
       date: "20-07-2026",
@@ -13,17 +15,46 @@ function AttendanceHistory() {
       semester: "2",
       section: "A",
       subject: "Machine Learning",
+
       present: 42,
       absent: 3,
+
       status: "Held",
-      editable: true,
+
+      // Editable (<24 hr)
+      markedAt: new Date().toISOString(),
 
       students: [
-        { id: 1, roll: "220001", name: "Rahul Sharma", present: true },
-        { id: 2, roll: "220002", name: "Priya Das", present: true },
-        { id: 3, roll: "220003", name: "Aman Kumar", present: false },
-        { id: 4, roll: "220004", name: "Sneha Roy", present: true },
-        { id: 5, roll: "220005", name: "Rohit Singh", present: true },
+        {
+          id: 1,
+          roll: "220001",
+          name: "Rahul Sharma",
+          present: true,
+        },
+        {
+          id: 2,
+          roll: "220002",
+          name: "Priya Das",
+          present: true,
+        },
+        {
+          id: 3,
+          roll: "220003",
+          name: "Aman Kumar",
+          present: false,
+        },
+        {
+          id: 4,
+          roll: "220004",
+          name: "Sneha Roy",
+          present: true,
+        },
+        {
+          id: 5,
+          roll: "220005",
+          name: "Rohit Singh",
+          present: true,
+        },
       ],
     },
 
@@ -34,35 +65,76 @@ function AttendanceHistory() {
       semester: "2",
       section: "A",
       subject: "Cloud Computing",
+
       present: 40,
       absent: 5,
+
       status: "Held",
-      editable: true,
+
+      // Locked (>24 hr)
+      markedAt: "2026-07-18T09:00:00",
 
       students: [
-        { id: 1, roll: "220001", name: "Rahul Sharma", present: true },
-        { id: 2, roll: "220002", name: "Priya Das", present: false },
-        { id: 3, roll: "220003", name: "Aman Kumar", present: true },
-        { id: 4, roll: "220004", name: "Sneha Roy", present: true },
-        { id: 5, roll: "220005", name: "Rohit Singh", present: false },
+        {
+          id: 1,
+          roll: "220001",
+          name: "Rahul Sharma",
+          present: true,
+        },
+        {
+          id: 2,
+          roll: "220002",
+          name: "Priya Das",
+          present: false,
+        },
+        {
+          id: 3,
+          roll: "220003",
+          name: "Aman Kumar",
+          present: true,
+        },
+        {
+          id: 4,
+          roll: "220004",
+          name: "Sneha Roy",
+          present: true,
+        },
+        {
+          id: 5,
+          roll: "220005",
+          name: "Rohit Singh",
+          present: false,
+        },
       ],
     },
 
     {
       id: 3,
+
       date: "18-07-2026",
+
       course: "MCA",
+
       semester: "2",
+
       section: "A",
+
       subject: "Advanced Java",
+
       present: 0,
+
       absent: 0,
+
       status: "Not Held",
-      editable: false,
+
+      markedAt: "2026-07-15T08:00:00",
 
       students: [],
     },
+
   ];
+
+  // ================= STATES =================
 
   const [records, setRecords] = useState(attendanceData);
 
@@ -72,26 +144,51 @@ function AttendanceHistory() {
 
   const [editMode, setEditMode] = useState(false);
 
-  const filtered = records.filter(
-    (item) =>
-      item.subject.toLowerCase().includes(search.toLowerCase()) ||
-      item.course.toLowerCase().includes(search.toLowerCase())
+  // ================= SEARCH =================
+
+  const filtered = records.filter((item) =>
+    item.subject.toLowerCase().includes(search.toLowerCase()) ||
+    item.course.toLowerCase().includes(search.toLowerCase()) ||
+    item.date.toLowerCase().includes(search.toLowerCase()) ||
+    item.section.toLowerCase().includes(search.toLowerCase())
   );
 
+  // ================= 24 HOUR RULE =================
+
+  const canEditAttendance = (markedAt) => {
+
+    const markedTime = new Date(markedAt);
+
+    const now = new Date();
+
+    const hours =
+      (now.getTime() - markedTime.getTime()) /
+      (1000 * 60 * 60);
+
+    return hours <= 24;
+
+  };
+
+  // ================= TOGGLE =================
+
   const toggleAttendance = (studentId) => {
+
     if (!selectedRecord) return;
 
     const updatedStudents = selectedRecord.students.map((student) =>
       student.id === studentId
-        ? { ...student, present: !student.present }
+        ? {
+            ...student,
+            present: !student.present,
+          }
         : student
     );
 
-    const presentCount = updatedStudents.filter(
-      (student) => student.present
-    ).length;
+    const presentCount =
+      updatedStudents.filter((s) => s.present).length;
 
-    const absentCount = updatedStudents.length - presentCount;
+    const absentCount =
+      updatedStudents.length - presentCount;
 
     setSelectedRecord({
       ...selectedRecord,
@@ -99,270 +196,465 @@ function AttendanceHistory() {
       present: presentCount,
       absent: absentCount,
     });
+
   };
 
+  // ================= SAVE =================
+
   const saveEditedAttendance = () => {
-    const updatedRecords = records.map((record) =>
-      record.id === selectedRecord.id ? selectedRecord : record
+
+    const updated = records.map((record) =>
+      record.id === selectedRecord.id
+        ? selectedRecord
+        : record
     );
 
-    setRecords(updatedRecords);
+    setRecords(updated);
 
     setEditMode(false);
 
+    setSelectedRecord(null);
+
     alert("Attendance Updated Successfully.");
+
   };
-    return (
-    <div className="attendance-layout">
 
-      <Sidebar />
+  // ================= CLOSE =================
 
-      <div className="attendance-main">
+  const closeModal = () => {
 
-        <Header />
+    setSelectedRecord(null);
 
-        <div className="attendance-container">
+    setEditMode(false);
 
-          <div className="attendance-title">
-            <h1>Attendance History</h1>
-          </div>
+  };
 
-          {/* Search */}
-          <div className="history-toolbar">
-            <input
-              type="text"
-              placeholder="🔍 Search Subject or Course..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
+  // ================= SUMMARY =================
 
-          {/* History Table */}
-          <div className="history-card">
+  const totalClasses = records.length;
 
-            <table className="history-table">
+  const heldClasses =
+    records.filter((r) => r.status === "Held").length;
 
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Course</th>
-                  <th>Semester</th>
-                  <th>Section</th>
-                  <th>Subject</th>
-                  <th>Present</th>
-                  <th>Absent</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
+  const notHeldClasses =
+    records.filter((r) => r.status === "Not Held").length;
+  return (
 
-              <tbody>
+  <div className="history-page">
 
-                {filtered.map((item) => (
+    {/* ================= TITLE ================= */}
 
-                  <tr key={item.id}>
+    <div className="attendance-title">
 
-                    <td>{item.date}</td>
-                    <td>{item.course}</td>
-                    <td>{item.semester}</td>
-                    <td>{item.section}</td>
-                    <td>{item.subject}</td>
-                    <td>{item.present}</td>
-                    <td>{item.absent}</td>
+      <h1>Attendance History</h1>
 
-                    <td>
-                      <span
-                        className={
-                          item.status === "Held"
-                            ? "status held"
-                            : "status not-held"
-                        }
-                      >
-                        {item.status}
-                      </span>
-                    </td>
+      <p>View and manage previous attendance records</p>
 
-                    <td>
+    </div>
 
-                      <button
-                        className="view-btn"
-                        onClick={() => {
-                          setSelectedRecord(item);
-                          setEditMode(false);
-                        }}
-                      >
-                        View
-                      </button>
+    {/* ================= SEARCH ================= */}
 
-                      <br /><br />
+    <div className="history-toolbar">
 
-                      {item.editable ? (
+      <input
+        type="text"
+        placeholder="🔍 Search by Course, Subject, Date or Section..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
 
-                        <button
-                          className="edit-btn"
-                          onClick={() => {
-                            setSelectedRecord(item);
-                            setEditMode(true);
-                          }}
-                        >
-                          Edit
-                        </button>
+    </div>
 
-                      ) : (
+    {/* ================= SUMMARY ================= */}
 
-                        <span className="locked-tag">
-                          🔒 Locked
-                        </span>
+    <div className="history-summary">
 
-                      )}
+      <div className="summary-card">
 
-                    </td>
+        <h2>{totalClasses}</h2>
 
-                  </tr>
+        <p>Total Classes</p>
 
-                ))}
+      </div>
 
-              </tbody>
+      <div className="summary-card">
 
-            </table>
+        <h2>{heldClasses}</h2>
 
-          </div>
+        <p>Held</p>
 
-          {/* Popup */}
+      </div>
 
-          {selectedRecord && (
+      <div className="summary-card">
 
-            <div className="modal-overlay">
+        <h2>{notHeldClasses}</h2>
 
-              <div className="attendance-modal">
+        <p>Not Held</p>
 
-                <div className="modal-header">
+      </div>
 
-                  <h2>Attendance Details</h2>
+    </div>
+
+    {/* ================= TABLE ================= */}
+
+    <div className="history-card">
+
+      <table className="history-table">
+
+        <thead>
+
+          <tr>
+
+            <th>Date</th>
+
+            <th>Course</th>
+
+            <th>Semester</th>
+
+            <th>Section</th>
+
+            <th>Subject</th>
+
+            <th>Present</th>
+
+            <th>Absent</th>
+
+            <th>Status</th>
+
+            <th>Action</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          {filtered.map((item) => (
+
+            <tr key={item.id}>
+
+              <td>{item.date}</td>
+
+              <td>{item.course}</td>
+
+              <td>{item.semester}</td>
+
+              <td>{item.section}</td>
+
+              <td>{item.subject}</td>
+
+              <td>{item.present}</td>
+
+              <td>{item.absent}</td>
+
+              <td>
+
+                <span
+                  className={
+                    item.status === "Held"
+                      ? "status held"
+                      : "status not-held"
+                  }
+                >
+
+                  {item.status}
+
+                </span>
+
+              </td>
+
+              <td>
+
+                <div className="action-buttons">
 
                   <button
-                    className="close-btn"
+                    className="view-btn"
                     onClick={() => {
-                      setSelectedRecord(null);
+
+                      setSelectedRecord(item);
+
                       setEditMode(false);
+
                     }}
                   >
-                    ✕
+
+                    View
+
                   </button>
 
-                </div>
+                  {canEditAttendance(item.markedAt) ? (
 
-                <div className="modal-content">
+                    <button
+                      className="edit-btn"
+                      onClick={() => {
 
-                  <p><strong>Date :</strong> {selectedRecord.date}</p>
-                  <p><strong>Course :</strong> {selectedRecord.course}</p>
-                  <p><strong>Semester :</strong> {selectedRecord.semester}</p>
-                  <p><strong>Section :</strong> {selectedRecord.section}</p>
-                  <p><strong>Subject :</strong> {selectedRecord.subject}</p>
+                        setSelectedRecord(item);
 
-                  {selectedRecord.status === "Not Held" ? (
+                        setEditMode(true);
 
-                    <div className="not-held-text">
-                      This class was marked as <b>Not Held</b>.
-                    </div>
+                      }}
+                    >
+
+                      Edit
+
+                    </button>
 
                   ) : (
 
-                    <>
+                    <span className="locked-tag">
 
-                      <h3 className="student-heading">
-                        Student Attendance
-                      </h3>
+                      🔒 Locked
 
-                      <table className="student-history-table">
-
-                        <thead>
-
-                          <tr>
-                            <th>Regd No</th>
-                            <th>Name</th>
-                            <th>Status</th>
-                          </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                          {selectedRecord.students.map((student) => (
-
-                            <tr key={student.id}>
-
-                              <td>{student.roll}</td>
-
-                              <td>{student.name}</td>
-
-                              <td>
-
-                                {editMode ? (
-
-                                  <input
-                                    type="checkbox"
-                                    checked={student.present}
-                                    onChange={() =>
-                                      toggleAttendance(student.id)
-                                    }
-                                  />
-
-                                ) : (
-
-                                  <span
-                                    className={
-                                      student.present
-                                        ? "status present"
-                                        : "status absent"
-                                    }
-                                  >
-                                    {student.present
-                                      ? "Present"
-                                      : "Absent"}
-                                  </span>
-
-                                )}
-
-                              </td>
-
-                            </tr>
-
-                          ))}
-
-                        </tbody>
-
-                      </table>
-
-                      {editMode && (
-
-                        <button
-                          className="save-edit-btn"
-                          onClick={saveEditedAttendance}
-                        >
-                          Save Changes
-                        </button>
-
-                      )}
-
-                    </>
+                    </span>
 
                   )}
 
                 </div>
 
+              </td>
+
+            </tr>
+
+          ))}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    {/* ================= MODAL ================= */}
+
+    {selectedRecord && (
+           <div className="modal-overlay">
+
+        <div className="attendance-modal">
+
+          {/* ================= HEADER ================= */}
+
+          <div className="modal-header">
+
+            <div>
+
+              <h2>Attendance Details</h2>
+
+              <p className="modal-subtitle">
+
+                {selectedRecord.subject}
+
+              </p>
+
+            </div>
+
+            <button
+              className="close-btn"
+              onClick={closeModal}
+            >
+              ✕
+            </button>
+
+          </div>
+
+          {/* ================= CONTENT ================= */}
+
+          <div className="modal-content">
+
+            {/* INFO BOXES */}
+
+            <div className="modal-info-grid">
+
+              <div className="info-box">
+                <h4>Date</h4>
+                <p>{selectedRecord.date}</p>
+              </div>
+
+              <div className="info-box">
+                <h4>Course</h4>
+                <p>{selectedRecord.course}</p>
+              </div>
+
+              <div className="info-box">
+                <h4>Semester</h4>
+                <p>{selectedRecord.semester}</p>
+              </div>
+
+              <div className="info-box">
+                <h4>Section</h4>
+                <p>{selectedRecord.section}</p>
+              </div>
+
+              <div className="info-box">
+                <h4>Subject</h4>
+                <p>{selectedRecord.subject}</p>
+              </div>
+
+              <div className="info-box">
+                <h4>Status</h4>
+                <p>{selectedRecord.status}</p>
               </div>
 
             </div>
 
-          )}
+            {/* PRESENT / ABSENT */}
+
+            {selectedRecord.status === "Held" && (
+
+              <div className="attendance-count">
+
+                <div className="count-card present-card">
+
+                  <h3>{selectedRecord.present}</h3>
+
+                  <p>Present</p>
+
+                </div>
+
+                <div className="count-card absent-card">
+
+                  <h3>{selectedRecord.absent}</h3>
+
+                  <p>Absent</p>
+
+                </div>
+
+              </div>
+
+            )}
+
+            {/* LOCK MESSAGE */}
+
+            {!canEditAttendance(selectedRecord.markedAt) && (
+
+              <div className="lock-message">
+
+                🔒 Attendance is locked.
+
+                <br />
+
+                Only Admin can edit after 24 hours.
+
+              </div>
+
+            )}
+
+            {/* NOT HELD */}
+
+            {selectedRecord.status === "Not Held" ? (
+
+              <div className="not-held-text">
+
+                This class was marked as
+
+                <b> Not Held</b>
+
+              </div>
+
+            ) : (
+
+              <>
+
+                <h3 className="student-heading">
+
+                  Student Attendance
+
+                </h3>
+
+                <table className="student-history-table">
+
+                  <thead>
+
+                    <tr>
+
+                      <th>Regd No</th>
+
+                      <th>Student Name</th>
+
+                      <th>Status</th>
+
+                    </tr>
+
+                  </thead>
+
+                  <tbody>
+
+                    {selectedRecord.students.map((student) => (
+
+                      <tr key={student.id}>
+
+                        <td>{student.roll}</td>
+
+                        <td>{student.name}</td>
+
+                        <td>
+
+                          {editMode && canEditAttendance(selectedRecord.markedAt) ? (
+
+                            <input
+                              type="checkbox"
+                              checked={student.present}
+                              onChange={() =>
+                                toggleAttendance(student.id)
+                              }
+                            />
+
+                          ) : (
+
+                            <span
+                              className={
+                                student.present
+                                  ? "status present"
+                                  : "status absent"
+                              }
+                            >
+
+                              {student.present
+                                ? "Present"
+                                : "Absent"}
+
+                            </span>
+
+                          )}
+
+                        </td>
+
+                      </tr>
+
+                    ))}
+
+                  </tbody>
+
+                </table>
+
+                {editMode &&
+                  canEditAttendance(selectedRecord.markedAt) && (
+
+                    <button
+                      className="save-edit-btn"
+                      onClick={saveEditedAttendance}
+                    >
+
+                      Save Changes
+
+                    </button>
+
+                  )}
+
+              </>
+
+            )}
+
+          </div>
 
         </div>
 
       </div>
 
-    </div>
-  );
+    )}
+
+  </div>
+
+);
+
 }
 
-export default AttendanceHistory;
+export default AttendanceHistory;   
