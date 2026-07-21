@@ -1,0 +1,9 @@
+{
+  "name": "Student OS",
+  "short_name": "Student OS",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f3d63",
+  "description": "Mobile-first student life management for the MCA pilot."
+}

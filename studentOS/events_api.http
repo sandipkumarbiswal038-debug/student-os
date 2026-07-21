@@ -1,0 +1,25 @@
+### Get All Events
+GET http://127.0.0.1:8000/api/events/
+
+### Create Event
+POST http://127.0.0.1:8000/api/events/create/
+Content-Type: application/json
+
+{
+    "title": "Hackathon 2026",
+    "description": "24-hour coding event",
+    "date": "2026-08-01",
+    "time": "10:00:00",
+    "venue": "NIIS Campus",
+    "created_by": 3,
+    "participants":[1,2,3,4,5,6,7,8,9,11]
+}
+
+### Update Student
+PUT http://127.0.0.1:8000/api/students/update/4/
+Content-Type: application/json
+
+{
+    "user": 4,
+    "semester": 2
+}

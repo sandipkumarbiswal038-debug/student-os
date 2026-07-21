@@ -1,0 +1,9 @@
+Django==6.0.4
+django-allauth
+django-cors-headers
+djangorestframework
+dj-database-url
+gunicorn
+psycopg[binary]
+whitenoise
+python-dotenv
