@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+*{
+    font-family:'Poppins',sans-serif;
+}
+
+.cancel-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+.cancel-modal{
+    width:400px;
+    background:#fff;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.2);
+}
+
+.cancel-modal h2{
+    color:#9B6BFF;
+    margin-bottom:15px;
+}
+
+.cancel-modal p{
+    color:#555;
+    line-height:1.6;
+}
+
+.warning-text{
+    color:#ff4d4f;
+    font-weight:600;
+    margin:15px 0;
+}
+
+.modal-buttons{
+    display:flex;
+    justify-content:space-between;
+    margin-top:25px;
+}
+
+.back-btn,
+.confirm-btn{
+    width:48%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    font-size:15px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.back-btn{
+    background:#ddd;
+}
+
+.back-btn:hover{
+    background:#c5c5c5;
+}
+
+.confirm-btn{
+    background:#9B6BFF;
+    color:white;
+}
+
+.confirm-btn:hover{
+    background:#7d4ef7;
+}

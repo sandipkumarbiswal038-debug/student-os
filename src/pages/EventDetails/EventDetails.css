@@ -1,0 +1,91 @@
+.event-details{
+
+    padding:30px;
+}
+
+.event-details h1{
+
+    color:#335c43;
+
+    margin-bottom:25px;
+}
+
+.details-card{
+
+    background:#fff;
+
+    padding:30px;
+
+    border-radius:18px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.details-card p{
+
+    margin:15px 0;
+
+    font-size:16px;
+}
+
+.buttons{
+
+    margin-top:30px;
+
+    display:flex;
+
+    gap:20px;
+}
+
+.signup-btn{
+
+    background:#335c43;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 30px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:600;
+}
+
+.signup-btn:hover{
+
+    background:#4f7c59;
+}
+
+.cancel-btn{
+
+    background:#dc3545;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 30px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:600;
+}
+
+.cancel-btn:hover{
+
+    background:#b02a37;
+}
+
+@media(max-width:768px){
+
+.buttons{
+
+    flex-direction:column;
+}
+
+}

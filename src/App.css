@@ -1,0 +1,47 @@
+/* ===========================
+   GLOBAL
+=========================== */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Poppins, sans-serif;
+  background:#f5f7f9;
+}
+
+/* ===========================
+   LAYOUT
+=========================== */
+
+.main-layout{
+  margin-left:290px;      /* same width as sidebar */
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+.page-content{
+  flex:1;
+  padding:30px;
+  background:#f5f7f9;
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+  .main-layout{
+    margin-left:0;
+  }
+
+  .page-content{
+    padding:20px;
+  }
+
+}

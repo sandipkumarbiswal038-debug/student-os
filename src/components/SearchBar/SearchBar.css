@@ -1,0 +1,27 @@
+.search-box{
+    display:flex;
+    justify-content:center;
+    margin:30px 0;
+}
+
+.search-box input{
+
+    width:450px;
+
+    padding:12px;
+
+    font-size:16px;
+
+    border:1px solid #ccc;
+
+    border-radius:8px;
+
+    outline:none;
+
+}
+
+.search-box input:focus{
+
+    border:2px solid #1565C0;
+
+}

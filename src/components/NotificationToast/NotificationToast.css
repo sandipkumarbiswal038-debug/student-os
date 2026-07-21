@@ -1,0 +1,36 @@
+.toast{
+    position:fixed;
+    top:90px;
+    right:20px;
+    padding:15px 25px;
+    border-radius:10px;
+    color:white;
+    font-size:15px;
+    font-family:'Poppins',sans-serif;
+    font-weight:500;
+    z-index:1000;
+    animation:slideIn .4s ease;
+}
+
+.success{
+    background:#28a745;
+}
+
+.error{
+    background:#dc3545;
+}
+
+.info{
+    background:#9B6BFF;
+}
+
+@keyframes slideIn{
+    from{
+        transform:translateX(100%);
+        opacity:0;
+    }
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}

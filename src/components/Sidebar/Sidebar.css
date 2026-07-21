@@ -1,0 +1,196 @@
+/* ===========================
+   SIDEBAR
+=========================== */
+
+.sidebar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:290px;
+  height:100vh;
+  padding:30px 20px;
+  display:flex;
+  flex-direction:column;
+  overflow-y:auto;
+
+  background:linear-gradient(
+    180deg,
+    #335c43 0%,
+    #3f704d 45%,
+    #4f7c59 100%
+  );
+
+  color:#fff;
+  border-radius:0 28px 28px 0;
+  box-shadow:8px 0 25px rgba(0,0,0,.15);
+}
+
+.sidebar::-webkit-scrollbar{
+  width:6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+  background:#4f7c59;
+  border-radius:10px;
+}
+
+/* ===========================
+   LOGO
+=========================== */
+
+.logo{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.college-logo{
+    width:90px;
+    height:90px;
+    background:white;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.college-logo img{
+    width:75px;
+    height:75px;
+    object-fit:contain;
+}
+
+.college-logo h2{
+  margin:0;
+}
+
+.logo-text{
+  text-align:center;
+}
+
+.logo-text h2{
+  margin:0;
+  font-size:34px;
+  font-weight:800;
+}
+
+.logo-text p{
+  margin-top:6px;
+  font-size:18px;
+  color:rgba(255,255,255,.8);
+}
+
+/* ===========================
+   MENU
+=========================== */
+
+.sidebar ul{
+  list-style:none;
+  padding:0;
+  margin:0;
+  flex:1;
+}
+
+.sidebar li{
+  margin-bottom:10px;
+}
+
+/* ===========================
+   NAVIGATION
+=========================== */
+
+.nav-link{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  text-decoration:none;
+  color:#fff;
+  padding:14px 18px;
+  border-radius:18px;
+  transition:.3s;
+  font-size:16px;
+  font-weight:600;
+}
+
+.nav-link:hover{
+  background:rgba(255,255,255,.15);
+}
+
+.nav-link.active{
+  background:#fff;
+  color:#335c43;
+}
+
+/* ===========================
+   ICON BOX
+=========================== */
+
+.icon-box{
+  width:46px;
+  height:46px;
+  min-width:46px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:20px;
+}
+
+.dashboard-icon{
+  background:#f5c84c;
+}
+
+.attendance-icon{
+  background:#62d66f;
+}
+
+.timetable-icon{
+  background:#4ea8ff;
+}
+
+.notes-icon{
+  background:#ffc83d;
+}
+
+.notification-icon{
+  background:#f4578e;
+}
+
+.events-icon{
+  background:#8f69ff;
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+.sidebar{
+  position:relative;
+  width:100%;
+  height:auto;
+  border-radius:0;
+  overflow:hidden;
+}
+
+.sidebar ul{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+}
+
+.sidebar li{
+  margin:0;
+}
+
+.nav-link{
+  flex-direction:column;
+  min-width:100px;
+  text-align:center;
+}
+
+}
