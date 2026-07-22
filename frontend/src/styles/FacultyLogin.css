@@ -4,189 +4,220 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+    font-family:"Poppins",sans-serif;
 }
 
 body{
-    background:#f4f7fb;
+    margin:0;
+    overflow:hidden;
 }
 
-/* ===========================
-   LOGIN PAGE
-=========================== */
+.faculty-login-container{
 
-.login-page{
     width:100%;
-    min-height:100vh;
+    height:100vh;
+
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:30px;
+
+    background:
+    linear-gradient(
+        rgba(13,77,61,.45),
+        rgba(13,77,61,.45)
+    ),
+    url("../assets/niis-campus.jpg");
+
+    background-size:cover;
+    background-position:center;
 }
 
-/* ===========================
-   LOGIN CARD
-=========================== */
+.faculty-login-card{
 
-.login-card{
-    width:1150px;
-    max-width:100%;
-    min-height:680px;
-    background:#fff;
-    border-radius:24px;
-    display:flex;
-    overflow:hidden;
-    box-shadow:0 18px 45px rgba(0,0,0,.12);
+    width:420px;
+
+    background:rgba(255,255,255,.92);
+
+    border-radius:22px;
+
+    padding:28px 32px;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.18);
+
+    backdrop-filter:blur(10px);
+
+    transition:.35s;
 }
 
-/* ===========================
-   LEFT SIDE
-=========================== */
+.faculty-login-card:hover{
 
-.login-left{
-    flex:1;
-    background:linear-gradient(135deg,#14532d,#1b8f47,#22c55e);
+    transform:translateY(-4px);
+
+}
+
+.login-header{
+
     display:flex;
     flex-direction:column;
-    justify-content:center;
     align-items:center;
-    text-align:center;
-    color:#fff;
-    padding:60px;
+
+    margin-bottom:20px;
+
 }
 
 .login-logo{
-    width:140px;
-    height:140px;
-    background:#fff;
+
+    width:70px;
+    height:70px;
+
+    object-fit:cover;
+
     border-radius:50%;
-    object-fit:contain;
-    padding:12px;
-    margin-bottom:30px;
-}
 
-.login-left h1{
-    font-size:48px;
-    font-weight:700;
-    margin-bottom:15px;
-}
-
-.login-left p{
-    font-size:22px;
     margin-bottom:12px;
+
+    border:3px solid #0d4d3d;
 }
 
-.login-left span{
-    font-size:17px;
-    opacity:.95;
-    line-height:1.6;
-}
+.login-header h4{
 
-/* ===========================
-   RIGHT SIDE
-=========================== */
+    font-size:15px;
 
-.login-right{
-    flex:1;
-    padding:70px 60px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-}
+    color:#0d4d3d;
 
-.login-right h2{
-    color:#14532d;
-    font-size:38px;
-    font-weight:700;
-    margin-bottom:8px;
-}
+    text-align:center;
 
-.login-text{
-    color:#6b7280;
-    font-size:17px;
-    margin-bottom:35px;
-}
-
-/* ===========================
-   INPUT GROUP
-=========================== */
-
-.input-group{
-    display:flex;
-    align-items:center;
-    margin-bottom:24px;
-}
-
-.input-group label{
-    width:140px;
-    min-width:140px;
-    margin-right:20px;
-    display:block;
-    margin-bottom:12px;
-    color:#222;
-    font-size:16px;
     font-weight:600;
+
     line-height:1.4;
 }
 
-.input-group input{
-    width:100%;
-    height:58px;
-    padding:0 18px;
-    border:1px solid #dcdcdc;
-    border-radius:12px;
-    font-size:15px;
-    outline:none;
-    transition:.3s;
-    box-shadow:0 3px 10px rgba(0,0,0,.08);
+.faculty-login-card h2{
+
+    text-align:center;
+
+    color:#0d4d3d;
+
+    margin-top:10px;
+
+    font-size:30px;
+
+    font-weight:700;
 }
 
-.input-group input:focus{
-    border:2px solid #22c55e;
+.faculty-login-card p{
+
+    text-align:center;
+
+    color:#666;
+
+    margin:8px 0 22px;
+
+    font-size:14px;
+}
+
+.faculty-login-card label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-size:14px;
+
+    color:#333;
+
+    font-weight:600;
+}
+/* ===========================
+   INPUT BOX
+=========================== */
+
+.input-box,
+.password-box{
+
+    display:flex;
+    align-items:center;
+
+    background:#f8f9fa;
+
+    border:2px solid #e2e8f0;
+
+    border-radius:14px;
+
+    transition:.3s;
+
+    margin-bottom:16px;
+}
+
+.input-box:focus-within,
+.password-box:focus-within{
+
+    border-color:#0d4d3d;
+
+    box-shadow:0 0 0 4px rgba(13,77,61,.12);
+
+}
+
+.input-icon{
+
+    color:#0d4d3d;
+
+    font-size:17px;
+
+    margin-left:16px;
+}
+
+.input-box input,
+.password-box input{
+
+    flex:1;
+
+    border:none;
+
+    outline:none;
+
+    background:transparent;
+
+    padding:14px;
+
+    font-size:15px;
+
+    color:#333;
+}
+
+.input-box input::placeholder,
+.password-box input::placeholder{
+
+    color:#999;
+
 }
 
 /* ===========================
-   PASSWORD BOX
+   SHOW PASSWORD
 =========================== */
 
-.password-box{
-    position:relative;
-    width:100%;
-    
-}
-
-.password-box input{
-    width:100%;
-    height:58px;
-    padding:0 70px 0 18px;
-    border:1px solid #d1d5db;
-    border-radius:14px;
-    font-size:15px;
-    outline:none;
-    transition:.3s;
-    box-shadow:0 3px 10px rgba(0,0,0,.08);
-}
-
-.password-box input:focus{
-    border:2px solid #22c55e;
-}
-
 .show-btn{
-    position:absolute;
-    top:50%;
-    right:18px;
-    transform:translateY(-50%);
+
     border:none;
-    background:transparent;
-    color:#166534;
-    font-size:16px;
-    font-weight:600;
+
+    background:none;
+
     cursor:pointer;
-    padding:0;
+
+    color:#0d4d3d;
+
+    font-size:18px;
+
+    padding:0 16px;
+
+    transition:.3s;
 }
 
 .show-btn:hover{
-    color:#14532d;
+
+    color:#16966b;
+
 }
 
 /* ===========================
@@ -194,74 +225,91 @@ body{
 =========================== */
 
 .login-btn{
+
     width:100%;
-    height:58px;
+
+    margin-top:8px;
+
+    padding:14px;
+
     border:none;
+
     border-radius:14px;
-    background:#166534;
-    color:#fff;
-    font-size:20px;
-    font-weight:700;
+
     cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    color:white;
+
+    background:linear-gradient(
+        135deg,
+        #0d4d3d,
+        #16966b
+    );
+
     transition:.3s;
-    margin-top:10px;
 }
 
 .login-btn:hover{
-    background:#14532d;
+
     transform:translateY(-2px);
+
+    box-shadow:0 12px 25px rgba(13,77,61,.25);
+
 }
 
 /* ===========================
-   FOOTER
+   ERROR
 =========================== */
 
-.login-footer{
-    margin-top:30px;
+.error{
+
+    display:block;
+
+    color:#dc2626;
+
+    font-size:13px;
+
+    margin-top:-8px;
+
+    margin-bottom:12px;
+}
+
+.login-error{
+
     text-align:center;
-    color:#6b7280;
-    font-size:14px;
+
+    margin-top:4px;
 }
 
 /* ===========================
    RESPONSIVE
 =========================== */
 
-@media(max-width:900px){
+@media (max-width:768px){
 
-.login-card{
-    flex-direction:column;
-    width:100%;
-}
+    .faculty-login-card{
 
-.login-left,
-.login-right{
-    width:100%;
-}
+        width:92%;
 
-.login-left{
-    padding:40px 25px;
-}
+        padding:24px;
 
-.login-right{
-    padding:40px 25px;
-}
+    }
 
-.login-left h1{
-    font-size:36px;
-}
+    .faculty-login-card h2{
 
-.login-left p{
-    font-size:18px;
-}
+        font-size:26px;
 
-.login-left span{
-    font-size:15px;
-}
+    }
 
-.login-logo{
-    width:110px;
-    height:110px;
-}
+    .login-logo{
+
+        width:60px;
+        height:60px;
+
+    }
 
 }

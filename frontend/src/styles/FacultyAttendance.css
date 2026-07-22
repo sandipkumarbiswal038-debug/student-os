@@ -1,261 +1,418 @@
-.attendance-layout {
-  display: flex;
-  min-height: 100vh;
-  background: #f4f7f9;
+/* =====================================================
+   MAIN LAYOUT
+===================================================== */
+
+.attendance-layout{
+
+    display:flex;
+
+    height:100vh;
+
+    background:#f4f7f9;
+
+    overflow:hidden;
+
 }
+
+
+/* =====================================================
+   MAIN CONTENT SCROLL ONLY
+===================================================== */
 
 .attendance-main{
+
     margin-left:280px;
+
     width:calc(100% - 280px);
+
+    height:100vh;
+
+    overflow-y:auto;
+
+    overflow-x:hidden;
+
 }
 
-.attendance-container {
-  padding: 25px 35px;
+
+
+.attendance-container{
+
+    padding:25px 35px 100px;
+
 }
 
-/* ================= Title ================= */
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
 
 .attendance-title{
+
     margin-top:10px;
+
     margin-bottom:25px;
-}
-
-.attendance-title h1 {
-  font-size: 42px;
-  font-weight: 700;
-  color: #0d4d3d;
-}
-
-/* ================= Search + Mark All ================= */
-
-.attendance-tools {
-  margin-top: 25px;
-  margin-bottom: 18px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-}
-
-.search-box {
-  width: 360px;
-  height: 50px;
-
-  padding: 0 18px;
-
-  border: 1px solid #d9d9d9;
-  border-radius: 12px;
-
-  font-size: 15px;
-  outline: none;
-
-  background: white;
-
-  transition: .3s;
-}
-
-.search-box:focus {
-  border-color: #0d4d3d;
-  box-shadow: 0 0 0 3px rgba(13,77,61,.15);
-}
-
-/* ================= Mark All ================= */
-
-.mark-all-card {
-
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  padding: 12px 18px;
-
-  background: #f4fbf8;
-
-  border: 2px solid #d9efe5;
-
-  border-radius: 12px;
-
-  cursor: pointer;
-
-  transition: .3s;
 
 }
 
-.mark-all-card:hover {
 
-  background: #ebf8f2;
 
-}
+.attendance-title h1{
 
-.mark-all-card input {
+    font-size:42px;
 
-  width: 22px;
-  height: 22px;
+    font-weight:700;
 
-  accent-color: #0d4d3d;
-
-  cursor: pointer;
+    color:#0d4d3d;
 
 }
 
-.mark-all-card span {
 
-  font-size: 16px;
-  font-weight: 600;
-  color: #0d4d3d;
 
-}
+/* =====================================================
+   SEARCH + MARK ALL
+===================================================== */
 
-/* ================= Summary ================= */
 
-.attendance-summary {
+.attendance-tools{
 
-  display: flex;
-  gap: 35px;
+    margin-top:25px;
 
-  margin-bottom: 25px;
+    margin-bottom:18px;
 
-  font-size: 17px;
-  font-weight: 500;
+    display:flex;
 
-}
+    justify-content:space-between;
 
-.attendance-summary span {
-
-  color: #444;
-
-}
-
-.attendance-summary b {
-
-  color: #0d4d3d;
-
-}
-
-/* ================= Buttons ================= */
-
-.table-buttons {
-
-  display: flex;
-  justify-content: space-between;
-
-  margin-top: 30px;
-
-}
-
-.back-btn {
-
-  background: #6c757d;
-  color: white;
-
-  border: none;
-
-  padding: 12px 30px;
-
-  border-radius: 8px;
-
-  cursor: pointer;
-
-  font-size: 15px;
-  font-weight: 600;
-
-  transition: .3s;
-
-}
-
-.back-btn:hover {
-
-  background: #545b62;
-
-}
-
-.submit-btn {
-
-  background: #0d4d3d;
-  color: white;
-
-  border: none;
-
-  padding: 12px 32px;
-
-  border-radius: 8px;
-
-  cursor: pointer;
-
-  font-size: 15px;
-  font-weight: 600;
-
-  transition: .3s;
-
-}
-
-.submit-btn:hover {
-
-  background: #0a3d31;
-
-}
-
-/* ================= Responsive ================= */
-
-@media(max-width:992px){
-
-  .attendance-tools{
-
-    flex-direction: column;
-    align-items: stretch;
-
-  }
-
-  .search-box{
-
-    width:100%;
-
-  }
-
-  .mark-all-card{
-
-    justify-content:center;
-
-  }
-
-  .attendance-summary{
-
-    flex-wrap:wrap;
+    align-items:center;
 
     gap:20px;
 
-  }
+}
+
+
+
+.search-box{
+
+    width:360px;
+
+    height:50px;
+
+    padding:0 18px;
+
+    border:1px solid #d9d9d9;
+
+    border-radius:12px;
+
+    font-size:15px;
+
+    outline:none;
+
+    background:white;
+
+    transition:.3s;
 
 }
 
+
+
+.search-box:focus{
+
+    border-color:#0d4d3d;
+
+    box-shadow:0 0 0 3px rgba(13,77,61,.15);
+
+}
+
+
+
+/* =====================================================
+   MARK ALL
+===================================================== */
+
+
+.mark-all-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:12px 18px;
+
+    background:#f4fbf8;
+
+    border:2px solid #d9efe5;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+
+.mark-all-card:hover{
+
+    background:#ebf8f2;
+
+}
+
+
+
+.mark-all-card input{
+
+    width:22px;
+
+    height:22px;
+
+    accent-color:#0d4d3d;
+
+    cursor:pointer;
+
+}
+
+
+
+.mark-all-card span{
+
+    font-size:16px;
+
+    font-weight:600;
+
+    color:#0d4d3d;
+
+}
+
+
+
+/* =====================================================
+   SUMMARY
+===================================================== */
+
+
+.attendance-summary{
+
+    display:flex;
+
+    gap:35px;
+
+    margin-bottom:25px;
+
+    font-size:17px;
+
+    font-weight:500;
+
+}
+
+
+
+.attendance-summary span{
+
+    color:#444;
+
+}
+
+
+
+.attendance-summary b{
+
+    color:#0d4d3d;
+
+}
+
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+
+.table-buttons{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:30px;
+
+}
+
+
+
+.back-btn,
+.submit-btn{
+
+    border:none;
+
+    padding:12px 32px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+
+
+.back-btn{
+
+    background:#6c757d;
+
+    color:white;
+
+}
+
+
+
+.back-btn:hover{
+
+    background:#545b62;
+
+}
+
+
+
+.submit-btn{
+
+    background:#0d4d3d;
+
+    color:white;
+
+}
+
+
+
+.submit-btn:hover{
+
+    background:#0a3d31;
+
+}
+
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+
+@media(max-width:992px){
+
+
+    .attendance-tools{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+
+    .search-box{
+
+        width:100%;
+
+    }
+
+
+    .mark-all-card{
+
+        justify-content:center;
+
+    }
+
+
+    .attendance-summary{
+
+        flex-wrap:wrap;
+
+        gap:20px;
+
+    }
+
+}
+
+
+
 @media(max-width:768px){
 
-  .attendance-container{
 
-    padding:18px 30px 20px;
+    .attendance-main{
 
-  }
+        margin-left:0;
 
-  .attendance-title h1{
+        width:100%;
 
-    font-size:30px;
+    }
 
-  }
 
-  .table-buttons{
+    .attendance-container{
 
-    flex-direction:column;
+        padding:18px 20px 80px;
 
-    gap:15px;
+    }
 
-  }
 
-  .back-btn,
-  .submit-btn{
+    .attendance-title h1{
 
-    width:100%;
+        font-size:30px;
 
-  }
-  
+    }
+
+
+    .table-buttons{
+
+        flex-direction:column;
+
+        gap:15px;
+
+    }
+
+
+    .back-btn,
+    .submit-btn{
+
+        width:100%;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   SCROLLBAR DESIGN
+===================================================== */
+
+
+.attendance-main::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+
+.attendance-main::-webkit-scrollbar-thumb{
+
+    background:#0d4d3d;
+
+    border-radius:10px;
+
+}
+
+
+.attendance-main::-webkit-scrollbar-track{
+
+    background:#edf3f1;
+
 }

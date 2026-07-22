@@ -174,6 +174,8 @@ function FacultyAttendance() {
   const handleLoadStudents=(data)=>{
 
 
+    console.log("LOAD CLICKED", data);
+
     setAttendanceInfo(data);
 
 
