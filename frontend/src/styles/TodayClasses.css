@@ -4,8 +4,10 @@
 
 .today-classes{
 
-    padding:10px 0;
-
+     
+    width:100%;
+    display:block;
+    margin:0;
 }
 
 
@@ -53,6 +55,8 @@
 
     gap:18px;
 
+    width:100%;
+
 }
 
 
@@ -63,7 +67,7 @@
 ========================== */
 
 
-.class-card{
+.today-class-card{
 
     background:#fff;
 
@@ -81,7 +85,7 @@
 
 
 
-.class-card:hover{
+.today-class-card:hover{
 
     transform:translateY(-5px);
 
@@ -96,7 +100,7 @@
 ========================== */
 
 
-.card-top{
+.today-card-top{
 
     display:flex;
 
@@ -110,7 +114,7 @@
 
 
 
-.subject-icon{
+.today-subject-icon{
 
     width:42px;
 
@@ -134,7 +138,7 @@
 
 
 
-.status{
+.today-status{
 
     padding:5px 12px;
 
@@ -175,7 +179,7 @@
 ========================== */
 
 
-.class-card h3{
+.today-class-card h3{
 
     color:#0d4d3d;
 

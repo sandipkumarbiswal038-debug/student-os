@@ -244,7 +244,7 @@ function AttendanceHistory() {
 
     {/* ================= TITLE ================= */}
 
-    <div className="attendance-title">
+    <div className="history-title">
 
       <h1>Attendance History</h1>
 

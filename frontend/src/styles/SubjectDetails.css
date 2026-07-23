@@ -1,0 +1,359 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Poppins",sans-serif;
+}
+
+/* ===================================
+   PAGE
+=================================== */
+
+.details-container{
+    margin-left:280px;
+    width:calc(100% - 280px);
+    height:100vh;
+    background:#f4f8f7;
+    padding:24px;
+    overflow-y:auto;
+}
+
+/* ===================================
+   SCROLLBAR
+=================================== */
+
+.details-container::-webkit-scrollbar{
+    width:8px;
+}
+
+.details-container::-webkit-scrollbar-track{
+    background:#edf3f2;
+}
+
+.details-container::-webkit-scrollbar-thumb{
+    background:#0d4d3d;
+    border-radius:20px;
+}
+
+.details-container::-webkit-scrollbar-thumb:hover{
+    background:#08372c;
+}
+
+/* ===================================
+   MAIN CARD
+=================================== */
+
+.details-card{
+
+    width:100%;
+
+    background:#fff;
+
+    margin-top:20px;
+
+    padding:32px;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+/* ===================================
+   TITLE
+=================================== */
+
+.details-card h1{
+
+    font-size:42px;
+
+    font-weight:700;
+
+    color:#0d4d3d;
+
+    margin-bottom:35px;
+
+}
+
+/* ===================================
+   STATS SECTION
+=================================== */
+
+.stats-section{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:22px;
+
+    margin-bottom:35px;
+
+}
+
+/* ===================================
+   STAT CARD
+=================================== */
+
+.stat-card{
+
+    background:#ffffff;
+
+    border-radius:18px;
+
+    padding:28px;
+
+    text-align:center;
+
+    border:1px solid #e6ece8;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+/* Different top border colors */
+
+.stat-card:nth-child(1){
+
+    border-top:5px solid #1976D2;
+
+}
+
+.stat-card:nth-child(2){
+
+    border-top:5px solid #2E7D32;
+
+}
+
+.stat-card:nth-child(3){
+
+    border-top:5px solid #D32F2F;
+
+}
+
+.stat-card:nth-child(4){
+
+    border-top:5px solid #F9A825;
+
+}
+
+.stat-card h3{
+
+    color:#666;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    margin-bottom:14px;
+
+}
+
+.stat-card h2{
+
+    color:#0d4d3d;
+
+    font-size:42px;
+
+    font-weight:700;
+
+}
+/* ===================================
+   PROJECTION BOX
+=================================== */
+
+.projection-box{
+
+    margin-top:20px;
+
+    background:#f8fffb;
+
+    border-left:6px solid #2E7D32;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    box-shadow:0 6px 15px rgba(0,0,0,.06);
+
+}
+
+.projection-box p{
+
+    margin:10px 0;
+
+    font-size:16px;
+
+    line-height:1.7;
+
+    color:#444;
+
+}
+
+.good{
+
+    color:#2E7D32;
+
+    font-weight:600;
+
+}
+
+.warning-text{
+
+    color:#D32F2F;
+
+    font-weight:600;
+
+}
+
+/* ===================================
+   BACK BUTTON
+=================================== */
+
+.back-btn{
+
+    margin-top:30px;
+
+    padding:13px 28px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#0d4d3d;
+
+    color:#fff;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.back-btn:hover{
+
+    background:#08372c;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 20px rgba(13,77,61,.25);
+
+}
+
+/* ===================================
+   RESPONSIVE
+=================================== */
+
+@media (max-width:1024px){
+
+    .details-container{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:20px;
+
+    }
+
+    .stats-section{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .details-container{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:15px;
+
+    }
+
+    .details-card{
+
+        padding:20px;
+
+        border-radius:16px;
+
+    }
+
+    .details-card h1{
+
+        font-size:28px;
+
+        text-align:center;
+
+        margin-bottom:25px;
+
+    }
+
+    .stats-section{
+
+        grid-template-columns:1fr;
+
+        gap:16px;
+
+    }
+
+    .stat-card{
+
+        width:100%;
+
+        padding:22px;
+
+    }
+
+    .stat-card h3{
+
+        font-size:17px;
+
+    }
+
+    .stat-card h2{
+
+        font-size:36px;
+
+    }
+
+    .projection-box{
+
+        padding:18px;
+
+    }
+
+    .projection-box p{
+
+        font-size:15px;
+
+    }
+
+    .back-btn{
+
+        width:100%;
+
+        height:48px;
+
+    }
+
+}

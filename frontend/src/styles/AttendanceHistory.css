@@ -1,6 +1,5 @@
 /* ==========================================
-   ATTENDANCE HISTORY
-   PAGE LAYOUT
+   ATTENDANCE HISTORY 
 ========================================== */
 
 .history-page{
@@ -23,40 +22,39 @@
    TITLE
 ========================================== */
 
-.attendance-title{
+.history-title{
     margin-bottom:20px;
 }
 
-.attendance-title h1{
+.history-title h1{
     font-size:30px;
-    color:#0d4d3d;
     font-weight:700;
+    color:#0d4d3d;
 }
 
-.attendance-title p{
-    color:#666;
+.history-title p{
     margin-top:6px;
+    color:#666;
     font-size:15px;
 }
 
 /* ==========================================
-   SEARCH + EXPORT
+   SEARCH
 ========================================== */
 
 .history-toolbar{
     display:flex;
-    gap:15px;
     align-items:center;
     margin-bottom:20px;
 }
 
 .history-toolbar input{
-    flex:1;
+    width:100%;
     height:48px;
     border:none;
     outline:none;
-    background:#fff;
     border-radius:14px;
+    background:#fff;
     padding:0 18px;
     font-size:15px;
     box-shadow:0 8px 20px rgba(0,0,0,.08);
@@ -66,117 +64,55 @@
     box-shadow:0 0 0 3px rgba(13,77,61,.15);
 }
 
-.export-btn{
-    height:48px;
-    padding:0 24px;
-    border:none;
-    border-radius:14px;
-    background:#0d4d3d;
-    color:white;
-    font-weight:600;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.export-btn:hover{
-    background:#08372c;
-    transform:translateY(-2px);
-}
-
 /* ==========================================
-   FILTERS
-========================================== */
-
-.history-filters{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin-bottom:15px;
-}
-
-.filter-card{
-    background:#fff;
-    border-radius:18px;
-    padding:14px;
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
-}
-
-.filter-card label{
-    display:block;
-    margin-bottom:8px;
-    color:#777;
-    font-size:13px;
-    font-weight:600;
-}
-
-.filter-card select{
-    width:100%;
-    height:44px;
-    border:none;
-    outline:none;
-    border-radius:10px;
-    background:#f5f7fa;
-    padding:0 14px;
-    font-size:14px;
-    color:#0d4d3d;
-    font-weight:600;
-}
-
-.filter-card select:focus{
-    box-shadow:0 0 0 3px rgba(13,77,61,.12);
-}
-
-/* ==========================================
-   SUMMARY CARDS
+   SUMMARY
 ========================================== */
 
 .history-summary{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin-bottom:15px;
+    gap:15px;
+    margin-bottom:20px;
 }
 
 .summary-card{
-    background:white;
+    background:#fff;
     border-radius:18px;
-    padding:16px;
+    padding:18px;
     text-align:center;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    box-shadow:0 10px 24px rgba(0,0,0,.08);
     transition:.3s;
 }
 
 .summary-card:hover{
-    transform:translateY(-5px);
+    transform:translateY(-4px);
 }
 
 .summary-card h2{
+    font-size:30px;
     color:#0d4d3d;
-    font-size:28px;
-    margin-bottom:8px;
 }
 
 .summary-card p{
+    margin-top:6px;
     color:#666;
-    font-size:15px;
 }
+
 /* ==========================================
-   HISTORY TABLE
+   TABLE
 ========================================== */
 
 .history-card{
-    
-    width:100%;
-    table-layout:fixed;
-    border-collapse:collapse;
-    font-size:14px;
+    background:#fff;
+    border-radius:18px;
+    overflow-x:auto;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
 .history-table{
     width:100%;
     border-collapse:collapse;
-    table-layout:fixed;
-    font-size:13px;
+    min-width:1050px;
 }
 
 .history-table thead{
@@ -184,25 +120,17 @@
 }
 
 .history-table th{
-    background:#0d5a46;
     color:#fff;
-    padding:12px 8px;
-    text-align:center;
+    padding:14px 10px;
     font-size:14px;
     font-weight:600;
+    text-align:center;
 }
 
 .history-table td{
-    padding:12px 8px;
+    padding:14px 10px;
     text-align:center;
     border-bottom:1px solid #ececec;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-.history-table tbody tr{
-    transition:.3s;
 }
 
 .history-table tbody tr:nth-child(even){
@@ -213,49 +141,21 @@
     background:#eef8f4;
 }
 
-/* ==========================================
-   BADGES
-========================================== */
+/* Column Width */
 
-.date-badge{
-    background:#eef7f1;
-    color:#0d4d3d;
-    padding:4px 10px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:600;
+.history-table th:nth-child(1),
+.history-table td:nth-child(1){
+    width:110px;
 }
 
-.course-badge{
-    background:#e8f0ff;
-    color:#2457a6;
-    padding:4px 10px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:600;
+.history-table th:nth-child(5),
+.history-table td:nth-child(5){
+    min-width:180px;
 }
 
-.subject-cell{
-    font-weight:600;
-    color:#0d4d3d;
-}
-
-.present-count{
-    background:#dff6e8;
-    color:#14854B;
-    padding:4px 10px;
-    border-radius:20px;
-    font-weight:600;
-    font-size:11px;
-}
-
-.absent-count{
-    background:#fde2e4;
-    color:#dc3545;
-    padding:4px 10px;
-    border-radius:20px;
-    font-weight:600;
-    font-size:11px;
+.history-table th:last-child,
+.history-table td:last-child{
+    width:170px;
 }
 
 /* ==========================================
@@ -264,9 +164,9 @@
 
 .status{
     display:inline-block;
-    padding:4px 10px;
+    padding:5px 12px;
     border-radius:20px;
-    font-size:11px;
+    font-size:12px;
     font-weight:600;
 }
 
@@ -298,63 +198,59 @@
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:6px;
-    flex-wrap:nowrap;
+    gap:10px;
+    white-space:nowrap;
 }
 
 .view-btn,
 .edit-btn{
-
-    min-width:64px;
-    height:34px;
-
+    min-width:72px;
+    height:36px;
     border:none;
     border-radius:8px;
-
     font-size:13px;
     font-weight:600;
-
     cursor:pointer;
+    transition:.25s;
 }
 
 .view-btn{
-    background:#0d5a46;
-    color:white;
+    background:#0d4d3d;
+    color:#fff;
+}
+
+.view-btn:hover{
+    background:#0a3d31;
 }
 
 .edit-btn{
-    background:#d97706;
-    color:white;
+    background:#f59e0b;
+    color:#fff;
 }
 
 .edit-btn:hover{
-    background:#b45309;
+    background:#d97706;
 }
 
 .locked-tag{
-
     display:flex;
     align-items:center;
     justify-content:center;
 
-    min-width:72px;
-    height:34px;
+    width:72px;
+    height:36px;
 
-    padding:0 10px;
-
-    background:#f3f4f6;
-    color:#6b7280;
-
-    border:1px solid #d1d5db;
     border-radius:8px;
 
-    font-size:12px;
+    background:#f3f4f6;
+    border:1px solid #d1d5db;
+
+    color:#6b7280;
+    font-size:13px;
     font-weight:600;
 
-    white-space:nowrap;
+    padding:0 10px;
 }
-
-
 /* ==========================================
    MODAL
 ========================================== */
@@ -405,7 +301,6 @@
     display:flex;
     justify-content:space-between;
     align-items:center;
-    flex-shrink:0;
 }
 
 .modal-header h2{
@@ -427,8 +322,8 @@
     background:#fff;
     color:#0d4d3d;
     font-size:18px;
-    cursor:pointer;
     font-weight:bold;
+    cursor:pointer;
     transition:.3s;
 }
 
@@ -446,32 +341,16 @@
     padding:24px;
 }
 
-.modal-content::-webkit-scrollbar{
-    width:8px;
-}
-
-.modal-content::-webkit-scrollbar-thumb{
-    background:#0d4d3d;
-    border-radius:20px;
-}
-
-.modal-content::-webkit-scrollbar-track{
-    background:#f1f1f1;
-}
-
-/* ==========================================
-   INFO GRID
-========================================== */
-
 .modal-info-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:15px;
-    margin-bottom:22px;
+    margin-bottom:20px;
 }
 
 .info-box{
-    background:#f5f8f6;
+    background:#f8faf9;
+    border:1px solid #e8ece9;
     border-radius:14px;
     padding:15px;
 }
@@ -483,47 +362,63 @@
 }
 
 .info-box p{
-    margin-top:8px;
-    font-size:15px;
+    margin-top:6px;
     color:#0d4d3d;
+    font-size:15px;
     font-weight:600;
 }
 
 /* ==========================================
-   PRESENT / ABSENT CARDS
+   PRESENT / ABSENT
 ========================================== */
 
 .attendance-count{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:15px;
-    margin-bottom:20px;
+    margin:20px 0;
 }
 
 .count-card{
-    border-radius:14px;
+    border-radius:16px;
     padding:18px;
     text-align:center;
 }
 
 .count-card h3{
     margin:0;
-    font-size:28px;
+    font-size:30px;
 }
 
 .count-card p{
     margin-top:6px;
     font-size:14px;
+    font-weight:600;
 }
 
 .present-card{
-    background:#dff6e8;
+    background:#e8f8ef;
     color:#14854B;
 }
 
 .absent-card{
-    background:#fde2e4;
+    background:#fdeaea;
     color:#dc3545;
+}
+
+/* ==========================================
+   LOCK MESSAGE
+========================================== */
+
+.lock-message{
+    margin:18px 0;
+    padding:15px;
+    border-radius:12px;
+    background:#fff8e6;
+    border-left:5px solid #f5a623;
+    color:#8a5b00;
+    font-size:14px;
+    font-weight:600;
 }
 
 /* ==========================================
@@ -531,8 +426,9 @@
 ========================================== */
 
 .student-heading{
-    margin:20px 0 15px;
+    margin:20px 0 12px;
     color:#0d4d3d;
+    font-size:20px;
 }
 
 .student-history-table{
@@ -552,8 +448,8 @@
 
 .student-history-table td{
     padding:12px;
-    border-bottom:1px solid #ececec;
     text-align:center;
+    border-bottom:1px solid #eee;
 }
 
 .student-history-table tbody tr:nth-child(even){
@@ -570,8 +466,8 @@
 
 .save-edit-btn{
     width:100%;
-    margin-top:20px;
     height:48px;
+    margin-top:20px;
     border:none;
     border-radius:12px;
     background:#0d4d3d;
@@ -605,205 +501,11 @@
    RESPONSIVE
 ========================================== */
 
-@media(max-width:992px){
+@media (max-width:992px){
 
-.history-summary{
-    grid-template-columns:1fr;
-}
-
-.history-filters{
-    grid-template-columns:1fr;
-}
-
-.modal-info-grid{
-    grid-template-columns:1fr;
-}
-
-.attendance-count{
-    grid-template-columns:1fr;
-}
-
-}
-
-@media(max-width:768px){
-
-.history-toolbar{
-    flex-direction:column;
-}
-
-.export-btn{
-    width:100%;
-}
-
-.attendance-modal{
-    width:96%;
-}
-
-.history-card{
-    overflow-x:hidden;
-}
-
-.action-buttons{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    flex-wrap:nowrap;
-
-.view-btn,
-.edit-btn{
-    width:100%;
-}
-/* ===================================
-   MODAL INFO GRID
-=================================== */
-
-.modal-info-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.info-box{
-    background:#f8faf9;
-    border:1px solid #e5ece8;
-    border-radius:14px;
-    padding:14px;
-    transition:.3s;
-}
-
-.info-box:hover{
-    transform:translateY(-2px);
-    box-shadow:0 6px 15px rgba(0,0,0,.08);
-}
-
-.info-box h4{
-    margin:0;
-    font-size:12px;
-    color:#888;
-    font-weight:600;
-}
-
-.info-box p{
-    margin-top:6px;
-    font-size:15px;
-    font-weight:600;
-    color:#0d4d3d;
-}
-
-/* ===================================
-   ATTENDANCE COUNT
-=================================== */
-
-.attendance-count{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-    margin:20px 0;
-}
-
-.count-card{
-    padding:18px;
-    border-radius:16px;
-    text-align:center;
-}
-
-.count-card h3{
-    margin:0;
-    font-size:30px;
-}
-
-.count-card p{
-    margin-top:5px;
-    font-size:14px;
-    font-weight:600;
-}
-
-.present-card{
-    background:#e8f8ef;
-    color:#1b8f4c;
-}
-
-.absent-card{
-    background:#fdeaea;
-    color:#dc3545;
-}
-
-/* ===================================
-   LOCK MESSAGE
-=================================== */
-
-.lock-message{
-    margin:18px 0;
-    padding:15px;
-    border-radius:12px;
-    background:#fff8e6;
-    border-left:5px solid #f5a623;
-    color:#8a5b00;
-    font-size:14px;
-    font-weight:600;
-    line-height:1.5;
-}
-
-/* ===================================
-   LOCKED BUTTON
-=================================== */
-
-.locked-tag{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-width:68px;
-    padding:0 14px;
-    height:34px;
-    border-radius:8px;
-    background:#ececec;
-    color:#666;
-    font-size:13px;
-    font-weight:600;
-}
-
-/* ===================================
-   STUDENT TABLE
-=================================== */
-
-.student-heading{
-    margin:20px 0 12px;
-    color:#0d4d3d;
-    font-size:18px;
-}
-
-.student-history-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-.student-history-table thead{
-    background:#0d4d3d;
-}
-
-.student-history-table th{
-    color:#fff;
-    padding:10px;
-    font-size:13px;
-}
-
-.student-history-table td{
-    padding:10px;
-    text-align:center;
-    border-bottom:1px solid #eee;
-}
-
-.student-history-table tbody tr:hover{
-    background:#f6fbf8;
-}
-
-/* ===================================
-   RESPONSIVE
-=================================== */
-
-@media (max-width:768px){
+    .history-summary{
+        grid-template-columns:1fr;
+    }
 
     .modal-info-grid{
         grid-template-columns:1fr;
@@ -812,35 +514,34 @@
     .attendance-count{
         grid-template-columns:1fr;
     }
-
-  @media(max-width:1200px){
-
-.history-table{
-    font-size:13px;
 }
 
-.view-btn,
-.edit-btn{
-    min-width:58px;
-    font-size:12px;
-}
+@media (max-width:768px){
 
-}  
+    .history-toolbar{
+        flex-direction:column;
+    }
 
-}
-.history-table th:nth-child(1),
-.history-table td:nth-child(1){
-    width:110px;
-}
+    .history-card{
+        width:100%;
+        overflow-x:auto;
+        border-radius:18px;
+        background:#fff;
+        box-shadow:0 8px 25px rgba(0,0,0,.08)
+    }
 
-.history-table th:nth-child(3),
-.history-table td:nth-child(3){
-    width:80px;
-}
+    .attendance-modal{
+        width:96%;
+    }
 
-.history-table th:nth-child(4),
-.history-table td:nth-child(4){
-    width:70px;
-}
+    .action-buttons{
+        flex-direction:column;
+        gap:8px;
+    }
 
+    .view-btn,
+    .edit-btn,
+    .locked-tag{
+        width:100%;
+    }
 }

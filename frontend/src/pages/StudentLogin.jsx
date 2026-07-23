@@ -1,22 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  FaEnvelope,
-  FaLock,
-  FaEye,
-  FaEyeSlash,
-} from "react-icons/fa";
+import { FaIdCard, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
-import "../styles/FacultyLogin.css";
+import "../styles/StudentLogin.css";
 import niisLogo from "../assets/niis.logo.png";
 
-export default function FacultyLogin() {
+export default function StudentLogin() {
 
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+  const [regdNo, setRegdNo] = useState("");
   const [password, setPassword] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
 
   const [errors, setErrors] = useState({});
@@ -25,37 +19,20 @@ export default function FacultyLogin() {
 
     const newErrors = {};
 
-    if (!email.trim()) {
-
-      newErrors.email = "Email is required";
-
-    }
-
-    else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)
-    ) {
-
-      newErrors.email = "Enter a valid email address";
-
+    if (!regdNo.trim()) {
+      newErrors.regdNo = "Registration Number is required";
     }
 
     if (!password) {
-
       newErrors.password = "Password is required";
-
-    }
-
-    else if (password.length < 8) {
-
+    } else if (password.length < 8) {
       newErrors.password =
         "Password must be at least 8 characters";
-
     }
 
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
-
   };
 
   const handleSubmit = (e) => {
@@ -65,20 +42,15 @@ export default function FacultyLogin() {
     if (!validate()) return;
 
     if (
-      email === "faculty@niba.edu.in" &&
-      password === "Faculty@123"
+      regdNo === "2505280075" &&
+      password === "Student@123"
     ) {
-
-      navigate("/attendance");
-
+      navigate("/student/attendance");
     } else {
-
       setErrors({
-        login: "Invalid email or password",
+        login: "Invalid Registration Number or Password",
       });
-
     }
-
   };
 
   return (
@@ -88,56 +60,50 @@ export default function FacultyLogin() {
       <div className="faculty-login-card">
 
         <div className="login-header">
+
           <img
             src={niisLogo}
             alt="NIIS Logo"
             className="login-logo"
-         />
+          />
 
-         <div className="login-logo-text">
-           <h4>
-             NIIS Institute of Business
-             <br />
-             Administration
-           </h4>
-         </div>
-       </div>
-        <h2>Faculty Login</h2>
+          <div className="login-logo-text">
+            <h4>
+              NIIS Institute of Business
+              <br />
+              Administration
+            </h4>
+          </div>
+
+        </div>
+
+        <h2>Student Login</h2>
 
         <p>
-
-          Sign in to continue to the Attendance
-          Management System.
-
+          Sign in to continue to the Attendance Management System.
         </p>
 
         <form onSubmit={handleSubmit}>
 
-          <label>Email Address</label>
+          <label>Registration Number</label>
 
           <div className="input-box">
 
-            <FaEnvelope className="input-icon" />
+            <FaIdCard className="input-icon" />
 
             <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) =>
-                setEmail(e.target.value)
-              }
+              type="text"
+              placeholder="Enter Registration Number"
+              value={regdNo}
+              onChange={(e) => setRegdNo(e.target.value)}
             />
 
           </div>
 
-          {errors.email && (
-
+          {errors.regdNo && (
             <span className="error">
-
-              {errors.email}
-
+              {errors.regdNo}
             </span>
-
           )}
 
           <label>Password</label>
@@ -147,23 +113,24 @@ export default function FacultyLogin() {
             <FaLock className="input-icon" />
 
             <input
-              type={
-                showPassword
-                  ? "text"
-                  : "password"
-              }
-              placeholder="Enter your password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter Password"
               value={password}
-              onChange={(e) =>
-                setPassword(e.target.value)
-              }
+              onChange={(e) => setPassword(e.target.value)}
             />
-                        <button
+
+            <button
               type="button"
               className="show-btn"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() =>
+                setShowPassword(!showPassword)
+              }
             >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
+              {showPassword ? (
+                <FaEyeSlash />
+              ) : (
+                <FaEye />
+              )}
             </button>
 
           </div>

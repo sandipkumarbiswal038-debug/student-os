@@ -1,0 +1,665 @@
+/* =====================================================
+   STUDENT MAIN LAYOUT
+===================================================== */
+
+.student-layout{
+
+    display:flex;
+
+    min-height:100vh;
+
+    background:#f4f7f9;
+
+}
+
+
+
+.student-main{
+
+   
+
+    margin-left:280px;
+
+    width:calc(100% - 280px);
+
+    min-height:100vh;
+
+    height:100vh;
+
+    overflow-y:auto;
+
+    overflow-x:hidden;
+
+}
+
+
+
+.student-container{
+
+    width:100%;
+
+    padding:25px 35px 50px;
+
+    box-sizing:border-box;
+
+}
+
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+
+.student-title{
+
+    text-align:center;
+
+    color:#0d4d3d;
+
+    font-size:36px;
+
+    font-weight:700;
+
+    margin-bottom:30px;
+
+}
+
+
+
+
+
+/* =====================================================
+   STUDENT INFORMATION CARD
+===================================================== */
+
+
+.student-info-card{
+
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px 30px;
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+
+    gap:20px;
+
+
+    box-shadow:
+    0 8px 20px rgba(0,0,0,.08);
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+
+.student-info-item{
+
+
+    flex:1;
+
+    text-align:center;
+
+
+}
+
+
+
+.student-info-item:not(:last-child){
+
+    border-right:1px solid #e5e7eb;
+
+}
+
+
+
+
+.student-info-icon{
+
+
+    width:42px;
+
+    height:42px;
+
+
+    color:#0d4d3d;
+
+
+    margin-bottom:10px;
+
+
+}
+
+
+
+
+.student-info-item h4{
+
+
+    color:#777;
+
+    font-size:14px;
+
+    margin:5px 0;
+
+
+}
+
+
+
+
+.student-info-item p{
+
+
+    color:#1f2937;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    margin:0;
+
+
+}
+
+
+
+
+
+/* =====================================================
+   TABLE CARD
+===================================================== */
+
+
+.student-table-card{
+
+
+    background:white;
+
+
+    border-radius:20px;
+
+
+    padding:25px;
+
+
+    box-shadow:
+
+    0 8px 20px rgba(0,0,0,.08);
+
+
+}
+
+
+
+.student-table-card h2{
+
+
+    color:#0d4d3d;
+
+    margin-bottom:20px;
+
+    font-size:22px;
+
+
+}
+
+
+
+
+.student-table-wrapper{
+
+
+    width:100%;
+
+    overflow-x:auto;
+
+
+}
+
+
+
+
+.student-table{
+
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:750px;
+
+
+}
+
+
+
+
+
+.student-table thead{
+
+
+    background:#0d4d3d;
+
+
+}
+
+
+
+
+.student-table th{
+
+
+    color:white;
+
+    padding:15px;
+
+    font-size:14px;
+
+    text-align:center;
+
+
+}
+
+
+
+
+
+.student-table td{
+
+
+    padding:15px;
+
+    text-align:center;
+
+    border-bottom:1px solid #eef2f5;
+
+    color:#444;
+
+    font-size:14px;
+
+
+}
+
+
+
+
+.student-table tbody tr:hover{
+
+
+    background:#f6fbf8;
+
+
+}
+
+
+
+
+
+
+/* =====================================================
+   PROGRESS BAR
+===================================================== */
+
+
+.student-progress-box{
+
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+
+}
+
+
+
+.student-progress{
+
+
+    width:120px;
+
+    height:10px;
+
+    background:#e5e7eb;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+
+}
+
+
+
+
+.student-progress-fill{
+
+
+    height:100%;
+
+    background:#0d4d3d;
+
+    border-radius:20px;
+
+
+}
+
+
+
+
+.student-progress-fill.low{
+
+
+    background:#f59e0b;
+
+
+}
+
+
+
+
+.student-progress-box span{
+
+
+    font-weight:600;
+
+    color:#0d4d3d;
+
+
+}
+
+
+
+
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+
+.student-view-btn{
+
+
+    background:#0d4d3d;
+
+    color:white;
+
+
+    border:none;
+
+
+    padding:10px 18px;
+
+
+    border-radius:10px;
+
+
+    font-size:13px;
+
+    font-weight:600;
+
+
+    cursor:pointer;
+
+
+    transition:.3s;
+
+
+}
+
+
+
+.student-view-btn:hover{
+
+
+    background:#08372c;
+
+    transform:translateY(-2px);
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   TABLET RESPONSIVE
+===================================================== */
+
+
+@media(max-width:992px){
+
+
+.student-main{
+
+    margin-left:0;
+
+    width:100%;
+
+}
+
+
+
+.student-container{
+
+    padding:20px;
+
+}
+
+
+
+.student-info-card{
+
+
+    flex-wrap:wrap;
+
+
+}
+
+
+
+.student-info-item{
+
+
+    flex:0 0 45%;
+
+
+}
+
+
+
+.student-info-item:not(:last-child){
+
+    border-right:none;
+
+}
+
+
+
+}
+
+
+
+
+
+/* =====================================================
+   MOBILE RESPONSIVE
+===================================================== */
+
+
+@media(max-width:600px){
+
+
+
+.student-container{
+
+
+    padding:15px;
+
+
+}
+
+
+
+.student-title{
+
+
+    font-size:26px;
+
+
+}
+
+
+
+
+.student-info-card{
+
+
+    flex-direction:column;
+
+
+    padding:20px;
+
+
+}
+
+
+
+.student-info-item{
+
+
+    width:100%;
+
+
+    padding-bottom:15px;
+
+
+    border-bottom:1px solid #e5e7eb;
+
+
+}
+
+
+
+.student-info-item:last-child{
+
+
+    border-bottom:none;
+
+
+}
+
+
+
+.student-table-card{
+
+
+    padding:15px;
+
+
+}
+
+
+
+.student-table th{
+
+
+    font-size:12px;
+
+
+}
+
+
+
+.student-table td{
+
+
+    font-size:12px;
+
+
+}
+
+
+
+.student-view-btn{
+
+
+    width:100%;
+
+
+}
+
+
+
+.student-progress{
+
+
+    width:90px;
+
+
+}
+.student-main::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+
+.student-main::-webkit-scrollbar-track{
+
+    background:#edf3f1;
+
+}
+
+
+.student-main::-webkit-scrollbar-thumb{
+
+    background:#0d4d3d;
+
+    border-radius:20px;
+
+}
+
+
+.student-main::-webkit-scrollbar-thumb:hover{
+
+    background:#08372c;
+
+}
+@media(max-width:992px){
+
+.student-main{
+
+    margin-left:0;
+
+    width:100%;
+
+}
+
+}
+
+
+
+}

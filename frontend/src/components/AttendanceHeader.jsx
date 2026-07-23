@@ -117,27 +117,26 @@ function AttendanceHeader({
   // Load Students
   const handleLoad = () => {
 
-    if (
-      !course ||
-      !semester ||
-      !section ||
-      !subject
-    ) {
-      alert("Please fill all fields.");
-      return;
-    }
+  if (
+    !course ||
+    !semester ||
+    !section ||
+    !subject
+  ) {
+    alert("Please fill all fields.");
+    return;
+  }
 
-    onLoadStudents({
-      course,
-      semester,
-      section,
-      subject,
-      date,
-      time,
-    });
+  onLoadStudents({
+    course,
+    semester,
+    section,
+    subject,
+    date,
+    time,
+  });
 
-  };
-
+};
   return (
 
     <div className="attendance-header">
@@ -288,7 +287,7 @@ function AttendanceHeader({
 
         <button
           className="load-btn"
-          onClick={() => onLoadStudents(attendanceInfo)}
+          onClick={handleLoad}
         >
           Load Students
         </button>

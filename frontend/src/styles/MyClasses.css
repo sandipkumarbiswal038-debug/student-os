@@ -26,7 +26,7 @@
 ========================== */
 
 
-.class-card{
+.my-class-card{
 
     background:#fff;
 
@@ -43,7 +43,7 @@
 }
 
 
-.class-card:hover{
+.my-class-card:hover{
 
     transform:translateY(-5px);
 
@@ -59,7 +59,7 @@
 ========================== */
 
 
-.card-top{
+.my-card-top{
 
     display:flex;
 
@@ -73,7 +73,7 @@
 
 
 
-.subject-icon{
+.my-subject-icon{
 
     width:42px;
 
@@ -121,7 +121,7 @@
 
 
 
-.upcoming{
+.my-upcoming{
 
     background:#FFF3CD;
 
@@ -137,7 +137,7 @@
 ========================== */
 
 
-.class-card h2{
+.my-class-card h2{
 
     color:#0d4d3d;
 
@@ -149,7 +149,7 @@
 
 
 
-.class-card p{
+.my-class-card p{
 
     color:#666;
 

@@ -63,7 +63,7 @@ return (
 <div className="classes-page">
 
 
-<div className="attendance-title">
+<div className="classes-title">
 
 <h1>
 My Classes
@@ -88,15 +88,15 @@ classes.map((item)=>(
 
 <div 
 key={item.id}
-className="class-card"
+className="my-class-card"
 >
 
 
 
-<div className="card-top">
+<div className="my-card-top">
 
 
-<div className="subject-icon">
+<div className="my-subject-icon">
 
 <FaBook />
 

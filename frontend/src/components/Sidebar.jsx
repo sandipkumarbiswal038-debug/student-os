@@ -24,7 +24,7 @@ function Sidebar() {
           className="college-logo"
         />
 
-        <div className="logo-text">
+        <div className="sidebar-logo-text">
           <h2>NIBA</h2>
           <p>Student Portal</p>
         </div>
