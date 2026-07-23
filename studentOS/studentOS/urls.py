@@ -43,4 +43,5 @@ urlpatterns = [
         "custom-login/",
         include("accounts.urls")
     ),
+    path("api/notes/", include("notes.urls")),
 ]

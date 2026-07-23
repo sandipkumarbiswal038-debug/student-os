@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'attendance',
     'assignments',
     'events',
+    'notes',
     
     
     
