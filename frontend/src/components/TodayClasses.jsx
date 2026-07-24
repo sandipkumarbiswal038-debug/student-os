@@ -1,123 +1,124 @@
+import React from "react";
 import "../styles/TodayClasses.css";
-import {
-  FaBookOpen,
-  FaClock,
-  FaUsers,
-  FaArrowRight,
-} from "react-icons/fa";
+import { FaArrowRight, FaCheckCircle, FaClock } from "react-icons/fa";
 
-function TodayClasses({ onSelectClass }) {
 
-  const todayClasses = [
-    {
-      id: 1,
-      course: "MCA",
-      semester: "Semester 2",
-      section: "A",
-      subject: "Machine Learning",
-      time: "10:00 AM - 11:00 AM",
-      students: 45,
-      status: "Ongoing",
-    },
-    {
-      id: 2,
-      course: "MCA",
-      semester: "Semester 2",
-      section: "B",
-      subject: "Cyber Security",
-      time: "11:30 AM - 12:30 PM",
-      students: 42,
-      status: "Upcoming",
-    },
-    {
-      id: 3,
-      course: "BCA",
-      semester: "Semester 3",
-      section: "A",
-      subject: "Operating System",
-      time: "2:00 PM - 3:00 PM",
-      students: 48,
-      status: "Upcoming",
-    },
-  ];
+const classes = [
+  {
+    id: 1,
+    time: "09:00",
+    subject: "Data Structures",
+    section: "SEC A",
+    room: "Room 204",
+    type: "Theory",
+    status: "Pending",
+  },
+  {
+    id: 2,
+    time: "11:00",
+    subject: "DBMS Lab",
+    section: "SEC B",
+    room: "Lab 3",
+    type: "Practical",
+    status: "Completed",
+  },
+  {
+    id: 3,
+    time: "14:00",
+    subject: "Operating Systems",
+    section: "SEC A",
+    room: "Room 108",
+    type: "Theory",
+    status: "Upcoming",
+  },
+];
 
+export default function TodayClasses({onSelectClass}) {
+  
   return (
-    <div className="today-classes">
+    <div className="today-page">
 
       <div className="today-header">
+        <h2>Today's Classes</h2>
 
-        <div>
-          <h2>Today's Classes</h2>
-          <p>Select a class to start attendance</p>
-        </div>
-
+        <button className="today-link">
+          View Schedule <FaArrowRight />
+        </button>
       </div>
 
-      <div className="class-grid">
+      {/* ONE WHITE CONTAINER */}
+      <div className="class-container">
 
-        {todayClasses.map((item) => (
+        {classes.map((item) => (
 
-          <div
-            key={item.id}
-            className="today-class-card"
-          >
+          <div className="class-row" key={item.id}>
 
-            <div className="card-top">
+            <div className="class-time">
+              {item.time}
+            </div>
 
-              <div className="subject-icon">
-                <FaBookOpen />
+            <div className="class-info">
+
+              <div className="title-row">
+                <h3>{item.subject}</h3>
+
+                <span className="section">
+                  {item.section}
+                </span>
               </div>
 
-              <span
-                className={
-                  item.status === "Ongoing"
-                    ? "status ongoing"
-                    : "status upcoming"
-                }
-              >
-                {item.status}
-              </span>
+              <p>
+                {item.room} • {item.type}
+              </p>
 
             </div>
 
-            <h3>{item.subject}</h3>
+            <div className="status">
 
-            <p className="course">
+              {item.status === "Pending" && (
+                <span className="pending">
+                  <FaClock /> Pending
+                </span>
+              )}
 
-              {item.course} • {item.semester} • Section {item.section}
+              {item.status === "Completed" && (
+                <span className="completed">
+                  <FaCheckCircle /> Completed
+                </span>
+              )}
 
-            </p>
-
-            <div className="info-row">
-
-              <span>
-
-                <FaClock />
-
-                {item.time}
-
-              </span>
-
-              <span>
-
-                <FaUsers />
-
-                {item.students} Students
-
-              </span>
+              {item.status === "Upcoming" && (
+                <span className="upcoming">
+                  Upcoming
+                </span>
+              )}
 
             </div>
 
-            <button
-              className="attendance-btn"
-              onClick={() => onSelectClass(item)}
-            >
+            <div className="action">
 
-              Take Attendance
+              {item.status === "Pending" && (
+                <button
+                 className="mark-btn"
+                 onClick={()=>onSelectClass(item)}
+                >
+                 Mark Attendance
+                </button>
+              )}
 
-              <FaArrowRight />
+              {item.status === "Completed" && (
+                <button className="view-btn">
+                  View Attendance
+                </button>
+              )}
 
-            </button>
+              {item.status === "Upcoming" && (
+                <button className="disable-btn">
+                  Upcoming
+                </button>
+              )}
+
+            </div>
 
           </div>
 
@@ -127,7 +128,4 @@ function TodayClasses({ onSelectClass }) {
 
     </div>
   );
-
 }
-
-export default TodayClasses;

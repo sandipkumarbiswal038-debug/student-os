@@ -54,6 +54,10 @@ function FacultyAttendance() {
   useState("");
 
 
+  const [submittedSessions,setSubmittedSessions] =
+  useState({});
+
+
 
 
   const [attendanceInfo,setAttendanceInfo] =
@@ -179,7 +183,7 @@ function FacultyAttendance() {
     setAttendanceInfo(data);
 
 
-    setStudents(studentList);
+    setStudents(studentList.map(student => ({ ...student, present:true })));
 
 
     setShowTable(true);
@@ -314,8 +318,28 @@ function FacultyAttendance() {
   const handleNotHeld=()=>{
 
 
+    const sessionKey = [
+      attendanceInfo.course,
+      attendanceInfo.semester,
+      attendanceInfo.section,
+      attendanceInfo.subject,
+      attendanceInfo.date,
+      attendanceInfo.time,
+    ].join("|");
+
+    if (submittedSessions[sessionKey]) {
+      alert("An attendance entry already exists for this class. Please use Attendance History to correct it.");
+      return;
+    }
+
+    setSubmittedSessions((sessions) => ({
+      ...sessions,
+      [sessionKey]: "not-held",
+    }));
+
+
     alert(
-      `Class marked as Not Held\n${attendanceInfo.subject}`
+      `Class marked as Not Held. It will not be included in attendance percentage.\n${attendanceInfo.subject}`
     );
 
 
@@ -340,6 +364,25 @@ function FacultyAttendance() {
       return;
 
     }
+
+    const sessionKey = [
+      attendanceInfo.course,
+      attendanceInfo.semester,
+      attendanceInfo.section,
+      attendanceInfo.subject,
+      attendanceInfo.date,
+      attendanceInfo.time,
+    ].join("|");
+
+    if (submittedSessions[sessionKey]) {
+      alert("Attendance has already been submitted for this class. Please use Attendance History to correct it within 24 hours.");
+      return;
+    }
+
+    setSubmittedSessions((sessions) => ({
+      ...sessions,
+      [sessionKey]: "submitted",
+    }));
 
 
 
@@ -404,6 +447,18 @@ function FacultyAttendance() {
 
 
 <Header />
+
+<section className="attendance-page-head">
+  <div>
+    <p className="page-eyebrow">FACULTY PORTAL</p>
+    <h1>Attendance</h1>
+    <p className="page-description">Manage today&apos;s classes and record student attendance.</p>
+  </div>
+  <div className="page-date">
+    <span>Academic session</span>
+    <strong>2025–26</strong>
+  </div>
+</section>
 
 
 

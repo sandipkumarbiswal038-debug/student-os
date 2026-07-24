@@ -517,6 +517,31 @@ function AttendanceHistory() {
 
                 </div>
 
+                <div className="count-card total-card">
+
+                  <h3>{selectedRecord.present + selectedRecord.absent}</h3>
+
+                  <p>Total Students</p>
+
+                </div>
+
+                <div className="count-card percentage-card">
+
+                  <h3>
+                    {selectedRecord.present + selectedRecord.absent
+                      ? Math.round(
+                          (selectedRecord.present /
+                            (selectedRecord.present + selectedRecord.absent)) *
+                            100
+                        )
+                      : 0}
+                    %
+                  </h3>
+
+                  <p>Attendance</p>
+
+                </div>
+
               </div>
 
             )}

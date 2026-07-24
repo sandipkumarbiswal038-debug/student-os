@@ -137,175 +137,240 @@ function AttendanceHeader({
   });
 
 };
-  return (
+ return (
 
-    <div className="attendance-header">
+<div className="attendance-header">
 
-      {/* Row 1 */}
+    <div className="header-top">
 
-      <div className="header-row">
+        <div className="header-title">
 
-        <div className="input-group">
+            <h2>Take Attendance</h2>
 
-          <FaUniversity className="input-icon" />
-
-          <select
-            value={course}
-            onChange={(e) => {
-
-              setCourse(e.target.value);
-
-              setSemester("");
-              setSection("");
-              setSubject("");
-
-            }}
-          >
-
-            <option value="">Course</option>
-
-            {Object.keys(courseData).map((item) => (
-
-              <option key={item} value={item}>
-                {item}
-              </option>
-
-            ))}
-
-          </select>
+            <p>Select class details and load students</p>
 
         </div>
 
-        <div className="input-group">
+        <div className="today-badge">
 
-          <FaLayerGroup className="input-icon" />
+            <FaCalendarAlt />
 
-          <select
-            value={semester}
-            onChange={(e) =>
-              setSemester(e.target.value)
-            }
-          >
-
-            <option value="">Semester</option>
-
-            {semesters.map((item) => (
-
-              <option key={item} value={item}>
-                Semester {item}
-              </option>
-
-            ))}
-
-          </select>
+            <span>{date}</span>
 
         </div>
-
-        <div className="input-group">
-
-          <FaUsers className="input-icon" />
-
-          <select
-            value={section}
-            onChange={(e) =>
-              setSection(e.target.value)
-            }
-          >
-
-            <option value="">Section</option>
-
-            {sections.map((item) => (
-
-              <option key={item} value={item}>
-                Section {item}
-              </option>
-
-            ))}
-
-          </select>
-
-        </div>
-
-        <div className="input-group">
-
-          <FaBook className="input-icon" />
-
-          <select
-            value={subject}
-            onChange={(e) =>
-              setSubject(e.target.value)
-            }
-          >
-
-            <option value="">Subject</option>
-
-            {subjects.map((item) => (
-
-              <option key={item} value={item}>
-                {item}
-              </option>
-
-            ))}
-
-          </select>
-
-        </div>
-
-      </div>
-
-      {/* Row 2 */}
-
-      <div className="header-row">
-
-        <div className="input-group">
-
-          <FaCalendarAlt className="input-icon" />
-
-          <input
-            type="date"
-            value={date}
-            onChange={(e) =>
-              setDate(e.target.value)
-            }
-          />
-
-        </div>
-
-        <div className="input-group">
-
-          <FaClock className="input-icon" />
-
-          <input
-            type="time"
-            value={time}
-            onChange={(e) =>
-              setTime(e.target.value)
-            }
-          />
-
-        </div>
-
-        <button
-          className="load-btn"
-          onClick={handleLoad}
-        >
-          Load Students
-        </button>
-
-        <button
-          type="button"
-          className="not-held-btn"
-          onClick={onNotHeld}
-        >
-          Not Held
-        </button>
-
-      </div>
 
     </div>
 
-  );
+    <div className="header-grid">
 
+        {/* Course */}
+
+        <div className="input-card">
+
+            <label>Course</label>
+
+            <div className="input-group">
+
+                <FaUniversity className="input-icon"/>
+
+                <select
+                    value={course}
+                    onChange={(e)=>{
+
+                        setCourse(e.target.value);
+                        setSemester("");
+                        setSection("");
+                        setSubject("");
+
+                    }}
+                >
+
+                    <option value="">Select Course</option>
+
+                    {Object.keys(courseData).map((item)=>(
+
+                        <option
+                            key={item}
+                            value={item}
+                        >
+                            {item}
+                        </option>
+
+                    ))}
+
+                </select>
+
+            </div>
+
+        </div>
+
+        {/* Semester */}
+
+        <div className="input-card">
+
+            <label>Semester</label>
+
+            <div className="input-group">
+
+                <FaLayerGroup className="input-icon"/>
+
+                <select
+                    value={semester}
+                    onChange={(e)=>setSemester(e.target.value)}
+                >
+
+                    <option value="">Select Semester</option>
+
+                    {semesters.map((item)=>(
+
+                        <option
+                            key={item}
+                            value={item}
+                        >
+                            Semester {item}
+                        </option>
+
+                    ))}
+
+                </select>
+
+            </div>
+
+        </div>
+        {/* Section */}
+
+        <div className="input-card">
+
+            <label>Section</label>
+
+            <div className="input-group">
+
+                <FaUsers className="input-icon"/>
+
+                <select
+                    value={section}
+                    onChange={(e)=>setSection(e.target.value)}
+                >
+
+                    <option value="">Select Section</option>
+
+                    {sections.map((item)=>(
+
+                        <option
+                            key={item}
+                            value={item}
+                        >
+                            Section {item}
+                        </option>
+
+                    ))}
+
+                </select>
+
+            </div>
+
+        </div>
+
+        {/* Subject */}
+
+        <div className="input-card">
+
+            <label>Subject</label>
+
+            <div className="input-group">
+
+                <FaBook className="input-icon"/>
+
+                <select
+                    value={subject}
+                    onChange={(e)=>setSubject(e.target.value)}
+                >
+
+                    <option value="">Select Subject</option>
+
+                    {subjects.map((item)=>(
+
+                        <option
+                            key={item}
+                            value={item}
+                        >
+                            {item}
+                        </option>
+
+                    ))}
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div className="header-grid second-grid">
+
+        <div className="input-card">
+
+            <label>Date</label>
+
+            <div className="input-group">
+
+                <FaCalendarAlt className="input-icon"/>
+
+                <input
+                    type="date"
+                    value={date}
+                    onChange={(e)=>setDate(e.target.value)}
+                />
+
+            </div>
+
+        </div>
+
+        <div className="input-card">
+
+            <label>Time</label>
+
+            <div className="input-group">
+
+                <FaClock className="input-icon"/>
+
+                <input
+                    type="time"
+                    value={time}
+                    onChange={(e)=>setTime(e.target.value)}
+                />
+
+            </div>
+
+        </div>
+        <div className="button-card">
+
+            <button
+                className="load-btn"
+                onClick={handleLoad}
+            >
+                Load Students
+            </button>
+
+        </div>
+
+        <div className="button-card">
+
+            <button
+                type="button"
+                className="not-held-btn"
+                onClick={onNotHeld}
+            >
+                Mark Not Held
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+);
 }
-
 export default AttendanceHeader;

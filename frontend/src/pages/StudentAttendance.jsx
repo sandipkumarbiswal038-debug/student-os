@@ -46,6 +46,12 @@ function StudentAttendance() {
 
   ];
 
+  const getAttendanceState = (percentage) => {
+    if (percentage < 75) return "below";
+    if (percentage <= 80) return "watch";
+    return "safe";
+  };
+
 
 
   return (
@@ -70,6 +76,12 @@ function StudentAttendance() {
           <h1 className="student-title">
             Student Attendance
           </h1>
+
+          {subjects.some((item) => item.percentage < 75) && (
+            <div className="student-attendance-warning" role="alert">
+              <strong>Attendance alert:</strong> One or more subjects are below the 75% minimum. Open the subject to see how many upcoming classes you need to attend.
+            </div>
+          )}
 
 
 
@@ -225,7 +237,7 @@ function StudentAttendance() {
                 subjects.map((item,index)=>(
 
 
-                  <tr key={index}>
+                  <tr key={index} className={`attendance-${getAttendanceState(item.percentage)}`}>
 
 
                     <td>
@@ -258,13 +270,7 @@ function StudentAttendance() {
 
                           <div
 
-                          className={
-                            item.percentage < 75
-                            ?
-                            "student-progress-fill low"
-                            :
-                            "student-progress-fill"
-                          }
+                          className={`student-progress-fill ${getAttendanceState(item.percentage)}`}
 
 
                           style={{
@@ -281,7 +287,7 @@ function StudentAttendance() {
                         </div>
 
 
-                        <span>
+                        <span className={`attendance-indicator ${getAttendanceState(item.percentage)}`}>
                           {item.percentage}%
                         </span>
 

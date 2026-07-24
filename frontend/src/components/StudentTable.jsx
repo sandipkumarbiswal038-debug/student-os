@@ -1,130 +1,229 @@
 import React from "react";
 import "../styles/StudentTable.css";
 
+
 function StudentTable({
+
   students,
   updateAttendance,
   backPage,
   saveAttendance,
+
 }) {
-  return (
-    <div className="student-table-card">
 
-      <table className="student-table">
 
-        <thead>
-          <tr>
-            <th>Sl No.</th>
-            <th>Regd No</th>
-            <th>Student Name</th>
-            <th>Present</th>
-            <th>Absent</th>
-            <th>Status</th>
-          </tr>
-        </thead>
+return (
 
-        <tbody>
+<div className="student-table-card">
 
-          {students.length === 0 ? (
 
-            <tr>
-              <td colSpan="6" className="no-data">
-                No students found.
-              </td>
-            </tr>
+<table className="student-table">
 
-          ) : (
 
-            students.map((student, index) => (
+<thead>
 
-              <tr key={student.id}>
+<tr>
 
-                {/* Serial Number */}
-                <td>{index + 1}</td>
+<th>Sl No.</th>
 
-                {/* Registration Number */}
-                <td>{student.roll}</td>
+<th>Regd No</th>
 
-                {/* Student Name */}
-                <td>{student.name}</td>
+<th>Student Name</th>
 
-                {/* Present */}
-                <td className="center">
+<th>Status</th>
 
-                  <input
-                    type="checkbox"
-                    className="present-check"
-                    checked={student.present}
-                    onChange={() =>
-                      updateAttendance(student.id, true)
-                    }
-                  />
+</tr>
 
-                </td>
+</thead>
 
-                {/* Absent */}
-                <td className="center">
 
-                  <input
-                    type="checkbox"
-                    className="absent-check"
-                    checked={!student.present}
-                    onChange={() =>
-                      updateAttendance(student.id, false)
-                    }
-                  />
 
-                </td>
+<tbody>
 
-                {/* Status */}
-                <td>
 
-                  <span
-                    className={
-                      student.present
-                        ? "status present"
-                        : "status absent"
-                    }
-                  >
-                    {student.present
-                      ? "Present"
-                      : "Absent"}
-                  </span>
+{
+students.length === 0 ?
 
-                </td>
 
-              </tr>
+(
 
-            ))
+<tr>
 
-          )}
+<td 
+colSpan="4" 
+className="no-data"
+>
 
-        </tbody>
+No students found.
 
-      </table>
+</td>
 
-      {/* Bottom Buttons */}
+</tr>
 
-      <div className="table-buttons">
+)
 
-        <button
-          className="back-btn"
-          onClick={backPage}
-        >
-          ← Back
-        </button>
 
-        <button
-          className="submit-btn"
-          onClick={saveAttendance}
-        >
-          Submit Attendance →
-        </button>
+:
 
-      </div>
 
-    </div>
-  );
+students.map((student,index)=>(
+
+
+<tr key={student.id}>
+
+
+<td>
+
+{index+1}
+
+</td>
+
+
+
+<td>
+
+{student.roll}
+
+</td>
+
+
+
+
+<td>
+
+{student.name}
+
+</td>
+
+
+
+
+
+<td>
+
+
+<div className="status-toggle">
+
+
+<button
+
+className={
+student.present
+?
+"toggle-btn active-present"
+:
+"toggle-btn"
 }
+
+
+onClick={()=>updateAttendance(
+student.id,
+true
+)}
+
+>
+
+Present
+
+</button>
+
+
+
+
+
+<button
+
+className={
+!student.present
+?
+"toggle-btn active-absent"
+:
+"toggle-btn"
+}
+
+
+onClick={()=>updateAttendance(
+student.id,
+false
+)}
+
+>
+
+Absent
+
+</button>
+
+
+
+</div>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+))
+
+}
+
+
+
+</tbody>
+
+
+</table>
+
+
+
+
+
+<div className="table-buttons">
+
+
+<button
+
+className="back-btn"
+
+onClick={backPage}
+
+>
+
+← Back
+
+</button>
+
+
+
+<button
+
+className="submit-btn"
+
+onClick={saveAttendance}
+
+>
+
+Submit Attendance →
+
+</button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+);
+
+
+}
+
 
 export default StudentTable;
