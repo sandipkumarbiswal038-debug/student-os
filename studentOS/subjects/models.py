@@ -3,8 +3,8 @@ from django.db import models
 
 class Subject(models.Model):
   
-    course_code = models.CharField(max_length=20, unique=True)
-    course_name = models.CharField(max_length=100, unique=True)
+    course_code = models.CharField(max_length=20)
+    course_name = models.CharField(max_length=100)
     subject_code = models.CharField(max_length=20, unique=True)
     subject_name = models.CharField(max_length=100, unique=True)
     semester = models.PositiveIntegerField()
