@@ -8,11 +8,13 @@ import TodayClasses from "../components/TodayClasses";
 import AttendanceHeader from "../components/AttendanceHeader";
 import StudentTable from "../components/StudentTable";
 import AttendanceSuccessModal from "../components/AttendanceSuccessModal";
+import { attendanceApi } from "../services/attendanceApi";
 
 import AttendanceHistory from "./AttendanceHistory";
 import MyClasses from "./MyClasses";
 
 import "../styles/FacultyAttendance.css";
+import "../styles/FacultyTheme.css";
 
 
 function FacultyAttendance() {
@@ -56,6 +58,8 @@ function FacultyAttendance() {
 
   const [submittedSessions,setSubmittedSessions] =
   useState({});
+
+  const [isSaving, setIsSaving] = useState(false);
 
 
 
@@ -354,7 +358,7 @@ function FacultyAttendance() {
   // ================= SAVE =================
 
 
-  const saveAttendance=()=>{
+  const saveAttendance=async ()=>{
 
 
     if(students.length===0){
@@ -379,24 +383,27 @@ function FacultyAttendance() {
       return;
     }
 
-    setSubmittedSessions((sessions) => ({
-      ...sessions,
-      [sessionKey]: "submitted",
-    }));
+    const classSessionId = attendanceInfo.classSessionId;
 
+    if (!classSessionId || students.some((student) => !student.apiStudentId)) {
+      alert("Attendance needs a classSessionId and apiStudentId values from your backend before it can be saved.");
+      return;
+    }
 
-
-    console.log({
-
-      attendanceInfo,
-
-      students
-
-    });
-
-
-
-    setShowSuccessModal(true);
+    try {
+      setIsSaving(true);
+      await Promise.all(students.map((student) => attendanceApi.mark({
+        student: student.apiStudentId,
+        class_session: classSessionId,
+        status: student.present ? "Present" : "Absent",
+      })));
+      setSubmittedSessions((sessions) => ({ ...sessions, [sessionKey]: "submitted" }));
+      setShowSuccessModal(true);
+    } catch (error) {
+      alert(`Could not save attendance: ${error.message}`);
+    } finally {
+      setIsSaving(false);
+    }
 
 
   };
@@ -438,7 +445,7 @@ function FacultyAttendance() {
 
 
 
-<Sidebar />
+<Sidebar variant="faculty" />
 
 
 
@@ -446,7 +453,7 @@ function FacultyAttendance() {
 
 
 
-<Header />
+<Header variant="faculty" />
 
 <section className="attendance-page-head">
   <div>
@@ -649,6 +656,8 @@ updateAttendance={updateAttendance}
 backPage={backPage}
 
 saveAttendance={saveAttendance}
+
+isSaving={isSaving}
 
 />
 

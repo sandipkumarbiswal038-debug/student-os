@@ -4,7 +4,7 @@ import { FaMoon, FaSun, FaBell, FaUserCircle } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Header() {
+function Header({ variant = "student" }) {
 
   const navigate = useNavigate();
 
@@ -55,7 +55,7 @@ function Header() {
 
   return (
 
-    <header className="header">
+    <header className={`header ${variant === "faculty" ? "faculty-header" : ""}`}>
 
       {/* Left */}
       <div className="header-left">

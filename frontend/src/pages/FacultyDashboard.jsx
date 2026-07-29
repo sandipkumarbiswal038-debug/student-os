@@ -5,7 +5,8 @@ import {
   FaRegCalendarAlt, FaRegCommentAlt, FaRegFileAlt, FaRegWindowMaximize,
 } from "react-icons/fa";
 import "../styles/FacultyDashboard.css";
-import logo from "../assets/niis.logo.png";
+import "../styles/FacultyTheme.css";
+import logo from "../assets/logo.jpg";
 
 const classes = [
   { time: "09:00", subject: "Data Structures", section: "SEC A", detail: "Room 204 · Theory", count: "52 / 60", state: "filed" },

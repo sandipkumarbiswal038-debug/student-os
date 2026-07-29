@@ -65,7 +65,7 @@ export default function FacultyLogin() {
     if (!validate()) return;
 
     if (
-      email === "faculty@niba.edu.in" &&
+      email === "faculty@niba.edu.in"&
       password === "Faculty@123"
     ) {
 

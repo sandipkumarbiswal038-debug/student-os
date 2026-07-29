@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap');
+
+/* Faculty-only palette based on the NIIS faculty portal prototype. */
+.faculty-sidebar-nav {
+  width:266px; padding:0 0 24px; border:0; border-right:1px solid #DDE2EC; border-radius:0;
+  background:#FFFFFF; color:#161C2B; box-shadow:none; overflow-y:auto;
+  font-family:'IBM Plex Sans', 'Segoe UI', sans-serif;
+}
+.faculty-sidebar-nav .logo { flex-direction:row; justify-content:flex-start; gap:12px; margin:0 0 18px; padding:20px 22px; background:#274690; text-align:left; }
+.faculty-sidebar-nav .college-logo { width:38px; height:38px; padding:3px; border-radius:9px; }
+.faculty-sidebar-nav .sidebar-logo-text { text-align:left; }
+.faculty-sidebar-nav .sidebar-logo-text h2 { color:#fff; font:600 17px 'IBM Plex Serif', Georgia, serif; letter-spacing:0; }
+.faculty-sidebar-nav .sidebar-logo-text p { margin-top:3px; color:rgba(255,255,255,.8); font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; }
+.faculty-sidebar-nav ul { gap:2px; padding:0 16px; }
+.faculty-sidebar-nav .faculty-nav-label { margin:0; padding:0 10px 7px; color:#9AA1B2; font-size:10px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; }
+.faculty-sidebar-nav .faculty-nav-label.teaching-label { margin-top:13px; }
+.faculty-sidebar-nav .faculty-nav-label.academics-label { margin-top:13px; }
+.faculty-sidebar-nav .nav-link { height:40px; gap:11px; padding:0 10px; border-radius:8px; color:#3E4759; font-size:13.5px; font-weight:500; }
+.faculty-sidebar-nav .nav-link:hover { background:#EEF1F7; color:#161C2B; transform:none; }
+.faculty-sidebar-nav .nav-link.active { background:#274690; color:#fff; box-shadow:0 2px 8px rgba(39,70,144,.25); }
+.faculty-sidebar-nav .icon-box { width:17px; min-width:17px; height:17px; border-radius:0; background:transparent !important; color:#3E4759; font-size:16px; }
+.faculty-sidebar-nav .nav-link.active .icon-box { color:#fff; }
+
+.attendance-layout { background:#EEF1F7; color:#161C2B; font-family:'IBM Plex Sans', 'Segoe UI', sans-serif; }
+.attendance-layout .attendance-main { width:calc(100% - 266px); margin-left:266px; }
+.attendance-layout .faculty-header { margin:0 44px; min-height:54px; padding:13px 0; border-radius:0; background:transparent; box-shadow:none; border-bottom:1px solid #DDE2EC; backdrop-filter:none; }
+.attendance-layout .faculty-header .header-left p { color:#586074; font-size:14px; font-weight:500; }
+.attendance-layout .faculty-header .header-right { gap:8px; }
+.attendance-layout .faculty-header .icon-btn { width:34px; height:34px; border:1px solid #DDE2EC; border-radius:8px; box-shadow:none; color:#274690; font-size:15px; }
+.attendance-layout .faculty-header .icon-btn:hover { background:#E6ECF8; transform:none; box-shadow:none; }
+.attendance-layout .attendance-page-head { margin:28px 44px 24px; padding-bottom:18px; border-color:#DDE2EC; }
+.attendance-layout .page-eyebrow { color:#274690; }
+.attendance-layout .attendance-page-head h1 { color:#161C2B; font-family:'IBM Plex Serif', Georgia, serif; }
+.attendance-layout .page-description, .attendance-layout .page-date { color:#586074; }
+.attendance-layout .page-date strong { color:#161C2B; }
+.attendance-layout .attendance-container { max-width:1080px; padding:0 44px 60px; }
+.attendance-layout .attendance-tabs { background:#E6ECF8; border-radius:8px; }
+.attendance-layout .tab-btn { color:#586074; border-radius:6px; }
+.attendance-layout .tab-btn:hover { background:#EEF1F7; color:#274690; }
+.attendance-layout .tab-btn.active { border-color:#C3CAD8; color:#274690; box-shadow:none; }
+
+.attendance-layout .attendance-header, .attendance-layout .student-table-card, .attendance-layout .history-card, .attendance-layout .classes-grid { border-color:#DDE2EC; border-radius:12px; box-shadow:none; }
+.attendance-layout .header-top, .attendance-layout .modal-header { background:#E6ECF8; border-color:#DDE2EC; }
+.attendance-layout .header-title h2, .attendance-layout .history-title h1, .attendance-layout .classes-title h1, .attendance-layout .student-heading, .attendance-layout .modal-header h2 { color:#161C2B; font-family:'IBM Plex Serif', Georgia, serif; }
+.attendance-layout .header-title p, .attendance-layout .history-title p, .attendance-layout .classes-title p { color:#586074; }
+.attendance-layout .today-badge { color:#274690; }
+.attendance-layout .input-card label, .attendance-layout .history-table th, .attendance-layout .student-table th { color:#586074; }
+.attendance-layout .input-group, .attendance-layout .history-toolbar input, .attendance-layout .search-box, .attendance-layout .mark-all-card { border-color:#C3CAD8; }
+.attendance-layout .input-group:focus-within, .attendance-layout .history-toolbar input:focus, .attendance-layout .search-box:focus { border-color:#274690; box-shadow:0 0 0 3px #E6ECF8; }
+.attendance-layout .input-icon, .attendance-layout .mark-all-card { color:#274690; }
+.attendance-layout .load-btn, .attendance-layout .submit-btn, .attendance-layout .view-btn, .attendance-layout .save-edit-btn, .attendance-layout .take-btn { background:#274690; border-color:#274690; }
+.attendance-layout .load-btn:hover, .attendance-layout .submit-btn:hover, .attendance-layout .view-btn:hover, .attendance-layout .save-edit-btn:hover, .attendance-layout .take-btn:hover { background:#1E3670; }
+.attendance-layout .not-held-btn { border-color:#B23120; color:#B23120; }
+.attendance-layout .mark-btn { background:#274690; border-color:#274690; color:#fff; }
+.attendance-layout .mark-btn:hover { background:#1E3670; }
+.attendance-layout .not-held-btn:hover { background:#F8E0DB; }
+.attendance-layout .attendance-summary span, .attendance-layout .summary-card { border-color:#DDE2EC; border-top-color:#274690; }
+.attendance-layout .attendance-summary span b, .attendance-layout .summary-card h2 { color:#161C2B; font-family:'IBM Plex Serif', Georgia, serif; }
+.attendance-layout .attendance-summary span, .attendance-layout .summary-card p { color:#586074; }
+.attendance-layout .student-table thead, .attendance-layout .history-table thead { background:#EEF1F7; }
+.attendance-layout .student-table td, .attendance-layout .history-table td { border-color:#DDE2EC; color:#3E4759; }
+.attendance-layout .student-table tbody tr:hover, .attendance-layout .history-table tbody tr:hover { background:#EEF1F7; }
+.attendance-layout .back-btn { border-color:#C3CAD8; color:#274690; }
+.attendance-layout .back-btn:hover { background:#E6ECF8; border-color:#274690; }
+.attendance-layout .edit-btn { border-color:#9A6206; color:#9A6206; }
+.attendance-layout .status.present, .attendance-layout .status.held { background:#DCEFE1; color:#1F7A3D; }
+.attendance-layout .status.absent, .attendance-layout .status.not-held { background:#F8E0DB; color:#B23120; }
+.attendance-layout .history-title h1::before, .attendance-layout .classes-title h1::before { background:#274690; }
+.attendance-layout .my-class-card { border-color:#DDE2EC; }
+.attendance-layout .my-class-card:hover { background:#EEF1F7; }
+.attendance-layout .my-subject-icon { background:#E6ECF8; color:#274690; }
+.attendance-layout .my-class-card h2 { color:#161C2B; }
+.attendance-layout .my-class-card > p, .attendance-layout .info span { color:#586074; }
+.attendance-layout .info svg { color:#274690; }
+
+@media (max-width:768px) {
+  .attendance-layout .attendance-main { width:100%; margin-left:0; }
+  .faculty-sidebar-nav { position:relative; width:100%; height:auto; padding-bottom:12px; }
+  .faculty-sidebar-nav .logo { margin-bottom:10px; }
+  .faculty-sidebar-nav ul { flex-direction:row; overflow-x:auto; }
+  .faculty-sidebar-nav .faculty-nav-label { display:none; }
+  .faculty-sidebar-nav .nav-link { min-width:max-content; }
+  .attendance-layout .faculty-header, .attendance-layout .attendance-page-head { margin-left:18px; margin-right:18px; }
+  .attendance-layout .attendance-container { padding-left:18px; padding-right:18px; }
+}
+
+/* Dashboard uses its own sidebar, so the same prototype treatment is applied here too. */
+.faculty-dashboard { background:#EEF1F7; color:#161C2B; font-family:'IBM Plex Sans', 'Segoe UI', sans-serif; }
+.faculty-dashboard .faculty-sidebar { width:266px; flex-basis:266px; background:#fff; box-shadow:none; border-right:1px solid #DDE2EC; }
+.faculty-dashboard .faculty-brand { height:auto; min-height:78px; padding:20px 22px; gap:12px; background:#274690; }
+.faculty-dashboard .faculty-brand-mark { width:38px; height:38px; border-radius:9px; }
+.faculty-dashboard .faculty-brand-mark img { max-width:32px; max-height:32px; }
+.faculty-dashboard .faculty-brand strong { font:600 17px 'IBM Plex Serif', Georgia, serif; letter-spacing:0; }
+.faculty-dashboard .faculty-brand small { margin-top:3px; color:rgba(255,255,255,.8); font-size:10px; letter-spacing:.14em; }
+.faculty-dashboard .faculty-sidebar nav { padding:18px 16px; }
+.faculty-dashboard .nav-label { margin:0 10px 7px; color:#9AA1B2; font-size:10px; font-weight:600; letter-spacing:.15em; }
+.faculty-dashboard .teaching-label, .faculty-dashboard .academics-label { margin-top:15px; }
+.faculty-dashboard .faculty-nav-item { height:40px; padding:0 10px; gap:11px; border-radius:8px; color:#3E4759; font:500 13.5px 'IBM Plex Sans', sans-serif; }
+.faculty-dashboard .faculty-nav-item svg { color:#3E4759; font-size:17px; }
+.faculty-dashboard .faculty-nav-item.active { background:#274690; box-shadow:0 2px 8px rgba(39,70,144,.25); }
+.faculty-dashboard .faculty-nav-item:hover:not(.active) { background:#EEF1F7; }
+.faculty-dashboard .faculty-nav-item em { min-width:auto; height:auto; padding:2px 7px; background:#E6ECF8; color:#274690; font-size:11px; }
+.faculty-dashboard .faculty-subnav { margin:2px 0 6px 20px; padding:3px 0 3px 16px; border-color:#DDE2EC; gap:6px; }
+.faculty-dashboard .faculty-subnav button { font:500 12.5px 'IBM Plex Sans', sans-serif; color:#586074; }
+.faculty-dashboard .faculty-subnav .subnav-active { color:#274690; }
+.faculty-dashboard .faculty-content { max-width:1080px; padding:30px 44px 60px; }
+.faculty-dashboard .eyebrow { color:#274690; font-size:11px; letter-spacing:.15em; }
+.faculty-dashboard .dashboard-topbar h1, .faculty-dashboard .section-title h2 { color:#161C2B; font-family:'IBM Plex Serif', Georgia, serif; }
+.faculty-dashboard .dashboard-topbar h1 { font-size:30px; margin:8px 0 7px; }
+.faculty-dashboard .welcome, .faculty-dashboard .date { color:#586074; font-size:14px; }
+.faculty-dashboard .date b { color:#161C2B; }
+.faculty-dashboard .dashboard-rule { height:2px; margin-top:18px; background:#DDE2EC; }
+.faculty-dashboard .dashboard-section { margin-top:34px; }
+.faculty-dashboard .section-title h2 { font-size:18px; }
+.faculty-dashboard .section-title h2:before { width:4px; background:#274690; }
+.faculty-dashboard .section-title button { color:#274690; font:600 12.5px 'IBM Plex Sans', sans-serif; }
+.faculty-dashboard .class-list, .faculty-dashboard .glance-card { border-color:#DDE2EC; border-radius:12px; }
+.faculty-dashboard .dashboard-class { min-height:0; padding:16px 20px; grid-template-columns:76px 1fr 96px 136px; gap:20px; border-color:#DDE2EC; }
+.faculty-dashboard .dashboard-class:hover { background:#EEF1F7; }
+.faculty-dashboard .dashboard-class time, .faculty-dashboard .class-details h3 { color:#161C2B; }
+.faculty-dashboard .dashboard-class time { font-size:13.5px; font-family:'IBM Plex Mono', monospace; }
+.faculty-dashboard .class-details h3 { font-size:15px; }
+.faculty-dashboard .class-details span { color:#274690; background:#E6ECF8; font-size:10.5px; }
+.faculty-dashboard .class-details p, .faculty-dashboard .class-count { color:#586074; font-size:12.5px; }
+.faculty-dashboard .class-status button { background:#274690; border-radius:8px; box-shadow:0 1px 3px rgba(39,70,144,.25); font:600 12.5px 'IBM Plex Sans', sans-serif; }
+.faculty-dashboard .class-status button:hover { background:#1E3670; }
+.faculty-dashboard .glance-section { margin-top:38px; }
+.faculty-dashboard .glance-grid { gap:16px; margin-top:14px; }
+.faculty-dashboard .glance-card { min-height:0; padding:18px; border-top-width:4px; }
+.faculty-dashboard .glance-card p { margin:12px 0 2px; color:#586074; font-size:11.5px; }
+.faculty-dashboard .glance-card strong { color:#161C2B; font:600 27px 'IBM Plex Serif', Georgia, serif; }
+.faculty-dashboard .glance-card small { color:#9AA1B2; }
+@media (max-width:1100px) { .faculty-dashboard .faculty-sidebar { width:266px; flex-basis:266px; } .faculty-dashboard .faculty-content { padding:28px; } }

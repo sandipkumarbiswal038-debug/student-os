@@ -8,6 +8,7 @@ function StudentTable({
   updateAttendance,
   backPage,
   saveAttendance,
+  isSaving,
 
 }) {
 
@@ -204,6 +205,7 @@ onClick={backPage}
 className="submit-btn"
 
 onClick={saveAttendance}
+disabled={isSaving}
 
 >
 

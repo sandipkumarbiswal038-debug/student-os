@@ -12,9 +12,10 @@ import {
   FaCalendarCheck,
 } from "react-icons/fa";
 
-function Sidebar() {
+function Sidebar({ variant = "student" }) {
+  const isFaculty = variant === "faculty";
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isFaculty ? "faculty-sidebar-nav" : ""}`}>
 
       {/* Logo */}
       <div className="logo">
@@ -25,13 +26,15 @@ function Sidebar() {
         />
 
         <div className="sidebar-logo-text">
-          <h2>NIBA</h2>
-          <p>Student Portal</p>
+          <h2>{isFaculty ? "NIIS" : "NIBA"}</h2>
+          <p>{isFaculty ? "Faculty Portal" : "Student Portal"}</p>
         </div>
       </div>
 
       {/* Menu */}
       <ul>
+
+        {isFaculty && <li className="faculty-nav-label">Overview</li>}
 
         <li>
           <NavLink to="/" className="nav-link">
@@ -42,6 +45,8 @@ function Sidebar() {
           </NavLink>
         </li>
 
+        {isFaculty && <li className="faculty-nav-label teaching-label">Teaching</li>}
+
         <li>
           <NavLink to="/attendance" className="nav-link">
             <span className="icon-box attendance-icon">
@@ -50,6 +55,8 @@ function Sidebar() {
             <span>Attendance</span>
           </NavLink>
         </li>
+
+        {isFaculty && <li className="faculty-nav-label academics-label">Academics</li>}
 
         <li>
           <NavLink to="/timetable" className="nav-link">
