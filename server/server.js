@@ -1,0 +1,472 @@
+import crypto from 'crypto';
+import fs from 'fs';
+import path from 'path';
+import cors from 'cors';
+import express from 'express';
+import multer from 'multer';
+import { fileURLToPath } from 'url';
+import { all, get, initializeDatabase, run } from './db.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const uploadDir = path.join(__dirname, '..', 'uploads');
+
+fs.mkdirSync(uploadDir, { recursive: true });
+
+const app = express();
+const port = process.env.PORT || 4000;
+const facultyUpload = multer({ dest: uploadDir, limits: { fileSize: 6 * 1024 * 1024 } });
+const studentUpload = multer({ dest: uploadDir, limits: { fileSize: 2 * 1024 * 1024 } });
+
+app.use(cors());
+app.use(express.json());
+app.use('/uploads', express.static(uploadDir));
+
+const now = () => new Date().toISOString();
+const id = (prefix) => `${prefix}-${crypto.randomUUID()}`;
+
+async function downloadStoredFile(response, fileUrl, originalName) {
+  if (!fileUrl || !originalName) {
+    return response.status(404).json({ error: 'No file has been uploaded for this item.' });
+  }
+
+  // Stored URLs are database values, so reduce them to a filename before using
+  // them on disk. response.download also sets Content-Disposition with the
+  // original filename instead of exposing Multer's generated storage name.
+  const filePath = path.join(uploadDir, path.basename(fileUrl));
+  try {
+    await fs.promises.access(filePath, fs.constants.R_OK);
+  } catch {
+    return response.status(404).json({ error: 'The uploaded file is no longer available.' });
+  }
+
+  return response.download(filePath, originalName);
+}
+
+app.get('/api/bootstrap', async (_request, response) => {
+  const [subjects, users] = await Promise.all([
+    all('SELECT * FROM subjects ORDER BY name'),
+    all('SELECT * FROM users ORDER BY role, name'),
+  ]);
+
+  response.json({ subjects, users });
+});
+
+app.patch('/api/users/:userId/profile', async (request, response) => {
+  const user = await get('SELECT user_id, role FROM users WHERE user_id = ?', [request.params.userId]);
+  if (!user) return response.status(404).json({ error: 'User not found' });
+
+  const name = String(request.body.name || '').trim();
+  const registrationNo = String(request.body.registration_no || '').trim();
+  if (!name || !registrationNo) {
+    return response.status(400).json({ error: `Name and ${user.role === 'faculty' ? 'faculty ID' : 'registration number'} are required` });
+  }
+
+  await run('UPDATE users SET name = ?, registration_no = ? WHERE user_id = ?', [name, registrationNo, user.user_id]);
+  response.json({ user_id: user.user_id, name, registration_no: registrationNo });
+});
+
+app.get('/api/assignments', async (request, response) => {
+  const role = request.query.role || 'student';
+  const userId = request.query.userId || 'stu-001';
+  const rows = role === 'faculty'
+    ? await all(
+        `SELECT a.*, s.name AS subject_name,
+          COUNT(sub.submission_id) AS submission_count
+        FROM assignments a
+        JOIN subjects s ON s.subject_id = a.subject_id
+        LEFT JOIN submissions sub ON sub.assignment_id = a.assignment_id
+        WHERE a.faculty_id = ?
+        GROUP BY a.assignment_id
+        ORDER BY a.deadline ASC`,
+        [userId],
+      )
+    : await all(
+        `SELECT a.*, s.name AS subject_name, sub.submission_id, sub.grade_value, sub.feedback, sub.is_late
+        FROM assignments a
+        JOIN subjects s ON s.subject_id = a.subject_id
+        JOIN enrollments e ON e.subject_id = a.subject_id
+        LEFT JOIN submissions sub ON sub.assignment_id = a.assignment_id AND sub.student_id = ?
+        WHERE e.student_id = ?
+        ORDER BY a.deadline ASC`,
+        [userId, userId],
+      );
+
+  response.json(rows);
+});
+
+app.post('/api/assignments', facultyUpload.single('assignment_file'), async (request, response) => {
+  const assignment = {
+    assignment_id: id('asn'),
+    faculty_id: request.body.faculty_id || 'fac-001',
+    title: request.body.title,
+    description: request.body.description,
+    assignment_file_url: request.file ? `/uploads/${request.file.filename}` : null,
+    assignment_original_name: request.file?.originalname || null,
+    subject_id: request.body.subject_id,
+    course: request.body.course,
+    semester: request.body.semester,
+    deadline: request.body.deadline,
+    allow_resubmit: request.body.allow_resubmit === 'on' || request.body.allow_resubmit === 'true' ? 1 : 0,
+    allow_late: 1,
+    created_at: now(),
+  };
+
+  await run(
+    `INSERT INTO assignments (
+      assignment_id,
+      title,
+      description,
+      assignment_file_url,
+      assignment_original_name,
+      subject_id,
+      course,
+      semester,
+      faculty_id,
+      deadline,
+      allow_resubmit,
+      allow_late,
+      created_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      assignment.assignment_id,
+      assignment.title,
+      assignment.description,
+      assignment.assignment_file_url,
+      assignment.assignment_original_name,
+      assignment.subject_id,
+      assignment.course,
+      assignment.semester,
+      assignment.faculty_id,
+      assignment.deadline,
+      assignment.allow_resubmit,
+      assignment.allow_late,
+      assignment.created_at,
+    ],
+  );
+
+  response.status(201).json(assignment);
+});
+
+app.get('/api/assignments/:assignmentId/download', async (request, response) => {
+  const assignment = await get(
+    'SELECT assignment_file_url, assignment_original_name FROM assignments WHERE assignment_id = ?',
+    [request.params.assignmentId],
+  );
+  if (!assignment) return response.status(404).json({ error: 'Assignment not found' });
+
+  return downloadStoredFile(response, assignment.assignment_file_url, assignment.assignment_original_name);
+});
+
+app.delete('/api/assignments/:assignmentId', async (request, response) => {
+  const facultyId = request.query.facultyId || 'fac-001';
+  const assignment = await get(
+    'SELECT * FROM assignments WHERE assignment_id = ? AND faculty_id = ?',
+    [request.params.assignmentId, facultyId],
+  );
+
+  if (!assignment) {
+    return response.status(404).json({ error: 'Assignment not found for this faculty member' });
+  }
+
+  await run('DELETE FROM submissions WHERE assignment_id = ?', [assignment.assignment_id]);
+  await run('DELETE FROM assignments WHERE assignment_id = ?', [assignment.assignment_id]);
+
+  response.json({ ok: true });
+});
+
+app.get('/api/assignments/:assignmentId/submissions', async (request, response) => {
+  const rows = await all(
+    `SELECT u.user_id, u.name, u.registration_no, sub.*
+    FROM enrollments e
+    JOIN assignments a ON a.subject_id = e.subject_id
+    JOIN users u ON u.user_id = e.student_id
+    LEFT JOIN submissions sub ON sub.assignment_id = a.assignment_id AND sub.student_id = u.user_id
+    WHERE a.assignment_id = ?
+    ORDER BY u.name`,
+    [request.params.assignmentId],
+  );
+
+  response.json(rows);
+});
+
+app.post('/api/assignments/:assignmentId/submit', studentUpload.single('file'), async (request, response) => {
+  const assignment = await get('SELECT * FROM assignments WHERE assignment_id = ?', [request.params.assignmentId]);
+  if (!assignment) return response.status(404).json({ error: 'Assignment not found' });
+
+  const studentId = request.body.student_id || 'stu-001';
+  const enrollment = await get(
+    'SELECT 1 FROM enrollments WHERE student_id = ? AND subject_id = ?',
+    [studentId, assignment.subject_id],
+  );
+  if (!enrollment) return response.status(403).json({ error: 'Student is not enrolled in this subject' });
+
+  const existing = await get(
+    'SELECT * FROM submissions WHERE assignment_id = ? AND student_id = ?',
+    [assignment.assignment_id, studentId],
+  );
+  if (existing && !assignment.allow_resubmit) {
+    return response.status(409).json({ error: 'Resubmission is not allowed for this assignment' });
+  }
+
+  const submittedAt = now();
+  const payload = {
+    submission_id: existing?.submission_id || id('sub'),
+    assignment_id: assignment.assignment_id,
+    student_id: studentId,
+    file_url: `/uploads/${request.file.filename}`,
+    original_name: request.file.originalname,
+    submitted_at: submittedAt,
+    is_late: new Date(submittedAt) > new Date(assignment.deadline) ? 1 : 0,
+  };
+
+  if (existing) {
+    await run(
+      `UPDATE submissions SET file_url = ?, original_name = ?, submitted_at = ?, is_late = ?, grade_value = NULL, feedback = NULL, graded_at = NULL, graded_by = NULL
+      WHERE submission_id = ?`,
+      [payload.file_url, payload.original_name, payload.submitted_at, payload.is_late, payload.submission_id],
+    );
+  } else {
+    await run(
+      `INSERT INTO submissions (submission_id, assignment_id, student_id, file_url, original_name, submitted_at, is_late)
+      VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      Object.values(payload),
+    );
+  }
+
+  response.status(201).json(payload);
+});
+
+app.get('/api/submissions/:submissionId/download', async (request, response) => {
+  const submission = await get(
+    'SELECT file_url, original_name FROM submissions WHERE submission_id = ?',
+    [request.params.submissionId],
+  );
+  if (!submission) return response.status(404).json({ error: 'Submission not found' });
+
+  return downloadStoredFile(response, submission.file_url, submission.original_name);
+});
+
+app.patch('/api/submissions/:submissionId/grade', async (request, response) => {
+  const submission = await get(
+    `SELECT sub.submission_id, sub.student_id, u.name, u.registration_no
+    FROM submissions sub
+    JOIN users u ON u.user_id = sub.student_id
+    WHERE sub.submission_id = ?`,
+    [request.params.submissionId],
+  );
+  if (!submission) return response.status(404).json({ error: 'Submission not found' });
+
+  const gradeValue = String(request.body.grade_value || '').trim();
+  if (!gradeValue) return response.status(400).json({ error: 'A grade is required' });
+
+  await run(
+    `UPDATE submissions
+    SET grade_value = ?, feedback = ?, graded_at = ?, graded_by = ?
+    WHERE submission_id = ?`,
+    [gradeValue, request.body.feedback || '', now(), request.body.graded_by || 'fac-001', request.params.submissionId],
+  );
+
+  response.json({
+    ok: true,
+    grade_value: gradeValue,
+    student_name: submission.name,
+    registration_no: submission.registration_no,
+  });
+});
+
+app.get('/api/grades', async (request, response) => {
+  const facultyId = request.query.facultyId || 'fac-001';
+  const rows = await all(
+    `SELECT sub.submission_id, sub.grade_value, sub.feedback, sub.graded_at,
+      u.name AS student_name, u.registration_no, a.title AS assignment_title, s.name AS subject_name
+    FROM submissions sub
+    JOIN assignments a ON a.assignment_id = sub.assignment_id
+    JOIN users u ON u.user_id = sub.student_id
+    JOIN subjects s ON s.subject_id = a.subject_id
+    WHERE a.faculty_id = ? AND sub.grade_value IS NOT NULL
+    ORDER BY sub.graded_at DESC`,
+    [facultyId],
+  );
+  response.json(rows);
+});
+
+app.get('/api/notes', async (request, response) => {
+  const sort = request.query.sort || 'recent';
+  const subjectId = request.query.subjectId;
+  const orderBy = {
+    recent: 'n.uploaded_at DESC',
+    downloaded: 'n.download_count DESC',
+    upvoted: 'n.upvote_count DESC',
+  }[sort] || 'n.uploaded_at DESC';
+  const params = [];
+  const facultyView = request.query.facultyId;
+  let where = facultyView ? 'n.uploaded_by = ?' : "n.status = 'active'";
+
+  if (facultyView) params.push(facultyView);
+
+  if (subjectId && subjectId !== 'all') {
+    where += ' AND n.subject_id = ?';
+    params.push(subjectId);
+  }
+
+  const rows = await all(
+    `SELECT n.*, s.name AS subject_name, u.name AS uploader,
+      COUNT(DISTINCT r.reported_by) AS report_count
+    FROM notes n
+    JOIN subjects s ON s.subject_id = n.subject_id
+    JOIN users u ON u.user_id = n.uploaded_by
+    LEFT JOIN note_reports r ON r.note_id = n.note_id
+    WHERE ${where}
+    GROUP BY n.note_id
+    ORDER BY ${orderBy}`,
+    params,
+  );
+
+  response.json(rows);
+});
+
+app.post('/api/notes', facultyUpload.single('file'), async (request, response) => {
+  const note = {
+    note_id: id('note'),
+    title: request.body.title,
+    subject_id: request.body.subject_id,
+    course: request.body.course,
+    semester: request.body.semester,
+    topic: request.body.topic,
+    uploaded_by: request.body.uploaded_by || 'stu-001',
+    file_url: `/uploads/${request.file.filename}`,
+    original_name: request.file.originalname,
+    description: request.body.description || '',
+    download_count: 0,
+    upvote_count: 0,
+    status: 'active',
+    uploaded_at: now(),
+  };
+
+  await run(`INSERT INTO notes (
+    note_id, title, subject_id, course, semester, topic, uploaded_by, file_url,
+    original_name, description, download_count, upvote_count, status, uploaded_at
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, Object.values(note));
+  response.status(201).json(note);
+});
+
+app.get('/api/notes/:noteId/download', async (request, response) => {
+  const note = await get('SELECT file_url, original_name FROM notes WHERE note_id = ?', [request.params.noteId]);
+  if (!note) return response.status(404).json({ error: 'Note not found' });
+
+  const filePath = path.join(uploadDir, path.basename(note.file_url));
+  try {
+    await fs.promises.access(filePath, fs.constants.R_OK);
+  } catch {
+    return response.status(404).json({ error: 'The uploaded file is no longer available.' });
+  }
+
+  await run('UPDATE notes SET download_count = download_count + 1 WHERE note_id = ?', [request.params.noteId]);
+  return response.download(filePath, note.original_name);
+});
+
+app.post('/api/notes/:noteId/upvote', async (request, response) => {
+  try {
+    await run('INSERT INTO note_upvotes VALUES (?, ?, ?, ?)', [
+      id('vote'),
+      request.params.noteId,
+      request.body.user_id || 'stu-001',
+      now(),
+    ]);
+    await run('UPDATE notes SET upvote_count = upvote_count + 1 WHERE note_id = ?', [request.params.noteId]);
+  } catch (error) {
+    if (!String(error).includes('UNIQUE')) throw error;
+  }
+
+  response.json({ ok: true });
+});
+
+app.post('/api/notes/:noteId/report', async (request, response) => {
+  const note = await get('SELECT note_id FROM notes WHERE note_id = ?', [request.params.noteId]);
+  if (!note) return response.status(404).json({ error: 'Note not found' });
+
+  const reporterId = request.body.reported_by || 'stu-001';
+  const existingReport = await get(
+    'SELECT report_id FROM note_reports WHERE note_id = ? AND reported_by = ?',
+    [note.note_id, reporterId],
+  );
+  if (existingReport) return response.status(409).json({ error: 'You have already reported this note.' });
+
+  await run('INSERT INTO note_reports VALUES (?, ?, ?, ?, ?, ?)', [
+    id('report'), note.note_id, reporterId, request.body.reason || 'Reported by student', 'open', now(),
+  ]);
+  const reportCount = await get(
+    'SELECT COUNT(DISTINCT reported_by) AS report_count FROM note_reports WHERE note_id = ?',
+    [note.note_id],
+  );
+  response.status(201).json({ ok: true, report_count: reportCount.report_count });
+});
+
+app.patch('/api/notes/:noteId/visibility', async (request, response) => {
+  const status = request.body.status;
+  if (!['hidden', 'active'].includes(status)) {
+    return response.status(400).json({ error: 'Invalid note visibility status' });
+  }
+
+  const note = await get('SELECT * FROM notes WHERE note_id = ?', [request.params.noteId]);
+  if (!note) return response.status(404).json({ error: 'Note not found' });
+
+  await run('UPDATE notes SET status = ? WHERE note_id = ?', [status, note.note_id]);
+  response.json({ ok: true, status });
+});
+
+app.delete('/api/notes/:noteId', async (request, response) => {
+  const note = await get('SELECT * FROM notes WHERE note_id = ?', [request.params.noteId]);
+  if (!note) return response.status(404).json({ error: 'Note not found' });
+
+  await run('DELETE FROM note_upvotes WHERE note_id = ?', [note.note_id]);
+  await run('DELETE FROM note_reports WHERE note_id = ?', [note.note_id]);
+  await run('DELETE FROM notes WHERE note_id = ?', [note.note_id]);
+  const uploadedFile = path.join(uploadDir, path.basename(note.file_url));
+  await fs.promises.unlink(uploadedFile).catch((error) => {
+    if (error.code !== 'ENOENT') throw error;
+  });
+  response.json({ ok: true });
+});
+
+app.get('/api/reports', async (_request, response) => {
+  const rows = await all(
+    `SELECT r.*, n.title, n.file_url, u.name AS reporter
+    FROM note_reports r
+    JOIN notes n ON n.note_id = r.note_id
+    JOIN users u ON u.user_id = r.reported_by
+    WHERE r.status = 'open'
+    ORDER BY r.created_at DESC`,
+  );
+  response.json(rows);
+});
+
+app.patch('/api/reports/:reportId', async (request, response) => {
+  const report = await get('SELECT * FROM note_reports WHERE report_id = ?', [request.params.reportId]);
+  if (!report) return response.status(404).json({ error: 'Report not found' });
+
+  const action = request.body.action;
+  if (action === 'take_down') {
+    await run("UPDATE notes SET status = 'taken_down' WHERE note_id = ?", [report.note_id]);
+    await run("UPDATE note_reports SET status = 'action_taken' WHERE report_id = ?", [report.report_id]);
+  } else {
+    await run("UPDATE notes SET status = 'active' WHERE note_id = ?", [report.note_id]);
+    await run("UPDATE note_reports SET status = 'dismissed' WHERE report_id = ?", [report.report_id]);
+  }
+
+  response.json({ ok: true });
+});
+
+app.use((error, _request, response, next) => {
+  if (error instanceof multer.MulterError && error.code === 'LIMIT_FILE_SIZE') {
+    return response.status(413).json({ error: 'The selected file exceeds this upload limit.' });
+  }
+  return next(error);
+});
+
+initializeDatabase().then(() => {
+  app.listen(port, '0.0.0.0', () => {
+    console.log(`Student OS API listening on port ${port}`);
+  });
+});

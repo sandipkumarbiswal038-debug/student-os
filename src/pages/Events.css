@@ -1,0 +1,38 @@
+.events-page {
+  padding: 30px;
+}
+
+.events-page h1 {
+  margin-bottom: 25px;
+  color: #335c43;
+  font-size: 32px;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.event-card {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.event-card h2 {
+  color: #335c43;
+  margin-bottom: 12px;
+}
+
+.event-card p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.event-details {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}

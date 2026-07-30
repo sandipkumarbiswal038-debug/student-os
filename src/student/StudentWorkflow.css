@@ -1,0 +1,77 @@
+.student-event-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.student-event-card-actions a,
+.student-event-card-actions button {
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 15px;
+  background: #335c43;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.student-event-card-actions a:hover,
+.student-event-card-actions button:hover {
+  background: #4f7c59;
+}
+
+.buttons button:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+.student-status {
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.student-status.signed {
+  background: #e0f3e6;
+  color: #1e6b3a;
+}
+
+.student-status.waitlisted {
+  background: #fff2d8;
+  color: #986600;
+}
+
+.details-back {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: #335c43;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.details-back:hover { text-decoration: underline; }
+
+.waitlist-message,
+.registration-error {
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-weight: 600;
+}
+
+.waitlist-message {
+  background: #fff2d8;
+  color: #855d00;
+}
+
+.registration-error {
+  margin: 0 !important;
+  background: #fde8ea;
+  color: #a51d2d !important;
+  text-align: left !important;
+}

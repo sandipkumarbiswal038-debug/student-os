@@ -35,7 +35,7 @@ function DashboardCards() {
       desc: "Study notes & pending assignments",
       color: "#F6C445",
       bg: "#FFF8E6",
-      path: "/notes",
+      path: "/notes-and-assignments",
     },
     {
       title: "Events",
@@ -61,7 +61,7 @@ function DashboardCards() {
         <div
           key={index}
           className="card"
-          onClick={() => navigate(card.path)}
+          onClick={() => navigate(card.path, card.path === "/notes-and-assignments" ? { state: { mode: "student" } } : undefined)}
           style={{
             background: card.bg,
             "--card-color": card.color,
@@ -85,7 +85,7 @@ function DashboardCards() {
             style={{ background: card.color }}
             onClick={(e) => {
               e.stopPropagation();
-              navigate(card.path);
+              navigate(card.path, card.path === "/notes-and-assignments" ? { state: { mode: "student" } } : undefined);
             }}
           >
             Open

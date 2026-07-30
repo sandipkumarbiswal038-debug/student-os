@@ -1,0 +1,152 @@
+/* =========================
+   Student Table Card
+========================= */
+.student-table-card {
+  margin-top: 20px;
+  padding: 0;
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid #d5e0d8;
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+/* =========================
+   Student Table
+========================= */
+.student-table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+}
+
+.student-table thead {
+  background: #edf4ef;
+}
+
+.student-table th {
+  padding: 13px 16px;
+  text-align: left;
+  color: #516259;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.student-table td {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+  color: #35463c;
+  border-bottom: 1px solid #e0e8e2;
+}
+
+.student-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.student-table tbody tr:hover {
+  background: #f6faf7;
+}
+
+/* =========================
+   Attendance Toggle
+========================= */
+.status-toggle {
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid #c6d4ca;
+  border-radius: 7px;
+}
+
+.toggle-btn {
+  padding: 7px 11px;
+  background: #fff;
+  border: none;
+  border-right: 1px solid #c6d4ca;
+  color: #607168;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.toggle-btn:last-child {
+  border-right: none;
+}
+
+.toggle-btn.active-present {
+  background: #3f704d;
+  color: #fff;
+}
+
+.toggle-btn.active-absent {
+  background: #b4453b;
+  color: #fff;
+}
+
+/* =========================
+   Bottom Buttons
+========================= */
+.table-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin: 20px;
+}
+
+.back-btn,
+.submit-btn {
+  min-width: 160px;
+  height: 42px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.back-btn {
+  background: #fff;
+  color: #476052;
+  border: 1px solid #b9cbbf;
+}
+
+.submit-btn {
+  background: #3f704d;
+  color: #fff;
+  border: 1px solid #3f704d;
+}
+
+.back-btn:hover {
+  background: #edf4ef;
+}
+
+.submit-btn:hover {
+  background: #335c43;
+}
+
+/* =========================
+   No Data
+========================= */
+.no-data {
+  padding: 45px;
+  text-align: center;
+  color: #6b7c72;
+}
+
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 700px) {
+  .table-buttons {
+    flex-direction: column;
+  }
+
+  .back-btn,
+  .submit-btn {
+    width: 100%;
+  }
+}

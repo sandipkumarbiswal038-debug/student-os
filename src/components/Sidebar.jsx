@@ -34,7 +34,7 @@ function Sidebar() {
       <ul>
 
         <li>
-          <NavLink to="/" className="nav-link">
+          <NavLink to="/dashboard" className="nav-link">
             <span className="icon-box dashboard-icon">
               <FaHome />
             </span>
@@ -61,7 +61,7 @@ function Sidebar() {
         </li>
 
         <li>
-          <NavLink to="/notes-and-assignments" className="nav-link">
+          <NavLink to="/notes-and-assignments" state={{ mode: "student" }} className="nav-link">
             <span className="icon-box notes-icon">
               <FaBook />
             </span>

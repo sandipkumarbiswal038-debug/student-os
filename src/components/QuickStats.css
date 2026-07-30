@@ -5,41 +5,49 @@
     gap:20px;
 }
 
-.stat-card{
-    background:white;
+.quick-card{
+    background:#fff;
     border-radius:22px;
     padding:25px;
+
     display:flex;
     align-items:center;
     gap:18px;
+
     box-shadow:0 12px 30px rgba(0,0,0,.08);
     transition:.3s;
 }
 
-.stat-card:hover{
+.quick-card:hover{
     transform:translateY(-6px);
 }
 
-.stat-icon{
+.quick-icon{
     width:65px;
     height:65px;
+
     border-radius:18px;
+
     background:linear-gradient(135deg,#7B2FF7,#A855F7);
-    color:white;
+
+    color:#fff;
+
     display:flex;
     justify-content:center;
     align-items:center;
+
     font-size:28px;
 }
 
-.stat-card h2{
+.quick-card h2{
     font-size:28px;
     color:#222;
+    margin:0;
 }
 
-.stat-card p{
-    color:#777;
+.quick-card p{
     margin-top:6px;
+    color:#777;
 }
 
 @media(max-width:900px){
