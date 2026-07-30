@@ -9,7 +9,7 @@ from .serializers import ClassSessionSerializer
 
 class ClassSessionListView(generics.ListAPIView):
     serializer_class = ClassSessionSerializer
-    permission_classes = [IsAuthenticated]
+    
 
     def get_queryset(self):
         return ClassSession.objects.filter(date=date.today()).select_related('subject')
