@@ -61,11 +61,21 @@ async function migrate() {
   const userColumns = await all('PRAGMA table_info(users)');
   const userColumnNames = userColumns.map((column) => column.name);
 
-  if (!userColumnNames.includes('registration_no')) {
-    await run('ALTER TABLE users ADD COLUMN registration_no TEXT');
-    await run("UPDATE users SET registration_no = '2505280041' WHERE user_id = 'stu-001'");
-    await run("UPDATE users SET registration_no = '2505280042' WHERE user_id = 'stu-002'");
+  const userProfileColumns = [
+    ['registration_no', 'TEXT'],
+    ['college_email', 'TEXT'],
+    ['course', 'TEXT'],
+    ['semester', 'TEXT'],
+    ['phone', 'TEXT'],
+    ['address', 'TEXT'],
+  ];
+
+  for (const [column, type] of userProfileColumns) {
+    if (!userColumnNames.includes(column)) await run(`ALTER TABLE users ADD COLUMN ${column} ${type}`);
   }
+
+  await run("UPDATE users SET registration_no = '2505280041', college_email = 'aarav@niis.edu.in', course = 'MCA', semester = '1', phone = '9876543210', address = 'Bhubaneswar, Odisha' WHERE user_id = 'stu-001'");
+  await run("UPDATE users SET registration_no = '2505280042', college_email = 'priya@niis.edu.in', course = 'MCA', semester = '1', phone = '9876543211', address = 'Cuttack, Odisha' WHERE user_id = 'stu-002'");
 
   await run("UPDATE users SET registration_no = 'FAC-001' WHERE user_id = 'fac-001' AND (registration_no IS NULL OR TRIM(registration_no) = '')");
 
@@ -140,8 +150,8 @@ async function seed() {
   await run("INSERT INTO subjects VALUES ('sub-os', 'Operating Systems')");
   await run("INSERT INTO subjects VALUES ('sub-web', 'Web Technologies')");
 
-  await run("INSERT INTO users (user_id, name, registration_no, role) VALUES ('stu-001', 'Aarav Mohanty', '2505280041', 'student')");
-  await run("INSERT INTO users (user_id, name, registration_no, role) VALUES ('stu-002', 'Priya Das', '2505280042', 'student')");
+  await run("INSERT INTO users (user_id, name, registration_no, college_email, course, semester, phone, address, role) VALUES ('stu-001', 'Aarav Mohanty', '2505280041', 'aarav@niis.edu.in', 'MCA', '1', '9876543210', 'Bhubaneswar, Odisha', 'student')");
+  await run("INSERT INTO users (user_id, name, registration_no, college_email, course, semester, phone, address, role) VALUES ('stu-002', 'Priya Das', '2505280042', 'priya@niis.edu.in', 'MCA', '1', '9876543211', 'Cuttack, Odisha', 'student')");
   await run("INSERT INTO users (user_id, name, registration_no, role) VALUES ('fac-001', 'Prof. Meera Sen', 'FAC-001', 'faculty')");
   await run("INSERT INTO users (user_id, name, role) VALUES ('admin-001', 'Admin User', 'admin')");
 

@@ -64,6 +64,45 @@
     background: #406F52;
 }
 
+.profile-actions {
+    display: grid;
+    gap: 10px;
+}
+
+.cancel-edit-btn {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #335C43;
+    border-radius: 14px;
+    background: #fff;
+    color: #335C43;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.profile-name-input,
+.info-item input {
+    width: 100%;
+    border: 1px solid #c8d9cb;
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: #335C43;
+    font: inherit;
+}
+
+.profile-name-input {
+    margin: 0 0 8px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.profile-message {
+    margin: -15px 0 20px;
+    color: #335C43;
+    font-weight: 600;
+}
+
 .logout-btn {
     margin-top: 15px;
     background: #E53935;

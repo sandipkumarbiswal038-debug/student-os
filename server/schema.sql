@@ -7,6 +7,11 @@ CREATE TABLE IF NOT EXISTS users (
   user_id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   registration_no TEXT,
+  college_email TEXT,
+  course TEXT,
+  semester TEXT,
+  phone TEXT,
+  address TEXT,
   role TEXT NOT NULL CHECK (role IN ('student', 'faculty', 'admin'))
 );
 

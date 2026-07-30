@@ -52,6 +52,11 @@ app.get('/api/bootstrap', async (_request, response) => {
   response.json({ subjects, users });
 });
 
+app.get('/api/users', async (_request, response) => {
+  const users = await all('SELECT * FROM users ORDER BY role, name');
+  response.json(users);
+});
+
 app.patch('/api/users/:userId/profile', async (request, response) => {
   const user = await get('SELECT user_id, role FROM users WHERE user_id = ?', [request.params.userId]);
   if (!user) return response.status(404).json({ error: 'User not found' });
@@ -62,8 +67,19 @@ app.patch('/api/users/:userId/profile', async (request, response) => {
     return response.status(400).json({ error: `Name and ${user.role === 'faculty' ? 'faculty ID' : 'registration number'} are required` });
   }
 
-  await run('UPDATE users SET name = ?, registration_no = ? WHERE user_id = ?', [name, registrationNo, user.user_id]);
-  response.json({ user_id: user.user_id, name, registration_no: registrationNo });
+  const profile = {
+    college_email: String(request.body.college_email || '').trim(),
+    course: String(request.body.course || '').trim(),
+    semester: String(request.body.semester || '').trim(),
+    phone: String(request.body.phone || '').trim(),
+    address: String(request.body.address || '').trim(),
+  };
+
+  await run(
+    `UPDATE users SET name = ?, registration_no = ?, college_email = ?, course = ?, semester = ?, phone = ?, address = ? WHERE user_id = ?`,
+    [name, registrationNo, profile.college_email, profile.course, profile.semester, profile.phone, profile.address, user.user_id],
+  );
+  response.json({ user_id: user.user_id, name, registration_no: registrationNo, ...profile, role: user.role });
 });
 
 app.get('/api/assignments', async (request, response) => {
