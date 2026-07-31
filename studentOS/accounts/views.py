@@ -7,6 +7,9 @@ from django.views.decorators.http import require_POST
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.authtoken.models import Token
+
 
 
 def login_view(request):
@@ -95,5 +98,58 @@ def session_status(request):
 def session_logout(request):
     logout(request)
     return Response(status=204)
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def login_api(request):
+    email = (
+        request.data.get("college_email")
+        or request.data.get("email")
+        or ""
+    ).strip().lower()
+
+    password = request.data.get("password") or ""
+
+    if not email or not password:
+        return Response(
+            {"detail": "Email and password are required."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    auth_user = login_user(
+        email=email,
+        password=password
+    )
+
+    if auth_user is None:
+        return Response(
+            {"detail": "Invalid email or password."},
+            status=status.HTTP_401_UNAUTHORIZED,
+        )
+
+    student = StudentProfile.objects.filter(
+        college_email__iexact=email
+    ).first()
+
+    if student is None:
+        return Response(
+            {"detail": "Student profile not found."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    token, _ = Token.objects.get_or_create(user=auth_user)
+
+    return Response({
+        "token": token.key,
+        "user": {
+            "id": student.id,
+            "name": getattr(student, "name", "")
+                    or auth_user.get_full_name()
+                    or email.split("@")[0],
+            "college_email": student.college_email,
+            "role": "student",
+        }
+    })
 
 

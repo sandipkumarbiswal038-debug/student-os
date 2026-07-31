@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'notification',
     'common',
     'rest_framework',
+    'rest_framework.authtoken',
     'faculty_subject',
     'student',
     'attendance',
