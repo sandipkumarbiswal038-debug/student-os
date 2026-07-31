@@ -27,14 +27,18 @@ StudentOS Admin Portal
 {% endblock %}
 
 {% block extrastyle %}
-<style>
+{{ block.super }}
 
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+
+<style>
 #header{
     background:#1E3A8A;
 }
 
+#branding h1,
 #branding h1 a{
-    color:white;
+    color:white !important;
     text-decoration:none;
 }
 
@@ -62,6 +66,6 @@ input[type=submit]:hover{
 #user-tools a{
     color:#FBBF24;
 }
-
 </style>
+
 {% endblock %}

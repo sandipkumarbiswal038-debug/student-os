@@ -1,0 +1,32 @@
+{% extends "admin/index.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>🎓 StudentOS Dashboard</h1>
+
+<div class="dashboard-cards">
+    <div class="card">
+        <h2>👨‍🎓 Students</h2>
+        <p>Manage all students</p>
+    </div>
+
+    <div class="card">
+        <h2>📚 Subjects</h2>
+        <p>Manage subjects</p>
+    </div>
+
+    <div class="card">
+        <h2>📅 Events</h2>
+        <p>Manage events</p>
+    </div>
+
+    <div class="card">
+        <h2>📝 Assignments</h2>
+        <p>Manage assignments</p>
+    </div>
+</div>
+
+{{ block.super }}
+
+{% endblock %}
