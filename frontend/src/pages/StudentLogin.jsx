@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaIdCard, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
 import "../styles/StudentLogin.css";
 import niisLogo from "../assets/niis.logo.png";
+import { loginUser } from "../api/authApi";
 
 export default function StudentLogin() {
 
   const navigate = useNavigate();
 
-  const [regdNo, setRegdNo] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [errors, setErrors] = useState({});
 
@@ -19,15 +21,14 @@ export default function StudentLogin() {
 
     const newErrors = {};
 
-    if (!regdNo.trim()) {
-      newErrors.regdNo = "Registration Number is required";
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+      newErrors.email = "Enter a valid email address";
     }
 
     if (!password) {
       newErrors.password = "Password is required";
-    } else if (password.length < 8) {
-      newErrors.password =
-        "Password must be at least 8 characters";
     }
 
     setErrors(newErrors);
@@ -35,21 +36,38 @@ export default function StudentLogin() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
 
     e.preventDefault();
 
     if (!validate()) return;
 
-    if (
-      regdNo === "2505280075" &&
-      password === "Student@123"
-    ) {
+    setIsSubmitting(true);
+    setErrors({});
+
+    try {
+      const { data } = await loginUser(email, password, "student");
+      const token = data.token || data.access || data.access_token || data.key;
+      if (!token) throw new Error("The login server did not return an access token.");
+
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("currentUser", JSON.stringify(data.user));
       navigate("/student/attendance");
-    } else {
+    } catch (error) {
+      const message = error.response?.data?.detail || (
+        error.request
+          ? "Unable to reach the login server. The backend may be offline or blocking this browser."
+          : error.message
+      );
       setErrors({
-        login: "Invalid Registration Number or Password",
+        login: message || (
+          error.request
+            ? "Unable to connect to the login server. Please try again shortly."
+            : "Unable to sign in. Please try again."
+        ),
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -85,24 +103,24 @@ export default function StudentLogin() {
 
         <form onSubmit={handleSubmit}>
 
-          <label>Registration Number</label>
+          <label>Email Address</label>
 
           <div className="input-box">
 
-            <FaIdCard className="input-icon" />
+            <FaEnvelope className="input-icon" />
 
             <input
-              type="text"
-              placeholder="Enter Registration Number"
-              value={regdNo}
-              onChange={(e) => setRegdNo(e.target.value)}
+              type="email"
+              placeholder="Enter your college email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
 
           </div>
 
-          {errors.regdNo && (
+          {errors.email && (
             <span className="error">
-              {errors.regdNo}
+              {errors.email}
             </span>
           )}
 
@@ -150,8 +168,9 @@ export default function StudentLogin() {
           <button
             type="submit"
             className="login-btn"
+            disabled={isSubmitting}
           >
-            Login
+            {isSubmitting ? "Signing in..." : "Login"}
           </button>
 
         </form>

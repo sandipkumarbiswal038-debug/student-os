@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import {
   FaUniversity,
   FaBook,
@@ -10,39 +11,6 @@ import {
 
 import "../styles/AttendanceHeader.css";
 
-const courseData = {
-  BCA: {
-    semesters: ["1", "2", "3", "4", "5", "6"],
-    subjects: [
-      "Data Structures",
-      "DBMS",
-      "Operating System",
-      "Java Programming",
-      "Web Technology",
-    ],
-    sections: ["A", "B", "C"],
-  },
-
-  MCA: {
-    semesters: ["1", "2", "3", "4"],
-    subjects: [
-      "Advanced Java",
-      "Cloud Computing",
-      "Machine Learning",
-    ],
-    sections: ["A", "B"],
-  },
-
-  BBA: {
-    semesters: ["1", "2", "3", "4", "5", "6"],
-    subjects: [
-      "Marketing",
-      "Finance",
-      "HR Management",
-    ],
-    sections: ["A", "B"],
-  },
-};
 
 function AttendanceHeader({
   attendanceInfo,
@@ -50,327 +18,495 @@ function AttendanceHeader({
   onNotHeld,
 }) {
 
-  const today = new Date();
 
-  const [course, setCourse] = useState("");
-  const [semester, setSemester] = useState("");
-  const [section, setSection] = useState("");
-  const [subject, setSubject] = useState("");
+const today = new Date();
 
-  const [date, setDate] = useState(
-    today.toISOString().split("T")[0]
-  );
 
-  const [time, setTime] = useState("");
+const [course,setCourse] = useState("");
+const [semester,setSemester] = useState("");
+const [section,setSection] = useState("");
+const [subject,setSubject] = useState("");
 
-  // Auto Update Time
-  useEffect(() => {
+const [date,setDate] = useState(
+ today.toISOString().split("T")[0]
+);
 
-    const updateClock = () => {
+const [time,setTime] = useState("");
 
-      const now = new Date();
+const [classSessionId,setClassSessionId] = useState("");
 
-      const hours = String(now.getHours()).padStart(2, "0");
-      const minutes = String(now.getMinutes()).padStart(2, "0");
 
-      setTime(`${hours}:${minutes}`);
 
-    };
+// Auto fill selected class data
 
-    updateClock();
+useEffect(()=>{
 
-    const timer = setInterval(updateClock, 60000);
 
-    return () => clearInterval(timer);
+if(!attendanceInfo) return;
 
-  }, []);
 
-  // Auto Fill Data
-  useEffect(() => {
+setCourse(
+ attendanceInfo.course || ""
+);
 
-    if (!attendanceInfo) return;
 
-    setCourse(attendanceInfo.course || "");
-    setSemester(attendanceInfo.semester || "");
-    setSection(attendanceInfo.section || "");
-    setSubject(attendanceInfo.subject || "");
+setSemester(
+ attendanceInfo.semester || ""
+);
 
-    if (attendanceInfo.date) {
-      setDate(attendanceInfo.date);
-    }
 
-    if (attendanceInfo.time) {
-      setTime(attendanceInfo.time);
-    }
+setSection(
+ attendanceInfo.section || ""
+);
 
-  }, [attendanceInfo]);
 
-  const semesters =
-    courseData[course]?.semesters || [];
 
-  const subjects =
-    courseData[course]?.subjects || [];
+setSubject(
 
-  const sections =
-    courseData[course]?.sections || [];
+ attendanceInfo.subject_name ||
 
-  // Load Students
-  const handleLoad = () => {
+ attendanceInfo.subject ||
 
-  if (
-    !course ||
-    !semester ||
-    !section ||
-    !subject
-  ) {
-    alert("Please fill all fields.");
-    return;
-  }
+ ""
 
-  onLoadStudents({
-    course,
-    semester,
-    section,
-    subject,
-    date,
-    time,
-  });
+);
+
+
+
+setClassSessionId(
+
+ attendanceInfo.classSessionId ||
+
+ attendanceInfo.id ||
+
+ ""
+
+);
+
+
+
+if(attendanceInfo.date){
+
+setDate(attendanceInfo.date);
+
+}
+
+
+
+if(attendanceInfo.time){
+
+setTime(attendanceInfo.time);
+
+}
+
+
+
+},[attendanceInfo]);
+
+
+
+
+
+const handleLoad=()=>{
+
+
+if(
+!course ||
+!semester ||
+!section
+){
+
+alert("Class information missing");
+
+return;
+
+}
+
+
+
+onLoadStudents({
+
+...attendanceInfo,
+
+
+classSessionId,
+
+
+course,
+
+
+semester,
+
+
+section,
+
+
+subject,
+
+
+date,
+
+
+time,
+
+
+});
+
+
 
 };
- return (
+
+
+
+
+
+return (
 
 <div className="attendance-header">
 
-    <div className="header-top">
 
-        <div className="header-title">
 
-            <h2>Take Attendance</h2>
+<div className="header-top">
 
-            <p>Select class details and load students</p>
 
-        </div>
+<div className="header-title">
 
-        <div className="today-badge">
+<h2>
+Mark Attendance
+</h2>
 
-            <FaCalendarAlt />
 
-            <span>{date}</span>
+<p>
+Review class details and load students
+</p>
 
-        </div>
 
-    </div>
+</div>
 
-    <div className="header-grid">
 
-        {/* Course */}
 
-        <div className="input-card">
+<div className="today-badge">
 
-            <label>Course</label>
+<FaCalendarAlt/>
 
-            <div className="input-group">
+<span>
+{date}
+</span>
 
-                <FaUniversity className="input-icon"/>
 
-                <select
-                    value={course}
-                    onChange={(e)=>{
+</div>
 
-                        setCourse(e.target.value);
-                        setSemester("");
-                        setSection("");
-                        setSubject("");
 
-                    }}
-                >
 
-                    <option value="">Select Course</option>
+</div>
 
-                    {Object.keys(courseData).map((item)=>(
 
-                        <option
-                            key={item}
-                            value={item}
-                        >
-                            {item}
-                        </option>
 
-                    ))}
 
-                </select>
 
-            </div>
 
-        </div>
+<div className="header-grid">
 
-        {/* Semester */}
 
-        <div className="input-card">
 
-            <label>Semester</label>
+{/* COURSE */}
 
-            <div className="input-group">
+<div className="input-card">
 
-                <FaLayerGroup className="input-icon"/>
 
-                <select
-                    value={semester}
-                    onChange={(e)=>setSemester(e.target.value)}
-                >
+<label>
+Course
+</label>
 
-                    <option value="">Select Semester</option>
 
-                    {semesters.map((item)=>(
+<div className="input-group">
 
-                        <option
-                            key={item}
-                            value={item}
-                        >
-                            Semester {item}
-                        </option>
 
-                    ))}
+<FaUniversity className="input-icon"/>
 
-                </select>
 
-            </div>
+<input
 
-        </div>
-        {/* Section */}
+type="text"
 
-        <div className="input-card">
+value={course}
 
-            <label>Section</label>
+readOnly
 
-            <div className="input-group">
+/>
 
-                <FaUsers className="input-icon"/>
 
-                <select
-                    value={section}
-                    onChange={(e)=>setSection(e.target.value)}
-                >
+</div>
 
-                    <option value="">Select Section</option>
 
-                    {sections.map((item)=>(
+</div>
 
-                        <option
-                            key={item}
-                            value={item}
-                        >
-                            Section {item}
-                        </option>
 
-                    ))}
 
-                </select>
 
-            </div>
 
-        </div>
 
-        {/* Subject */}
+{/* SEMESTER */}
 
-        <div className="input-card">
+<div className="input-card">
 
-            <label>Subject</label>
 
-            <div className="input-group">
+<label>
+Semester
+</label>
 
-                <FaBook className="input-icon"/>
 
-                <select
-                    value={subject}
-                    onChange={(e)=>setSubject(e.target.value)}
-                >
+<div className="input-group">
 
-                    <option value="">Select Subject</option>
 
-                    {subjects.map((item)=>(
+<FaLayerGroup className="input-icon"/>
 
-                        <option
-                            key={item}
-                            value={item}
-                        >
-                            {item}
-                        </option>
 
-                    ))}
+<input
 
-                </select>
+type="text"
 
-            </div>
+value={semester}
 
-        </div>
+readOnly
 
-    </div>
+/>
 
-    <div className="header-grid second-grid">
 
-        <div className="input-card">
+</div>
 
-            <label>Date</label>
 
-            <div className="input-group">
+</div>
 
-                <FaCalendarAlt className="input-icon"/>
 
-                <input
-                    type="date"
-                    value={date}
-                    onChange={(e)=>setDate(e.target.value)}
-                />
 
-            </div>
 
-        </div>
 
-        <div className="input-card">
 
-            <label>Time</label>
 
-            <div className="input-group">
+{/* SECTION */}
 
-                <FaClock className="input-icon"/>
+<div className="input-card">
 
-                <input
-                    type="time"
-                    value={time}
-                    onChange={(e)=>setTime(e.target.value)}
-                />
 
-            </div>
+<label>
+Section
+</label>
 
-        </div>
-        <div className="button-card">
 
-            <button
-                className="load-btn"
-                onClick={handleLoad}
-            >
-                Load Students
-            </button>
+<div className="input-group">
 
-        </div>
 
-        <div className="button-card">
+<FaUsers className="input-icon"/>
 
-            <button
-                type="button"
-                className="not-held-btn"
-                onClick={onNotHeld}
-            >
-                Mark Not Held
-            </button>
 
-        </div>
+<input
 
-    </div>
+type="text"
+
+value={section}
+
+readOnly
+
+/>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+{/* SUBJECT */}
+
+<div className="input-card">
+
+
+<label>
+Subject
+</label>
+
+
+<div className="input-group">
+
+
+<FaBook className="input-icon"/>
+
+
+<input
+
+type="text"
+
+value={subject}
+
+readOnly
+
+/>
+
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<div className="header-grid second-grid">
+
+
+
+{/* DATE */}
+
+<div className="input-card">
+
+
+<label>
+Date
+</label>
+
+
+<div className="input-group">
+
+
+<FaCalendarAlt className="input-icon"/>
+
+
+<input
+
+type="date"
+
+value={date}
+
+onChange={(e)=>setDate(e.target.value)}
+
+/>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+{/* TIME */}
+
+<div className="input-card">
+
+
+<label>
+Time
+</label>
+
+
+<div className="input-group">
+
+
+<FaClock className="input-icon"/>
+
+
+<input
+
+type="time"
+
+value={time}
+
+onChange={(e)=>setTime(e.target.value)}
+
+/>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div className="button-card">
+
+
+<button
+
+className="load-btn"
+
+onClick={handleLoad}
+
+>
+
+Load Students
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div className="button-card">
+
+
+<button
+
+type="button"
+
+className="not-held-btn"
+
+onClick={onNotHeld}
+
+>
+
+Mark Not Held
+
+</button>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
 
 </div>
 
 );
+
+
 }
+
+
 export default AttendanceHeader;

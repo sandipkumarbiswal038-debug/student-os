@@ -9,6 +9,7 @@ import {
 
 import "../styles/FacultyLogin.css";
 import niisLogo from "../assets/niis.logo.png";
+import { authenticatedRequest, loginUser } from "../api/authApi";
 
 export default function FacultyLogin() {
 
@@ -18,6 +19,8 @@ export default function FacultyLogin() {
   const [password, setPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [errors, setErrors] = useState({});
 
@@ -45,38 +48,53 @@ export default function FacultyLogin() {
 
     }
 
-    else if (password.length < 8) {
-
-      newErrors.password =
-        "Password must be at least 8 characters";
-
-    }
-
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
 
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
 
     e.preventDefault();
 
     if (!validate()) return;
 
-    if (
-      email === "faculty@niba.edu.in"&
-      password === "Faculty@123"
-    ) {
+    setIsSubmitting(true);
+    setErrors({});
 
-      navigate("/attendance");
+    try {
+      const { data } = await loginUser(email, password, "faculty");
 
-    } else {
+      const token = data.token || data.access || data.access_token || data.key;
+      if (!token) throw new Error("The login server did not return an access token.");
 
+      const usersPayload = await authenticatedRequest("/api/users/", token);
+      const users = Array.isArray(usersPayload) ? usersPayload : usersPayload?.results || [];
+      const faculty = users.find((user) =>
+        user.college_email?.toLowerCase() === email.trim().toLowerCase() &&
+        user.role?.toLowerCase() === "faculty"
+      );
+      if (!faculty) throw new Error("This email is not registered as a faculty account.");
+
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("currentUser", JSON.stringify({ ...data.user, ...faculty }));
+      navigate("/faculty/dashboard");
+    } catch (error) {
+      const message = error.response?.data?.detail || (
+        error.request
+          ? "Unable to reach the login server. The backend may be offline or blocking this browser."
+          : error.message
+      );
       setErrors({
-        login: "Invalid email or password",
+        login: message || (
+          error.request
+            ? "Unable to connect to the login server. Please try again shortly."
+            : "Unable to sign in. Please try again."
+        ),
       });
-
+    } finally {
+      setIsSubmitting(false);
     }
 
   };
@@ -183,8 +201,9 @@ export default function FacultyLogin() {
           <button
             type="submit"
             className="login-btn"
+            disabled={isSubmitting}
           >
-            Login
+            {isSubmitting ? "Signing in..." : "Login"}
           </button>
 
         </form>

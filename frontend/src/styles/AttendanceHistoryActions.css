@@ -1,0 +1,11 @@
+.history-page .history-header { margin-bottom: 18px; }
+.history-page .history-header h1 { margin: 0; color: #17352a; font-family: Georgia, serif; font-size: 28px; }
+.history-page .history-header p { margin: 6px 0 0; color: #6b7c72; }
+.history-page .search-wrapper { display: flex; align-items: center; gap: 10px; color: #3f704d; }
+.history-page .action-buttons button { display: grid; width: 38px; height: 34px; place-items: center; border-radius: 7px; cursor: pointer; transition: transform .15s, background .15s; }
+.history-page .action-buttons button:hover { transform: translateY(-1px); }
+.history-page .view-btn { min-width: 0; border: 1px solid #31589e; background: #31589e; color: #fff; }
+.history-page .edit-btn { min-width: 0; border: 1px solid #c7902c; background: #fffaf0; color: #986813; }
+.history-page .delete-btn { border: 1px solid #d77268; background: #fff4f2; color: #b4453b; }
+.history-edit-label { display: grid; gap: 8px; color: #17352a; font-weight: 800; }
+.history-edit-label select { height: 42px; padding: 0 12px; border: 1px solid #cbd8d0; border-radius: 7px; background: #fff; font: inherit; }

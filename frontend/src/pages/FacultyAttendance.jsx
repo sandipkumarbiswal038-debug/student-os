@@ -8,7 +8,9 @@ import TodayClasses from "../components/TodayClasses";
 import AttendanceHeader from "../components/AttendanceHeader";
 import StudentTable from "../components/StudentTable";
 import AttendanceSuccessModal from "../components/AttendanceSuccessModal";
+
 import { attendanceApi } from "../services/attendanceApi";
+import { studentApi } from "../services/studentApi";
 
 import AttendanceHistory from "./AttendanceHistory";
 import MyClasses from "./MyClasses";
@@ -16,455 +18,418 @@ import MyClasses from "./MyClasses";
 import "../styles/FacultyAttendance.css";
 import "../styles/FacultyTheme.css";
 
-
 function FacultyAttendance() {
-
-
   const location = useLocation();
 
-  const selectedClassData = location.state;
+const selectedClassData = location.state;
 
+const [activeTab, setActiveTab] = useState("attendance");
 
-
-  // ================= STATES =================
-
-
-  const [activeTab,setActiveTab] = useState("attendance");
-
-
-  const [selectedClass,setSelectedClass] =
+const [selectedClass, setSelectedClass] =
   useState(!!selectedClassData);
 
-
-
-  const [showTable,setShowTable] =
+const [showTable, setShowTable] =
   useState(false);
 
-
-
-  const [showSuccessModal,setShowSuccessModal] =
+const [showSuccessModal, setShowSuccessModal] =
   useState(false);
 
-
-
-  const [students,setStudents] =
+const [students, setStudents] =
   useState([]);
 
-
-
-  const [search,setSearch] =
+const [search, setSearch] =
   useState("");
 
-
-  const [submittedSessions,setSubmittedSessions] =
+const [submittedSessions, setSubmittedSessions] =
   useState({});
 
-  const [isSaving, setIsSaving] = useState(false);
+const [isSaving, setIsSaving] =
+  useState(false);
 
+  const [attendanceInfo, setAttendanceInfo] = useState({
 
+  classSessionId: selectedClassData?.classSessionId || "",
 
+  course: selectedClassData?.course || "",
 
-  const [attendanceInfo,setAttendanceInfo] =
-  useState({
+  semester: selectedClassData?.semester || "",
 
-    course:selectedClassData?.course || "",
+  section: selectedClassData?.section || "",
 
-    semester:selectedClassData?.semester || "",
+  subject: selectedClassData?.subject || "",
 
-    section:selectedClassData?.section || "",
+  date:
+    selectedClassData?.date ||
+    new Date().toISOString().split("T")[0],
 
-    subject:selectedClassData?.subject || "",
+  time: selectedClassData?.time || "",
 
-    date:new Date().toISOString().split("T")[0],
+});
+// ================= SELECT CLASS =================
+const handleSelectClass = (classData) => {
 
-    time:selectedClassData?.time || ""
+  setActiveTab("attendance");
+
+  setSelectedClass(true);
+
+  setAttendanceInfo({
+
+    classSessionId: classData.id,
+
+    course: classData.course,
+
+    semester: classData.semester,
+
+    section: classData.section,
+
+    subject: classData.subject,
+
+    date: classData.date,
+
+    time: classData.time,
 
   });
 
+};
+// ================= LOAD STUDENTS =================
+const handleLoadStudents = async (data) => {
+
+  setAttendanceInfo(data);
+
+  try {
+
+    const response = await studentApi.list();
+
+    console.log("STUDENTS API RESPONSE:", response);
 
 
+    const formattedStudents = response
+
+      .filter((student) => !data.semester || Number(student.semester) === Number(data.semester))
+
+      .filter(
+        (student) =>
+          !data.section ||
+          student.section === data.section
+      )
+
+      .map((student) => ({
+
+        id: student.id,
+
+        apiStudentId: student.id,
+
+        registration_no:
+          student.registration_no || student.roll_number || "-",
+
+        student_name:
+          student.name ||
+          "Unknown Student",
+
+        semester:
+          student.semester,
+
+        present:true,
+
+      }));
 
 
-  // ================= STUDENT DATA =================
-
-
-  const studentList=[
-
-
-    {
-      id:1,
-      roll:"220001",
-      name:"Rahul Sharma",
-      present:true
-    },
-
-
-    {
-      id:2,
-      roll:"220002",
-      name:"Priya Das",
-      present:false
-    },
-
-
-    {
-      id:3,
-      roll:"220003",
-      name:"Aman Kumar",
-      present:true
-    },
-
-
-    {
-      id:4,
-      roll:"220004",
-      name:"Sneha Roy",
-      present:true
-    },
-
-
-    {
-      id:5,
-      roll:"220005",
-      name:"Rohit Singh",
-      present:false
-    }
-
-
-  ];
-
-
-
-
-
-  // ================= SELECT CLASS =================
-
-
-  const handleSelectClass=(classData)=>{
-
-
-     // Attendance tab open karo
-    setActiveTab("attendance");
-
-
-    // Class select karo
-    setSelectedClass(true);
-
-
-    setAttendanceInfo({
-
-      course:classData.course,
-
-      semester:classData.semester,
-
-      section:classData.section,
-
-      subject:classData.subject,
-
-      date:new Date().toISOString().split("T")[0],
-
-      time:classData.time
-
-    });
-
-
-  };
-
-
-
-
-
-
-
-  // ================= LOAD STUDENTS =================
-
-
-  const handleLoadStudents=(data)=>{
-
-
-    console.log("LOAD CLICKED", data);
-
-    setAttendanceInfo(data);
-
-
-    setStudents(studentList.map(student => ({ ...student, present:true })));
-
+    setStudents(formattedStudents);
 
     setShowTable(true);
 
 
-  };
+  }
+  catch(error){
 
+    console.error(
+      "Student Load Error:",
+      error
+    );
 
+    alert("Unable to load students.");
 
+  }
 
+};
 
+// ================= SEARCH =================
+const filteredStudents = students.filter((student) =>
 
-
-  // ================= SEARCH =================
-
-
-  const filteredStudents =
-  students.filter(student=>
-
-    student.name
-    .toLowerCase()
+  student.student_name
+    ?.toLowerCase()
     .includes(search.toLowerCase())
 
-    ||
+  ||
 
-    student.roll
-    .toLowerCase()
+  student.registration_no
+    ?.toLowerCase()
     .includes(search.toLowerCase())
 
+);
+
+// ================= UPDATE ATTENDANCE =================
+const updateAttendance = (id, status) => {
+
+  const updatedStudents = students.map((student) =>
+
+    student.id === id
+
+      ? {
+          ...student,
+          present: status,
+        }
+
+      : student
 
   );
 
+  setStudents(updatedStudents);
 
+};
 
+// ================= MARK ALL =================
+const markAllPresent = () => {
 
+  setStudents(
 
+    students.map((student) => ({
 
+      ...student,
 
+      present: true,
 
-  // ================= UPDATE =================
+    }))
 
+  );
 
-  const updateAttendance=(id,status)=>{
+};
 
+// ================= BACK =================
+const backPage = () => {
 
-    const updated =
-    students.map(student=>
+  setSelectedClass(false);
 
-      student.id===id
+  setShowTable(false);
 
-      ?
+  setStudents([]);
 
-      {
-        ...student,
-        present:status
-      }
+  setSearch("");
 
-      :
+};
 
-      student
+// ================= NOT HELD =================
+const handleNotHeld = () => {
 
+  const sessionKey = [
 
-    );
+    attendanceInfo.course,
 
+    attendanceInfo.semester,
 
-    setStudents(updated);
+    attendanceInfo.section,
 
+    attendanceInfo.subject,
 
-  };
+    attendanceInfo.date,
 
+    attendanceInfo.time,
 
+  ].join("|");
 
 
+  if (submittedSessions[sessionKey]) {
 
+    alert("This attendance is already submitted.");
 
+    return;
 
-  // ================= MARK ALL =================
+  }
 
 
-  const markAllPresent=()=>{
+  setSubmittedSessions((prev) => ({
 
+    ...prev,
 
-    setStudents(
+    [sessionKey]: "not-held",
 
-      students.map(student=>({
+  }));
 
-        ...student,
 
-        present:true
+  alert(
+    `Class marked as Not Held.\n${attendanceInfo.subject}`
+  );
 
-      }))
+};
 
-    );
+// ================= SAVE ATTENDANCE =================
+const saveAttendance = async () => {
 
 
-  };
+  if(students.length === 0){
 
+    alert("Please load students first");
 
+    return;
 
+  }
 
 
 
+  const classSessionId = attendanceInfo.classSessionId;
 
 
-  // ================= BACK =================
 
+  if(!classSessionId){
 
-  const backPage=()=>{
+    alert("Class session not found.");
 
+    return;
 
-    setSelectedClass(false);
+  }
 
-    setShowTable(false);
 
-    setStudents([]);
 
-    setSearch("");
+  try {
 
 
-  };
+    setIsSaving(true);
 
 
 
+    const attendanceData = students.map((student)=>({
 
 
+      student: student.apiStudentId,
 
 
+      class_session: classSessionId,
 
-  // ================= NOT HELD =================
 
+      status: student.present
+        ? "Present"
+        : "Absent"
 
-  const handleNotHeld=()=>{
 
 
-    const sessionKey = [
-      attendanceInfo.course,
-      attendanceInfo.semester,
-      attendanceInfo.section,
-      attendanceInfo.subject,
-      attendanceInfo.date,
-      attendanceInfo.time,
-    ].join("|");
-
-    if (submittedSessions[sessionKey]) {
-      alert("An attendance entry already exists for this class. Please use Attendance History to correct it.");
-      return;
-    }
-
-    setSubmittedSessions((sessions) => ({
-      ...sessions,
-      [sessionKey]: "not-held",
     }));
 
 
-    alert(
-      `Class marked as Not Held. It will not be included in attendance percentage.\n${attendanceInfo.subject}`
+
+
+
+    console.log(
+      "ATTENDANCE DATA:",
+      attendanceData
     );
 
 
-  };
+
+
+
+    await Promise.all(attendanceData.map((entry) => attendanceApi.mark(entry)));
 
 
 
 
 
+    alert(
+      "Attendance submitted successfully"
+    );
 
 
-  // ================= SAVE =================
-
-
-  const saveAttendance=async ()=>{
-
-
-    if(students.length===0){
-
-      alert("Please load students first");
-
-      return;
-
-    }
-
-    const sessionKey = [
-      attendanceInfo.course,
-      attendanceInfo.semester,
-      attendanceInfo.section,
-      attendanceInfo.subject,
-      attendanceInfo.date,
-      attendanceInfo.time,
-    ].join("|");
-
-    if (submittedSessions[sessionKey]) {
-      alert("Attendance has already been submitted for this class. Please use Attendance History to correct it within 24 hours.");
-      return;
-    }
-
-    const classSessionId = attendanceInfo.classSessionId;
-
-    if (!classSessionId || students.some((student) => !student.apiStudentId)) {
-      alert("Attendance needs a classSessionId and apiStudentId values from your backend before it can be saved.");
-      return;
-    }
-
-    try {
-      setIsSaving(true);
-      await Promise.all(students.map((student) => attendanceApi.mark({
-        student: student.apiStudentId,
-        class_session: classSessionId,
-        status: student.present ? "Present" : "Absent",
-      })));
-      setSubmittedSessions((sessions) => ({ ...sessions, [sessionKey]: "submitted" }));
-      setShowSuccessModal(true);
-    } catch (error) {
-      alert(`Could not save attendance: ${error.message}`);
-    } finally {
-      setIsSaving(false);
-    }
-
-
-  };
+    setShowSuccessModal(true);
 
 
 
+  }
+
+  catch(error){
+
+
+    console.error(
+      "Attendance Save Error:",
+      error
+    );
+
+
+    alert(
+      error.message ||
+      "Could not save attendance"
+    );
+
+
+  }
+
+  finally{
+
+
+    setIsSaving(false);
+
+
+  }
 
 
 
+};
+// ================= CLOSE MODAL =================
+const handleCloseSuccessModal = () => {
 
-  // ================= CLOSE MODAL =================
+  setShowSuccessModal(false);
 
+  setSelectedClass(false);
 
-  const handleCloseSuccessModal=()=>{
+  setShowTable(false);
 
+  setStudents([]);
 
-    setShowSuccessModal(false);
-
-    setSelectedClass(false);
-
-    setShowTable(false);
-
-    setStudents([]);
-
-  };
-
-
-
-
-
-
-
-
-
-  return (
-
+};
+return (
 
 <div className="attendance-layout">
-
 
 
 <Sidebar variant="faculty" />
 
 
-
 <div className="attendance-main">
-
 
 
 <Header variant="faculty" />
 
+
 <section className="attendance-page-head">
+
   <div>
-    <p className="page-eyebrow">FACULTY PORTAL</p>
-    <h1>Attendance</h1>
-    <p className="page-description">Manage today&apos;s classes and record student attendance.</p>
+
+    <p className="page-eyebrow">
+      FACULTY PORTAL
+    </p>
+
+    <h1>
+      Attendance
+    </h1>
+
+    <p className="page-description">
+      Manage today's classes and record student attendance.
+    </p>
+
   </div>
+
+
   <div className="page-date">
-    <span>Academic session</span>
-    <strong>2025–26</strong>
+
+    <span>
+      Academic session
+    </span>
+
+    <strong>
+      2025–26
+    </strong>
+
   </div>
+
+
 </section>
 
 
@@ -479,37 +444,24 @@ setActiveTab={setActiveTab}
 
 
 
-
-
 <div className="attendance-container">
-
-
-
-
-
-{/* ================= ATTENDANCE ================= */}
-
-
+   
+  {/* ================= ATTENDANCE ================= */}
 
 {
-
-activeTab==="attendance" &&
-
+activeTab === "attendance" &&
 
 <>
-
 
 {
 
 !selectedClass &&
-
 
 <TodayClasses
 
 onSelectClass={handleSelectClass}
 
 />
-
 
 }
 
@@ -518,7 +470,6 @@ onSelectClass={handleSelectClass}
 {
 
 selectedClass &&
-
 
 <AttendanceHeader
 
@@ -530,19 +481,12 @@ onNotHeld={handleNotHeld}
 
 />
 
-
 }
-
-
-
-
 {
 
 showTable &&
 
-
 <>
-
 
 <div className="attendance-tools">
 
@@ -584,7 +528,6 @@ Mark All Present
 
 
 
-
 <div className="attendance-summary">
 
 
@@ -592,7 +535,9 @@ Mark All Present
 
 Total :
 
-<b>{students.length}</b>
+<b>
+{students.length}
+</b>
 
 </span>
 
@@ -605,11 +550,9 @@ Present :
 <b>
 
 {
-
 students.filter(
-s=>s.present
+(student)=>student.present
 ).length
-
 }
 
 </b>
@@ -626,11 +569,9 @@ Absent :
 <b>
 
 {
-
 students.filter(
-s=>!s.present
+(student)=>!student.present
 ).length
-
 }
 
 </b>
@@ -638,10 +579,7 @@ s=>!s.present
 </span>
 
 
-
 </div>
-
-
 
 
 
@@ -665,7 +603,6 @@ isSaving={isSaving}
 
 
 
-
 <AttendanceSuccessModal
 
 open={showSuccessModal}
@@ -680,83 +617,51 @@ onClose={handleCloseSuccessModal}
 
 
 
-
 </>
 
-
 }
-
-
-
-
 </>
 
-
 }
-
-
-
-
-
-
-
 
 {/* ================= MY CLASSES ================= */}
 
 
-
 {
 
-activeTab==="classes" &&
+activeTab === "classes" &&
 
 
 <MyClasses
-  onStartAttendance={handleSelectClass}
- />
 
+onStartAttendance={handleSelectClass}
+
+/>
 
 
 }
 
-
-
-
-
-
-
-
 {/* ================= HISTORY ================= */}
-
 
 
 {
 
-activeTab==="history" &&
+activeTab === "history" &&
 
 
 <AttendanceHistory />
 
 
-
 }
-
-
-
+</div>
 
 
 </div>
 
 
-
 </div>
 
-
-
-</div>
-
-
-
-  );
+);
 
 }
 

@@ -1,231 +1,123 @@
 import React from "react";
 import "../styles/StudentTable.css";
 
-
 function StudentTable({
-
   students,
   updateAttendance,
   backPage,
   saveAttendance,
   isSaving,
-
 }) {
 
+  return (
 
-return (
+    <div className="student-table-card">
 
-<div className="student-table-card">
+      <table className="student-table">
 
+        <thead>
 
-<table className="student-table">
+          <tr>
+            <th>Sl No.</th>
+            <th>Regd No</th>
+            <th>Student Name</th>
+            <th>Status</th>
+          </tr>
 
+        </thead>
 
-<thead>
+        <tbody>
 
-<tr>
+          {students.length === 0 ? (
 
-<th>Sl No.</th>
+            <tr>
 
-<th>Regd No</th>
+              <td
+                colSpan="4"
+                className="no-data"
+              >
+                No students found.
+              </td>
 
-<th>Student Name</th>
+            </tr>
 
-<th>Status</th>
+          ) : (
 
-</tr>
+            students.map((student, index) => (
 
-</thead>
+              <tr key={student.id}>
 
+                <td>{index + 1}</td>
 
+                <td>{student.registration_no}</td>
 
-<tbody>
+                <td>{student.student_name}</td>
 
+                <td>
 
-{
-students.length === 0 ?
+                  <div className="status-toggle">
 
+                    <button
+                      className={
+                        student.present
+                          ? "toggle-btn active-present"
+                          : "toggle-btn"
+                      }
+                      onClick={() => updateAttendance(student.id, true)}
+                      disabled={isSaving}
+                    >
+                      Present
+                    </button>
 
-(
+                    <button
+                      className={
+                        !student.present
+                          ? "toggle-btn active-absent"
+                          : "toggle-btn"
+                      }
+                      onClick={() => updateAttendance(student.id, false)}
+                      disabled={isSaving}
+                    >
+                      Absent
+                    </button>
 
-<tr>
+                  </div>
 
-<td 
-colSpan="4" 
-className="no-data"
->
+                </td>
 
-No students found.
+              </tr>
 
-</td>
+            ))
 
-</tr>
+          )}
 
-)
+        </tbody>
 
+      </table>
 
-:
+      <div className="table-buttons">
 
+        <button
+          className="back-btn"
+          onClick={backPage}
+          disabled={isSaving}
+        >
+          ← Back
+        </button>
 
-students.map((student,index)=>(
+        <button
+          className="submit-btn"
+          onClick={saveAttendance}
+          disabled={isSaving}
+        >
+          {isSaving ? "Saving..." : "Submit Attendance →"}
+        </button>
 
+      </div>
 
-<tr key={student.id}>
+    </div>
 
-
-<td>
-
-{index+1}
-
-</td>
-
-
-
-<td>
-
-{student.roll}
-
-</td>
-
-
-
-
-<td>
-
-{student.name}
-
-</td>
-
-
-
-
-
-<td>
-
-
-<div className="status-toggle">
-
-
-<button
-
-className={
-student.present
-?
-"toggle-btn active-present"
-:
-"toggle-btn"
+  );
 }
-
-
-onClick={()=>updateAttendance(
-student.id,
-true
-)}
-
->
-
-Present
-
-</button>
-
-
-
-
-
-<button
-
-className={
-!student.present
-?
-"toggle-btn active-absent"
-:
-"toggle-btn"
-}
-
-
-onClick={()=>updateAttendance(
-student.id,
-false
-)}
-
->
-
-Absent
-
-</button>
-
-
-
-</div>
-
-
-
-</td>
-
-
-
-</tr>
-
-
-
-))
-
-}
-
-
-
-</tbody>
-
-
-</table>
-
-
-
-
-
-<div className="table-buttons">
-
-
-<button
-
-className="back-btn"
-
-onClick={backPage}
-
->
-
-← Back
-
-</button>
-
-
-
-<button
-
-className="submit-btn"
-
-onClick={saveAttendance}
-disabled={isSaving}
-
->
-
-Submit Attendance →
-
-</button>
-
-
-
-</div>
-
-
-
-</div>
-
-
-);
-
-
-}
-
 
 export default StudentTable;

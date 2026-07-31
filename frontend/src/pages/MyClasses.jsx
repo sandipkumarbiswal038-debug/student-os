@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import "../styles/MyClasses.css";
 
@@ -9,71 +9,199 @@ import {
   FaMapMarkerAlt,
 } from "react-icons/fa";
 
-
-const classes = [
-
-  {
-    id:1,
-    subject:"Machine Learning",
-    course:"MCA",
-    semester:"Semester 2",
-    section:"A",
-    room:"Lab-201",
-    time:"10:00 AM - 11:00 AM",
-    students:45,
-    status:"Active",
-  },
-
-
-  {
-    id:2,
-    subject:"Cloud Computing",
-    course:"MCA",
-    semester:"Semester 2",
-    section:"B",
-    room:"Room-302",
-    time:"11:30 AM - 12:30 PM",
-    students:42,
-    status:"Active",
-  },
-
-
-  {
-    id:3,
-    subject:"Operating System",
-    course:"BCA",
-    semester:"Semester 3",
-    section:"A",
-    room:"Room-105",
-    time:"2:00 PM - 3:00 PM",
-    students:48,
-    status:"Upcoming",
-  }
-
-
-];
+import { classApi } from "../services/classApi";
 
 
 
 function MyClasses({onStartAttendance}) {
 
 
+const [classes,setClasses] = useState([]);
+
+const [loading,setLoading] = useState(true);
+
+
+
+
+
+// ================= FETCH CLASSES =================
+
+
+useEffect(()=>{
+
+
+const fetchClasses = async()=>{
+
+
+try{
+
+
+const response = await classApi.list();
+
+console.log("CLASS API DATA:",response);
+
+
+
+
+
+const formatted = response.map((item)=>(
+
+
+{
+
+
+id:item.id,
+
+
+subject:
+item.subject_name || 
+item.subject || 
+"Subject",
+
+
+
+course:item.course,
+
+
+semester:
+`Semester ${item.semester}`,
+
+
+section:item.section,
+
+
+room:
+item.room || "Not Assigned",
+
+
+
+time:
+`${item.start_time} - ${item.end_time}`,
+
+
+
+students:
+item.students_count || 0,
+
+
+
+status:"Active",
+
+
+
+}
+
+
+
+));
+
+
+
+setClasses(formatted);
+
+
+
+}
+
+catch(error){
+
+
+console.error(
+"Class fetch error",
+error
+);
+
+
+}
+
+
+
+finally{
+
+
+setLoading(false);
+
+
+}
+
+
+
+};
+
+
+
+fetchClasses();
+
+
+},[]);
+
+
+
+
+
+
+
 return (
+
 
 <div className="classes-page">
 
 
+
+
+
 <div className="classes-title">
+
 
 <h1>
 My Classes
 </h1>
 
+
 <p>
 View your assigned classes and start attendance
 </p>
 
+
 </div>
+
+
+
+
+
+
+{
+
+loading &&
+
+<h3>
+Loading Classes...
+</h3>
+
+
+}
+
+
+
+
+
+
+
+{
+
+!loading && classes.length===0 &&
+
+<h3>
+No classes found
+</h3>
+
+
+}
+
+
+
+
+
 
 
 
@@ -81,34 +209,41 @@ View your assigned classes and start attendance
 <div className="classes-grid">
 
 
+
+
+
 {
 
 classes.map((item)=>(
 
 
-<div 
+<div
+
 key={item.id}
+
 className="my-class-card"
+
 >
+
+
 
 
 
 <div className="my-card-top">
 
 
+
 <div className="my-subject-icon">
 
-<FaBook />
+<FaBook/>
 
 </div>
 
 
 
-<span 
-className={
-item.status.toLowerCase()
-}
->
+
+
+<span className="active">
 
 {item.status}
 
@@ -122,14 +257,21 @@ item.status.toLowerCase()
 
 
 
+
+
 <h2>
+
 {item.subject}
+
 </h2>
 
 
 
 
+
+
 <p>
+
 
 {item.course}
 
@@ -141,7 +283,10 @@ item.status.toLowerCase()
 
 Section {item.section}
 
+
 </p>
+
+
 
 
 
@@ -150,9 +295,10 @@ Section {item.section}
 <div className="info">
 
 
+
 <span>
 
-<FaClock />
+<FaClock/>
 
 {item.time}
 
@@ -160,9 +306,11 @@ Section {item.section}
 
 
 
+
+
 <span>
 
-<FaMapMarkerAlt />
+<FaMapMarkerAlt/>
 
 {item.room}
 
@@ -170,13 +318,19 @@ Section {item.section}
 
 
 
+
+
+
+
 <span>
 
-<FaUsers />
+<FaUsers/>
 
 {item.students} Students
 
 </span>
+
+
 
 
 
@@ -186,15 +340,27 @@ Section {item.section}
 
 
 
+
+
+
+
 <button
 
 className="take-btn"
 
-onClick={()=>onStartAttendance(item)}
+onClick={()=>onStartAttendance({
+
+...item,
+
+classSessionId:item.id
+
+})}
 
 >
 
+
 Take Attendance
+
 
 </button>
 
@@ -205,6 +371,7 @@ Take Attendance
 </div>
 
 
+
 ))
 
 
@@ -212,7 +379,11 @@ Take Attendance
 
 
 
+
+
 </div>
+
+
 
 
 

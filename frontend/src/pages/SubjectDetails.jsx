@@ -1,90 +1,54 @@
-import "../styles/SubjectDetails.css";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar"; 
-import Header from "../components/Header"; 
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
+import { getSubjectAttendance } from "../api/studentAttendanceApi";
+import "../styles/SubjectDetails.css";
 
 function SubjectDetails() {
-    const location = useLocation();
-    const navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const subject = location.state?.subject;
+  const [details, setDetails] = useState(null);
+  const [error, setError] = useState("");
 
-    const {
-    subject = "Java",
-    held = 40,
-    attended = 36,
-    percentage = 90
-} = location.state || {};
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const student = JSON.parse(localStorage.getItem("currentUser") || "null");
+    if (!token || !student || !subject) {
+      navigate("/student/attendance", { replace: true });
+      return;
+    }
+
+    getSubjectAttendance(token, student, subject)
+      .then(setDetails)
+      .catch((requestError) => setError(requestError.message || "Unable to load attendance details."));
+  }, [navigate, subject]);
+
+  const total = details?.total ?? 0;
+  const attended = details?.attended ?? 0;
+  const percentage = details?.percentage ?? 0;
+  const subjectName = subject?.name || "Subject";
+
   return (
-    <>
-
-    <Sidebar/>
-    <div className="details-container">
-
-       <Header />
-
-      <div className="details-card">
-
-      <h1>{subject} Attendance Details</h1>
-
-      <div className="stats-section">
-
-      <div className="stat-card">
-        <h3>Total Classes</h3>
-        <h2>{held}</h2>
-      </div>
-
-      <div className="stat-card">
-        <h3>Classes Attended</h3>
-        <h2>{attended}</h2>
-      </div>
-
-      <div className="stat-card">
-        <h3>Classes Missed</h3>
-        <h2>{held - attended}</h2>
-      </div>
-
-      <div className="stat-card">
-        <h3>Current Attendance</h3>
-        <h2>{percentage}%</h2>
-      </div>
-
-    </div>
-        <div className="projection-box">
-
-    
-          
-
-          <p><strong>Minimum Required:</strong> 75%
-          </p>
-          {percentage >= 75 ? (
-
-
-          <p className="good">
-            ✅ You are above the required attendance.
-            Keep attending classes regularly.
-          </p>
-          ) : (
-            <p className="warning-text">
-            ⚠ Your attendance is below 75%.
-            Please attend upcoming classes regularly.
-            </p>
-
-          )}
-
-
+    <><Sidebar />
+      <div className="details-container"><Header />
+        <div className="details-card">
+          <h1>{subjectName} Attendance Details</h1>
+          {!details && !error && <p>Loading attendance details...</p>}
+          {error && <p className="error login-error">{error}</p>}
+          <div className="stats-section">
+            <div className="stat-card"><h3>Total Classes</h3><h2>{total}</h2></div>
+            <div className="stat-card"><h3>Classes Attended</h3><h2>{attended}</h2></div>
+            <div className="stat-card"><h3>Classes Missed</h3><h2>{Math.max(0, total - attended)}</h2></div>
+            <div className="stat-card"><h3>Current Attendance</h3><h2>{percentage}%</h2></div>
+          </div>
+          {details && total === 0 && <p className="warning-text">No attendance records have been published for this subject yet.</p>}
+          {details && total > 0 && <div className="projection-box"><p><strong>Minimum Required:</strong> 75%</p><p className={percentage >= 75 ? "good" : "warning-text"}>{percentage >= 75 ? "You are above the required attendance." : "Your attendance is below 75%. Please attend upcoming classes regularly."}</p></div>}
+          <button className="back-btn" onClick={() => navigate("/student/attendance")}>← Back</button>
         </div>
-
-        <button
-            className="back-btn"
-            onClick={() => navigate("/student/attendance")}
-        >
-        ← Back 
-        </button>
-
-
       </div>
-
-    </div>
-      </>
+    </>
   );
 }
 

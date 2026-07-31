@@ -1,131 +1,307 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/TodayClasses.css";
-import { FaArrowRight, FaCheckCircle, FaClock } from "react-icons/fa";
+
+import {
+  FaArrowRight,
+  FaCheckCircle,
+  FaClock,
+} from "react-icons/fa";
+
+import { classApi } from "../services/classApi";
 
 
-const classes = [
-  {
-    id: 1,
-    time: "09:00",
-    subject: "Data Structures",
-    section: "SEC A",
-    room: "Room 204",
-    type: "Theory",
-    status: "Pending",
-  },
-  {
-    id: 2,
-    time: "11:00",
-    subject: "DBMS Lab",
-    section: "SEC B",
-    room: "Lab 3",
-    type: "Practical",
-    status: "Completed",
-  },
-  {
-    id: 3,
-    time: "14:00",
-    subject: "Operating Systems",
-    section: "SEC A",
-    room: "Room 108",
-    type: "Theory",
-    status: "Upcoming",
-  },
-];
+export default function TodayClasses({ onSelectClass }) {
 
-export default function TodayClasses({onSelectClass}) {
-  
+
+  const [classes, setClasses] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+
+
+  useEffect(() => {
+
+
+    const loadClasses = async () => {
+
+
+      try {
+
+
+        const response = await classApi.list();
+
+
+        console.log("CLASS API RESPONSE:", response);
+
+
+
+        const formattedClasses = response.map((item) => ({
+
+
+          id: item.id,
+
+
+          course: item.course,
+
+
+          semester: item.semester,
+
+
+          section: item.section,
+
+
+          subject:item.subject_name || item.subject,
+
+
+          date: item.date,
+
+
+          time: item.start_time,
+
+
+          endTime: item.end_time,
+
+
+          status: "Pending",
+
+
+        }));
+
+
+
+        setClasses(formattedClasses);
+
+
+
+      }
+      catch(error){
+
+
+        console.error(
+          "Class API Error:",
+          error
+        );
+
+
+      }
+      finally{
+
+
+        setLoading(false);
+
+
+      }
+
+
+    };
+
+
+
+    loadClasses();
+
+
+  }, []);
+
+
+
+
+
   return (
+
+
     <div className="today-page">
 
+
       <div className="today-header">
-        <h2>Today's Classes</h2>
+
+
+        <h2>
+          Today's Classes
+        </h2>
+
+
 
         <button className="today-link">
-          View Schedule <FaArrowRight />
+
+          View Schedule 
+          <FaArrowRight />
+
         </button>
+
+
+
       </div>
 
-      {/* ONE WHITE CONTAINER */}
+
+
+
+
       <div className="class-container">
 
-        {classes.map((item) => (
 
-          <div className="class-row" key={item.id}>
 
-            <div className="class-time">
-              {item.time}
-            </div>
+        {
+          loading ?
 
-            <div className="class-info">
 
-              <div className="title-row">
-                <h3>{item.subject}</h3>
+          (
 
-                <span className="section">
-                  {item.section}
-                </span>
+            <h3>
+              Loading classes...
+            </h3>
+
+          )
+
+
+          :
+
+
+          classes.length === 0 ?
+
+
+          (
+
+            <h3>
+              No classes found.
+            </h3>
+
+          )
+
+
+          :
+
+
+
+          classes.map((item)=>(
+
+
+
+            <div
+              className="class-row"
+              key={item.id}
+            >
+
+
+
+
+              <div className="class-time">
+
+                {item.time}
+
               </div>
 
-              <p>
-                {item.room} • {item.type}
-              </p>
 
-            </div>
 
-            <div className="status">
 
-              {item.status === "Pending" && (
+
+              <div className="class-info">
+
+
+                <div className="title-row">
+
+
+                  <h3>
+
+                    {item.subject}
+
+                  </h3>
+
+
+
+                  <span className="section">
+
+                    SEC {item.section}
+
+                  </span>
+
+
+
+                </div>
+
+
+
+
+                <p>
+
+                  {item.course} • Semester {item.semester}
+
+                </p>
+
+
+
+              </div>
+
+
+
+
+
+
+
+              <div className="status">
+
+
                 <span className="pending">
-                  <FaClock /> Pending
+
+                  <FaClock />
+
+                  Pending
+
                 </span>
-              )}
 
-              {item.status === "Completed" && (
-                <span className="completed">
-                  <FaCheckCircle /> Completed
-                </span>
-              )}
 
-              {item.status === "Upcoming" && (
-                <span className="upcoming">
-                  Upcoming
-                </span>
-              )}
+              </div>
 
-            </div>
 
-            <div className="action">
 
-              {item.status === "Pending" && (
+
+
+
+
+              <div className="action">
+
+
                 <button
-                 className="mark-btn"
-                 onClick={()=>onSelectClass(item)}
+
+                  className="mark-btn"
+
+                  onClick={()=>
+                    onSelectClass(item)
+                  }
+
                 >
-                 Mark Attendance
-                </button>
-              )}
 
-              {item.status === "Completed" && (
-                <button className="view-btn">
-                  View Attendance
-                </button>
-              )}
+                  Mark Attendance
 
-              {item.status === "Upcoming" && (
-                <button className="disable-btn">
-                  Upcoming
+
                 </button>
-              )}
+
+
+
+              </div>
+
+
+
+
+
 
             </div>
 
-          </div>
 
-        ))}
+
+          ))
+
+
+
+        }
+
+
 
       </div>
 
+
     </div>
+
+
   );
+
 }
