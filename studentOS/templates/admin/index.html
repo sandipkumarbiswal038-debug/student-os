@@ -6,26 +6,39 @@
 <h1>🎓 StudentOS Dashboard</h1>
 
 <div class="dashboard-cards">
+
+    <a href="/admin/student/student/" style="text-decoration:none; color:inherit;">
     <div class="card">
         <h2>👨‍🎓 Students</h2>
         <p>Manage all students</p>
     </div>
+</a>
 
+    <a href="/admin/subjects/subject/" style="text-decoration:none; color:inherit;">
     <div class="card">
         <h2>📚 Subjects</h2>
-        <p>Manage subjects</p>
+        <p>Manage all subjects</p>
     </div>
+</a>
 
-    <div class="card">
-        <h2>📅 Events</h2>
-        <p>Manage events</p>
-    </div>
+    <a href="/admin/events/event/" style="text-decoration:none; color:inherit;">
+        <div class="card">
+            <h2>📅 Events</h2>
+            <p>Manage campus events</p>
+        </div>
+    </a>
 
+
+    <a href="/admin/assignments/assignment/" style="text-decoration:none; color:inherit;">
     <div class="card">
         <h2>📝 Assignments</h2>
         <p>Manage assignments</p>
     </div>
+</a>
+
 </div>
+
+
 
 {{ block.super }}
 
