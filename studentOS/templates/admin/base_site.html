@@ -1,0 +1,67 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}
+StudentOS Admin Portal
+{% endblock %}
+
+{% block branding %}
+<div style="display:flex; align-items:center;">
+    <img src="{% static 'images/logo.png' %}"
+         alt="StudentOS Logo"
+         style="height:50px; margin-right:15px;">
+
+    <div>
+        <h1 id="site-name" style="margin:0; color:white;">
+            StudentOS Admin Portal
+        </h1>
+
+        <p style="margin:0; color:#d1d5db; font-size:14px;">
+            Smart Campus Management System
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block nav-global %}
+{% endblock %}
+
+{% block extrastyle %}
+<style>
+
+#header{
+    background:#1E3A8A;
+}
+
+#branding h1 a{
+    color:white;
+    text-decoration:none;
+}
+
+.module caption{
+    background:#2563EB;
+}
+
+.button,
+input[type=submit],
+input[type=button],
+.submit-row input{
+    background:#2563EB;
+    border-radius:8px;
+}
+
+.button:hover,
+input[type=submit]:hover{
+    background:#1D4ED8;
+}
+
+#user-tools{
+    color:white;
+}
+
+#user-tools a{
+    color:#FBBF24;
+}
+
+</style>
+{% endblock %}
