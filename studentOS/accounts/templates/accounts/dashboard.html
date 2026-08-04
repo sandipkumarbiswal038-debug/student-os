@@ -10,12 +10,15 @@
     <h1>Welcome, {{ student.name }}</h1>
 
     <p>Email: {{ student.college_email }}</p>
+    <p>course: {{ student.course }}</p>
 
-    <p>Roll Number: {{ student.roll_number }}</p>
+    <p>Registration no: {{ student.registration_no }}</p>
 
     <p>Batch: {{ student.batch }}</p>
 
     <p>Role: {{ student.role }}</p>
+
+    <p>contact no: {{ student.contact_no }}</p>
 
     <a href="{% url 'logout' %}">
         Logout
