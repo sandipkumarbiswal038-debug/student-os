@@ -28,7 +28,8 @@ def today_sessions(request):
         return Response({"detail": "Faculty access required."}, status=403)
     rows = ClassSession.objects.filter(date=date.today()).select_related("subject")
     if profile.role != "Admin":
-        rows = rows.filter(subject__faculty_subjects__faculty=profile)
+        # A faculty may have duplicate legacy assignments; return each session once.
+        rows = rows.filter(subject__faculty_subjects__faculty=profile).distinct()
     return Response(ClassSessionSerializer(rows, many=True).data)
 
 
