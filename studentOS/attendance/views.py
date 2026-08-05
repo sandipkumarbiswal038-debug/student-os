@@ -112,10 +112,29 @@ def attendance_record(request, pk):
     if not is_admin(profile) and timezone.now() > record.marked_at + timedelta(hours=24):
         return Response({"detail": "Attendance is locked after 24 hours."}, status=403)
     new_status = request.data.get("status")
-    if new_status not in {"Present", "Absent"}:
+    replacement_student_id = request.data.get("student_id")
+    if new_status is None and replacement_student_id is None:
+        return Response({"detail": "Provide status, or an admin-only student_id correction."}, status=400)
+    if new_status is not None and new_status not in {"Present", "Absent"}:
         return Response({"detail": "status must be Present or Absent."}, status=400)
-    record.status, record.corrected_at, record.corrected_by = new_status, timezone.now(), profile
-    record.save(update_fields=["status", "corrected_at", "corrected_by"])
+    if replacement_student_id is not None:
+        if not is_admin(profile):
+            return Response({"detail": "Only an admin can correct the student on an attendance record."}, status=403)
+        replacement = get_object_or_404(Student, pk=replacement_student_id)
+        if not Enrollment.objects.filter(student=replacement, subject=record.class_session.subject).exists():
+            return Response({"detail": "The replacement student is not enrolled in this session's subject."}, status=400)
+        if Attendance.objects.filter(class_session=record.class_session, student=replacement).exclude(pk=record.pk).exists():
+            return Response({"detail": "That student already has attendance for this class session."}, status=400)
+        record.student = replacement
+    if new_status is not None:
+        record.status = new_status
+    record.corrected_at, record.corrected_by = timezone.now(), profile
+    update_fields = ["corrected_at", "corrected_by"]
+    if new_status is not None:
+        update_fields.append("status")
+    if replacement_student_id is not None:
+        update_fields.append("student")
+    record.save(update_fields=update_fields)
     return Response(AttendanceSerializer(record).data)
 
 

@@ -26,7 +26,7 @@ def today_sessions(request):
     profile = profile_for(request)
     if profile.role not in {"Faculty", "Admin"}:
         return Response({"detail": "Faculty access required."}, status=403)
-    rows = ClassSession.objects.filter(date=date.today()).select_related("subject")
+    rows = ClassSession.objects.all().select_related("subject")
     if profile.role != "Admin":
         # A faculty may have duplicate legacy assignments; return each session once.
         rows = rows.filter(subject__faculty_subjects__faculty=profile).distinct()
