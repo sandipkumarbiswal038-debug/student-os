@@ -43,7 +43,7 @@ export default function FacultyDashboard() {
     time: item.start_time || item.time || "-",
     subject: item.subject_name || item.subject?.name || item.subject || "Subject",
     section: item.section || item.batch || "-",
-    detail: [item.room, item.class_type || item.type].filter(Boolean).join(" · ") || "Class details not available",
+    detail: [item.course_name || item.course, item.semester !== undefined && item.semester !== "-" ? `Semester ${item.semester}` : null, item.room].filter(Boolean).join(" · ") || "Class details not available",
     count: item.students_count ? `${item.students_count} students` : "—",
   }));
 

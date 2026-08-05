@@ -6,6 +6,7 @@ import { MdClass } from "react-icons/md";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { getStudentDashboard } from "../api/studentDashboardApi";
+import { getStudentAttendanceSummaries } from "../api/attendanceSummary";
 import "../styles/StudentAttendance.css";
 
 const getAttendanceState = (percentage) => {
@@ -19,6 +20,7 @@ function StudentAttendance() {
   const [student, setStudent] = useState(null);
   const [subjects, setSubjects] = useState([]);
   const [subjectsError, setSubjectsError] = useState("");
+  const [summaries, setSummaries] = useState(new Map());
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -35,22 +37,29 @@ function StudentAttendance() {
     }
     setStudent(savedUser);
 
-    const loadDashboard = async () => {
+    let refreshTimer;
+    const loadDashboard = async (showLoading = true) => {
+      if (showLoading) setLoading(true);
       try {
         const { user, subjects: apiSubjects } = await getStudentDashboard(token, savedUser);
         setStudent(user);
         setSubjects(apiSubjects);
+        setSummaries(await getStudentAttendanceSummaries(token, user, apiSubjects));
         localStorage.setItem("currentUser", JSON.stringify(user));
+        setSubjectsError("");
       } catch (requestError) {
         setSubjectsError(
           requestError.message || "Unable to load assigned subjects right now."
         );
       } finally {
-        setLoading(false);
+        if (showLoading) setLoading(false);
       }
     };
 
     loadDashboard();
+    // Attendance becomes visible on the student dashboard without requiring logout/login.
+    refreshTimer = window.setInterval(() => loadDashboard(false), 30000);
+    return () => window.clearInterval(refreshTimer);
   }, [navigate]);
 
   if (loading) {
@@ -80,16 +89,18 @@ function StudentAttendance() {
             {subjectsError && <p className="error login-error">{subjectsError}</p>}
             <div className="student-table-wrapper">
               <table className="student-table">
-                <thead><tr><th>Subject</th><th>Code</th><th>Semester</th><th>Action</th></tr></thead>
+                <thead><tr><th>Subject</th><th>Code</th><th>Semester</th><th>Attendance</th><th>Action</th></tr></thead>
                 <tbody>
                   {subjects.length === 0 ? (
-                    <tr><td colSpan="4">No subjects have been assigned to your batch yet.</td></tr>
+                    <tr><td colSpan="5">No subjects have been assigned to your batch yet.</td></tr>
                   ) : subjects.map((subject) => {
-                    const subjectName = subject.name || subject.subject_name || subject.subject || "-";
+                    const subjectName = subject.name || subject.subject_name || subject.subject || subject.title || subject.subject_title || "-";
                     const subjectCode = subject.code || subject.subject_code || subject.subject_id || "-";
+                    const summary = summaries.get(String(subject.id ?? subject.code ?? subject.name)) || { percentage: 0, total: 0 };
                     return (
-                    <tr key={subject.id} className={`attendance-${getAttendanceState(100)}`}>
+                    <tr key={subject.id} className={`attendance-${getAttendanceState(summary.percentage)}`}>
                       <td>{subjectName}</td><td>{subjectCode}</td><td>{subject.semester || "-"}</td>
+                      <td><div className="student-progress-box"><div className="student-progress"><div className={`student-progress-fill ${summary.percentage < 75 ? "low" : ""}`} style={{ width: `${summary.percentage}%` }} /></div><span>{summary.total ? `${summary.percentage}%` : "--"}</span></div>{summary.total > 0 && summary.percentage < 75 && <small className="attendance-warning">Below 75%</small>}</td>
                       <td><button className="student-view-btn" onClick={() => navigate("/student/subject-details", { state: { subject: { ...subject, name: subjectName, code: subjectCode } } })}>View Details</button></td>
                     </tr>
                     );

@@ -41,7 +41,7 @@ export default function TodayClasses({ onSelectClass }) {
           id: item.id,
 
 
-          course: item.course,
+          course: item.course_name || item.course,
 
 
           semester: item.semester,

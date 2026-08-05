@@ -9,7 +9,7 @@ import AttendanceHeader from "../components/AttendanceHeader";
 import StudentTable from "../components/StudentTable";
 import AttendanceSuccessModal from "../components/AttendanceSuccessModal";
 
-import { attendanceApi } from "../services/attendanceApi";
+import { attendanceApi } from "../services/AttendanceAPI";
 import { studentApi } from "../services/studentApi";
 
 import AttendanceHistory from "./AttendanceHistory";
@@ -41,10 +41,25 @@ const [search, setSearch] =
   useState("");
 
 const [submittedSessions, setSubmittedSessions] =
-  useState({});
+  useState(() => {
+    try { return JSON.parse(localStorage.getItem("facultyAttendanceSessions") || "{}"); }
+    catch { return {}; }
+  });
 
 const [isSaving, setIsSaving] =
   useState(false);
+
+const rememberSession = (key, value) => {
+  setSubmittedSessions((previous) => {
+    const next = { ...previous, [key]: value };
+    localStorage.setItem("facultyAttendanceSessions", JSON.stringify(next));
+    return next;
+  });
+};
+
+const sessionKey = (info) => [
+  info.course, info.semester, info.section, info.subject, info.date, info.time,
+].join("|");
 
   const [attendanceInfo, setAttendanceInfo] = useState({
 
@@ -98,22 +113,15 @@ const handleLoadStudents = async (data) => {
 
   try {
 
-    const response = await studentApi.list();
+    const classSessionId = data.classSessionId;
+    if (!classSessionId) throw new Error("Please select a class before loading students.");
+    const response = await studentApi.classRoll(classSessionId);
 
     console.log("STUDENTS API RESPONSE:", response);
 
 
-    const formattedStudents = response
-
-      .filter((student) => !data.semester || Number(student.semester) === Number(data.semester))
-
-      .filter(
-        (student) =>
-          !data.section ||
-          student.section === data.section
-      )
-
-      .map((student) => ({
+    // User API is the source of truth for the database student list.
+    const formattedStudents = response.map((student) => ({
 
         id: student.id,
 
@@ -188,23 +196,6 @@ const updateAttendance = (id, status) => {
 
 };
 
-// ================= MARK ALL =================
-const markAllPresent = () => {
-
-  setStudents(
-
-    students.map((student) => ({
-
-      ...student,
-
-      present: true,
-
-    }))
-
-  );
-
-};
-
 // ================= BACK =================
 const backPage = () => {
 
@@ -221,24 +212,10 @@ const backPage = () => {
 // ================= NOT HELD =================
 const handleNotHeld = () => {
 
-  const sessionKey = [
-
-    attendanceInfo.course,
-
-    attendanceInfo.semester,
-
-    attendanceInfo.section,
-
-    attendanceInfo.subject,
-
-    attendanceInfo.date,
-
-    attendanceInfo.time,
-
-  ].join("|");
+  const key = sessionKey(attendanceInfo);
 
 
-  if (submittedSessions[sessionKey]) {
+  if (submittedSessions[key]) {
 
     alert("This attendance is already submitted.");
 
@@ -247,13 +224,7 @@ const handleNotHeld = () => {
   }
 
 
-  setSubmittedSessions((prev) => ({
-
-    ...prev,
-
-    [sessionKey]: "not-held",
-
-  }));
+  rememberSession(key, "not-held");
 
 
   alert(
@@ -288,6 +259,12 @@ const saveAttendance = async () => {
 
   }
 
+  const key = sessionKey(attendanceInfo);
+  if (submittedSessions[key]) {
+    alert("Attendance for this class has already been submitted.");
+    return;
+  }
+
 
 
   try {
@@ -298,20 +275,8 @@ const saveAttendance = async () => {
 
 
     const attendanceData = students.map((student)=>({
-
-
-      student: student.apiStudentId,
-
-
-      class_session: classSessionId,
-
-
-      status: student.present
-        ? "Present"
-        : "Absent"
-
-
-
+      student_id: student.apiStudentId,
+      status: student.present ? "Present" : "Absent"
     }));
 
 
@@ -327,7 +292,12 @@ const saveAttendance = async () => {
 
 
 
-    await Promise.all(attendanceData.map((entry) => attendanceApi.mark(entry)));
+    await attendanceApi.submit(classSessionId, attendanceData);
+
+    rememberSession(key, "submitted");
+    // Student dashboards poll this shared API every 30 seconds. This timestamp
+    // also lets another open tab refresh immediately on its next API check.
+    localStorage.setItem("attendanceLastUpdated", new Date().toISOString());
 
 
 
@@ -424,7 +394,7 @@ return (
     </span>
 
     <strong>
-      2025–26
+      2026–27
     </strong>
 
   </div>
@@ -505,26 +475,18 @@ onChange={(e)=>setSearch(e.target.value)}
 
 
 
-<label className="mark-all-card">
-
-
-<input
-
-type="checkbox"
-
-onChange={markAllPresent}
-
-/>
-
-
-Mark All Present
-
-
-</label>
-
-
 </div>
 
+
+
+<div className="attendance-class-summary" aria-label="Selected class details">
+  <div><small>Course</small><strong>{attendanceInfo.course || "-"}</strong></div>
+  <div><small>Semester</small><strong>{attendanceInfo.semester || "-"}</strong></div>
+  <div><small>Section</small><strong>{attendanceInfo.section || "-"}</strong></div>
+  <div><small>Subject</small><strong>{attendanceInfo.subject || "-"}</strong></div>
+  <div><small>Date</small><strong>{attendanceInfo.date || "-"}</strong></div>
+  <div><small>Time</small><strong>{attendanceInfo.time || "-"}{attendanceInfo.endTime ? ` - ${attendanceInfo.endTime}` : ""}</strong></div>
+</div>
 
 
 
@@ -538,6 +500,18 @@ Total :
 <b>
 {students.length}
 </b>
+
+</span>
+
+<span>
+
+Not Held :
+
+<b>
+{Object.values(submittedSessions).filter((value) => value === "not-held").length}
+</b>
+
+<small> (not included in total)</small>
 
 </span>
 

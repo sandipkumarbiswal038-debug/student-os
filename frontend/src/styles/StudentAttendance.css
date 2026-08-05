@@ -663,3 +663,14 @@
 
 
 }
+
+.attendance-warning{
+    display:block;
+    margin-top:5px;
+    color:#b42318;
+    font-weight:700;
+}
+
+.attendance-safe td:first-child{border-left:4px solid #198754}
+.attendance-watch td:first-child{border-left:4px solid #d98a00}
+.attendance-below td:first-child{border-left:4px solid #b42318}

@@ -28,6 +28,7 @@ function SubjectDetails() {
   const total = details?.total ?? 0;
   const attended = details?.attended ?? 0;
   const percentage = details?.percentage ?? 0;
+  const projectedAfterTwoMisses = total ? Math.round((attended / (total + 2)) * 100) : 0;
   const subjectName = subject?.name || "Subject";
 
   return (
@@ -44,7 +45,7 @@ function SubjectDetails() {
             <div className="stat-card"><h3>Current Attendance</h3><h2>{percentage}%</h2></div>
           </div>
           {details && total === 0 && <p className="warning-text">No attendance records have been published for this subject yet.</p>}
-          {details && total > 0 && <div className="projection-box"><p><strong>Minimum Required:</strong> 75%</p><p className={percentage >= 75 ? "good" : "warning-text"}>{percentage >= 75 ? "You are above the required attendance." : "Your attendance is below 75%. Please attend upcoming classes regularly."}</p></div>}
+          {details && total > 0 && <div className="projection-box"><p><strong>Minimum Required:</strong> 75%</p><p className={percentage >= 75 ? "good" : "warning-text"}>{percentage >= 75 ? "You are above the required attendance." : "Your attendance is below 75%. Please attend upcoming classes regularly."}</p><p><strong>Projection:</strong> If you miss 2 more classes, your attendance will be {projectedAfterTwoMisses}%.</p></div>}
           <button className="back-btn" onClick={() => navigate("/student/attendance")}>← Back</button>
         </div>
       </div>

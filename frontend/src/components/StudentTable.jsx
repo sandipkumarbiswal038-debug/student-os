@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/StudentTable.css";
+import "../styles/AttendanceControls.css";
 
 function StudentTable({
   students,

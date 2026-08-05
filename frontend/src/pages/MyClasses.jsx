@@ -60,7 +60,7 @@ item.subject ||
 
 
 
-course:item.course,
+course:item.course_name || item.course,
 
 
 semester:
