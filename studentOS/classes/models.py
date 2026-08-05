@@ -10,6 +10,8 @@ class ClassSession(models.Model):
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
+    # A cancelled / Not Held class must not contribute to attendance totals.
+    happened = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.subject.subject_name} - {self.date}"

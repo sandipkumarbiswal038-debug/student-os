@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from common.views import home
+from attendance import views as attendance_views
 
 
 
@@ -29,6 +30,8 @@ urlpatterns = [
     path("api/class-sessions/",include("classes.urls")),
     path("api/students/", include("student.urls")),
     path("api/attendance/",include("attendance.urls")),
+    path("api/student/attendance-summary/", attendance_views.attendance_summary),
+    path("api/student/attendance/<int:subject_id>/", attendance_views.subject_attendance),
     path("api/assignments/",include("assignments.urls")),
     path("api/notifications/",include("notification.urls")),
     path("api/users/", include("users.urls")),

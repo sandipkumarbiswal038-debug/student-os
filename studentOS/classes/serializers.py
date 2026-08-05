@@ -19,4 +19,5 @@ class ClassSessionSerializer(serializers.ModelSerializer):
             "date",
             "start_time",
             "end_time",
+            "happened",
         ]

@@ -1,18 +1,10 @@
 from django.urls import path
-from .views import (
-    AttendanceListView,
-    AttendanceCreateView,
-    AttendanceDetailView,
-    AttendanceUpdateView,
-    AttendanceDeleteView,
-    AttendanceHistoryView,
-)
+from . import views
 
 urlpatterns = [
-    path("", AttendanceListView.as_view(), name="attendance-list"),
-    path("mark/", AttendanceCreateView.as_view(), name="attendance-create"),
-    path("<int:pk>/", AttendanceDetailView.as_view(), name="attendance-detail"),
-    path("<int:pk>/update/", AttendanceUpdateView.as_view(), name="attendance-update"),
-    path("<int:pk>/delete/", AttendanceDeleteView.as_view(), name="attendance-delete"),
-    path("history/", AttendanceHistoryView.as_view(), name="attendance-history"),
+    path("", views.AttendanceListView.as_view(), name="attendance-list"),
+    path("submit/", views.submit_attendance, name="attendance-submit"),
+    path("<int:pk>/", views.attendance_record, name="attendance-record"),
+    path("student/attendance-summary/", views.attendance_summary, name="attendance-summary"),
+    path("student/attendance/<int:subject_id>/", views.subject_attendance, name="subject-attendance"),
 ]

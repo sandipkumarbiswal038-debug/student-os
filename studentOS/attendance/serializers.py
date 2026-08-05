@@ -1,22 +1,16 @@
-
 from rest_framework import serializers
-from .models import Attendance
+
+from .models import Attendance, Enrollment
+
 
 class AttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attendance
-        fields = "__all__"
+        fields = ["id", "student", "class_session", "status", "marked_by", "marked_at", "corrected_at", "corrected_by"]
+        read_only_fields = ["marked_by", "marked_at", "corrected_at", "corrected_by"]
 
-    def validate(self, data):
-        student = data["student"]
-        class_session = data["class_session"]
 
-        if Attendance.objects.filter(
-            student=student,
-            class_session=class_session
-        ).exists():
-            raise serializers.ValidationError(
-                "Attendance already marked for this student."
-            )
-
-        return data
+class EnrollmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Enrollment
+        fields = ["id", "student", "subject"]
