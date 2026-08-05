@@ -56,7 +56,9 @@ class AttendanceListView(generics.ListAPIView):
     def get_queryset(self):
         profile = profile_for(self.request)
         rows = Attendance.objects.select_related("student", "class_session__subject", "marked_by")
-        return rows if is_admin(profile) else rows.filter(class_session__subject__faculty_subjects__faculty=profile)
+        return rows if is_admin(profile) else rows.filter(
+            class_session__subject__faculty_subjects__faculty=profile
+        ).distinct()
 
 
 @api_view(["POST"])
