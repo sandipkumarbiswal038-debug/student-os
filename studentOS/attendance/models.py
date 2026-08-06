@@ -40,7 +40,7 @@ class Attendance(models.Model):
     def __str__(self):
         return f"{self.student} - {self.status}"
 
-    def delete(self, *args, **kwargs):
-        raise ValidationError("Attendance records cannot be deleted.")
+    #def delete(self, *args, **kwargs):
+        #raise ValidationError("Attendance records cannot be deleted.")
 
 # Create your models here.

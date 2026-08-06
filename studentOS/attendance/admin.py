@@ -6,7 +6,7 @@ class AttendanceAdmin(admin.ModelAdmin):
     list_display = ("student", "class_session", "status", "marked_by", "marked_at")
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
 
 
 admin.site.register(Enrollment)
