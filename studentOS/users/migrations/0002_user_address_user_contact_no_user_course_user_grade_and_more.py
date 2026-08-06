@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='registration_no',
-            field=models.CharField( max_length=30, null=True, blank=True), 
+            field=models.CharField(max_length=30, null=True, blank=True), 
         ),
         migrations.AddField(
             model_name='user',
@@ -21,14 +21,11 @@ class Migration(migrations.Migration):
             field=models.CharField(default='no description', max_length=15),
             preserve_default=False,
         ),
-        
         migrations.AddField(
             model_name='user',
             name='address',
             field=models.TextField(blank=True),
         ),
-        
-        
         migrations.AddField(
             model_name='user',
             name='course',
@@ -52,8 +49,4 @@ class Migration(migrations.Migration):
             name='grade',
             field=models.CharField(blank=True, max_length=5),
         ),
-       
-        
-        
-        
-    ]
+ ]

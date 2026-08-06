@@ -20,17 +20,35 @@ def can_manage(profile, session):
     return profile.role == "Admin" or FacultySubject.objects.filter(faculty=profile, subject=session.subject).exists()
 
 
+
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def today_sessions(request):
     profile = profile_for(request)
-    if profile.role not in {"Faculty", "Admin"}:
-        return Response({"detail": "Faculty access required."}, status=403)
+
     rows = ClassSession.objects.all().select_related("subject")
-    if profile.role != "Admin":
-        # A faculty may have duplicate legacy assignments; return each session once.
-        rows = rows.filter(subject__faculty_subjects__faculty=profile).distinct()
+
+    if profile.role == "Admin":
+        pass
+
+    elif profile.role == "Faculty":
+        rows = rows.filter(
+            subject__faculty_subjects__faculty=profile
+        ).distinct()
+
+    elif profile.role == "Student":
+        rows = rows.filter(
+            subject__student_enrollments__student__user=profile
+        ).distinct()
+
+    else:
+        return Response(
+            {"detail": "Invalid user role."},
+            status=403
+        )
+
     return Response(ClassSessionSerializer(rows, many=True).data)
+
 
 
 @api_view(["POST"])
