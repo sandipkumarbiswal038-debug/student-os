@@ -140,16 +140,13 @@ def login_api(request):
 
     token, _ = Token.objects.get_or_create(user=auth_user)
 
+
     return Response({
-        "token": token.key,
-        "user": {
-            "id": student.id,
-            "name": getattr(student, "name", "")
-                    or auth_user.get_full_name()
-                    or email.split("@")[0],
-            "college_email": student.college_email,
-            "role": "student",
-        }
-    })
-
-
+    "token": token.key,
+    "user": {
+        "id": student.id,
+        "name": student.name,
+        "college_email": student.college_email,
+        "role": student.role,
+    }
+})
