@@ -1,7 +1,16 @@
+const DEPLOYED_API_URL = "https://student-os-1-59k0.onrender.com";
+// In local development, use Vite's proxy so API calls reach the deployed
+// backend without a cross-origin browser request. Deployments use the public
+// backend URL unless VITE_API_BASE_URL overrides it.
 const API_BASE_URL = (
   import.meta.env.VITE_API_BASE_URL ||
-  "https://student-os-1-59k0.onrender.com"
+  (import.meta.env.DEV ? "/backend" : DEPLOYED_API_URL)
 ).replace(/\/$/, "");
+
+// The deployed backend exposes one login route.  Keeping this configurable
+// avoids a failed request before every successful login when environments use
+// different routes.
+const LOGIN_API_PATH = import.meta.env.VITE_LOGIN_API_PATH || "/api/accounts/api-login/";
 
 const toError = async (response) => {
   const payload = await response.json().catch(() => null);
@@ -42,25 +51,28 @@ export const loginUser = async (email, password, role) => {
     body: JSON.stringify({ college_email: email.trim().toLowerCase(), password, role }),
   };
 
-  let data;
-  try {
-    // Isolated API endpoint; it does not alter the existing HTML login flow.
-    data = await apiRequest("/custom-login/api-login/", options);
-  } catch (error) {
-    // Supports the alternate route used by another backend deployment.
-    if (error.status !== 404) throw error;
-    data = await apiRequest("/api/auth/login/", options);
-  }
+  const data = await apiRequest(LOGIN_API_PATH, options);
 
   // Keep the small Axios-like shape used by the existing login pages.
   return { data };
+};
+
+// Django REST Framework token logins commonly return `token`/`key`, while JWT
+// logins return `access`/`access_token`. Preserve the matching auth scheme.
+export const authSchemeFrom = (data) =>
+  data?.access || data?.access_token ? "Bearer" : "Token";
+
+export const authorizationHeader = (token) => {
+  if (!token) return {};
+  const scheme = localStorage.getItem("authScheme") || "Token";
+  return { Authorization: `${scheme} ${token}` };
 };
 
 export const authenticatedRequest = (path, token, options = {}) =>
   apiRequest(path, {
     ...options,
     headers: {
-      Authorization: `Token ${token}`,
+      ...authorizationHeader(token),
       ...(options.headers || {}),
     },
   });

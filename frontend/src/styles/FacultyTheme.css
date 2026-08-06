@@ -131,3 +131,65 @@
 .faculty-dashboard .glance-card strong { color:#161C2B; font:600 27px 'IBM Plex Serif', Georgia, serif; }
 .faculty-dashboard .glance-card small { color:#9AA1B2; }
 @media (max-width:1100px) { .faculty-dashboard .faculty-sidebar { width:266px; flex-basis:266px; } .faculty-dashboard .faculty-content { padding:28px; } }
+
+/* Attendance screen: same compact ledger and roster treatment as the prototype. */
+.attendance-layout .attendance-container { max-width:1080px; }
+.attendance-layout .attendance-page-head { margin-bottom:28px; }
+.attendance-layout .attendance-page-head h1 { font-size:30px; font-weight:600; letter-spacing:-.01em; }
+.attendance-layout .attendance-header { overflow:visible; background:transparent; border:0; border-radius:0; }
+.attendance-layout .header-top { display:none; }
+.attendance-layout .header-grid { padding:0; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+.attendance-layout .second-grid { margin-top:14px; padding-bottom:0; }
+.attendance-layout .input-card label { font-size:10px; font-weight:600; letter-spacing:.09em; }
+.attendance-layout .input-group { height:42px; border-color:#C3CAD8; border-radius:8px; background:#fff; }
+.attendance-layout .load-btn,.attendance-layout .not-held-btn { height:42px; border-radius:8px; font-size:12px; }
+.attendance-layout .attendance-tools { margin:26px 0 14px; }
+.attendance-layout .search-box { height:40px; max-width:310px; border-color:#C3CAD8; border-radius:8px; font-size:13px; }
+.attendance-layout .attendance-class-summary { grid-template-columns:repeat(6,minmax(0,1fr)); gap:0; margin:0 0 18px; padding:0; border-color:#DDE2EC; border-radius:12px; overflow:hidden; }
+.attendance-layout .attendance-class-summary div { min-height:76px; justify-content:center; padding:13px 16px; border-right:1px solid #DDE2EC; }
+.attendance-layout .attendance-class-summary div:last-child { border-right:0; }
+.attendance-layout .attendance-class-summary small { color:#586074; font-size:10px; font-weight:600; letter-spacing:.09em; }
+.attendance-layout .attendance-class-summary strong { color:#161C2B; font-size:13px; font-weight:600; }
+.attendance-layout .attendance-summary { grid-template-columns:repeat(4,1fr); gap:16px; margin:0 0 26px; }
+.attendance-layout .attendance-summary span { min-height:88px; padding:16px 18px; border:1px solid #DDE2EC; border-top:4px solid #6741A5; border-radius:12px; color:#586074; font-size:11px; font-weight:600; letter-spacing:.09em; box-shadow:none; }
+.attendance-layout .attendance-summary span:nth-child(2) { border-top-color:#0B7A73; }
+.attendance-layout .attendance-summary span:nth-child(3) { border-top-color:#1F7A3D; }
+.attendance-layout .attendance-summary span:nth-child(4) { border-top-color:#B23120; }
+.attendance-layout .attendance-summary span b { margin-top:0; font-family:'IBM Plex Serif', Georgia, serif; font-size:29px; font-weight:600; }
+.attendance-layout .attendance-summary span small { color:#586074; font-size:9px; letter-spacing:0; }
+.attendance-layout .prototype-roster { margin-top:0; border:1px solid #DDE2EC; border-radius:12px; overflow:hidden; background:#fff; }
+.attendance-layout .roster-heading { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid #DDE2EC; background:#fff; }
+.attendance-layout .roster-heading h2 { margin:0; color:#161C2B; font:600 18px 'IBM Plex Serif', Georgia, serif; }
+.attendance-layout .roster-heading h2::before { display:inline-block; width:4px; height:18px; margin-right:9px; vertical-align:-3px; border-radius:2px; background:#274690; content:""; }
+.attendance-layout .roster-heading span { color:#586074; font-size:11.5px; }
+.attendance-layout .roster-row { display:grid; grid-template-columns:44px 1fr 168px; align-items:center; gap:14px; padding:12px 18px; border-bottom:1px solid #DDE2EC; }
+.attendance-layout .roster-row:last-child { border-bottom:0; }
+.attendance-layout .roster-row:hover { background:#EEF1F7; }
+.attendance-layout .roster-number { color:#9AA1B2; font:12px 'IBM Plex Mono', monospace; }
+.attendance-layout .roster-student { display:grid; gap:1px; }
+.attendance-layout .roster-student strong { color:#161C2B; font-size:13.5px; font-weight:600; }
+.attendance-layout .roster-student span { color:#586074; font:11.5px 'IBM Plex Mono', monospace; }
+.attendance-layout .status-toggle { justify-self:end; display:inline-flex; overflow:hidden; border:1.5px solid #C3CAD8; border-radius:8px; }
+.attendance-layout .toggle-btn { min-width:0; padding:7px 13px; border:0; border-radius:0; background:#fff; color:#586074; font-size:12px; font-weight:600; }
+.attendance-layout .toggle-btn.active-present { background:#DCEFE1; color:#1F7A3D; }
+.attendance-layout .toggle-btn.active-absent { background:#F8E0DB; color:#B23120; }
+.attendance-layout .table-buttons { margin:0; padding:16px 18px; border-top:1px solid #DDE2EC; background:#EEF1F7; }
+.attendance-layout .back-btn,.attendance-layout .submit-btn { min-width:148px; height:40px; border-radius:8px; font-size:12px; }
+
+@media (max-width:900px) {
+  .attendance-layout .attendance-class-summary { grid-template-columns:repeat(3,1fr); }
+  .attendance-layout .attendance-class-summary div:nth-child(3) { border-right:0; }
+  .attendance-layout .attendance-class-summary div:nth-child(-n+3) { border-bottom:1px solid #DDE2EC; }
+  .attendance-layout .attendance-summary { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:600px) {
+  .attendance-layout .header-grid { grid-template-columns:1fr 1fr; }
+  .attendance-layout .second-grid { grid-template-columns:1fr; }
+  .attendance-layout .attendance-class-summary { grid-template-columns:repeat(2,1fr); }
+  .attendance-layout .attendance-class-summary div:nth-child(n) { border-right:1px solid #DDE2EC; border-bottom:1px solid #DDE2EC; }
+  .attendance-layout .attendance-class-summary div:nth-child(2n) { border-right:0; }
+  .attendance-layout .attendance-class-summary div:nth-last-child(-n+2) { border-bottom:0; }
+  .attendance-layout .roster-row { grid-template-columns:34px 1fr auto; gap:10px; padding:12px 14px; }
+  .attendance-layout .roster-heading { padding:14px; }
+  .attendance-layout .status-toggle { transform:scale(.92); transform-origin:right center; }
+}

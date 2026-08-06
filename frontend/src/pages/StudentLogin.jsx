@@ -4,7 +4,7 @@ import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
 import "../styles/StudentLogin.css";
 import niisLogo from "../assets/niis.logo.png";
-import { loginUser } from "../api/authApi";
+import { authSchemeFrom, loginUser } from "../api/authApi";
 
 export default function StudentLogin() {
 
@@ -51,6 +51,7 @@ export default function StudentLogin() {
       if (!token) throw new Error("The login server did not return an access token.");
 
       localStorage.setItem("authToken", token);
+      localStorage.setItem("authScheme", authSchemeFrom(data));
       localStorage.setItem("currentUser", JSON.stringify(data.user));
       navigate("/student/attendance");
     } catch (error) {

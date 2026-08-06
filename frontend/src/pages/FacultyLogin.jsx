@@ -9,7 +9,7 @@ import {
 
 import "../styles/FacultyLogin.css";
 import niisLogo from "../assets/niis.logo.png";
-import { authenticatedRequest, loginUser } from "../api/authApi";
+import { authSchemeFrom, loginUser } from "../api/authApi";
 
 export default function FacultyLogin() {
 
@@ -69,16 +69,17 @@ export default function FacultyLogin() {
       const token = data.token || data.access || data.access_token || data.key;
       if (!token) throw new Error("The login server did not return an access token.");
 
-      const usersPayload = await authenticatedRequest("/api/users/", token);
-      const users = Array.isArray(usersPayload) ? usersPayload : usersPayload?.results || [];
-      const faculty = users.find((user) =>
-        user.college_email?.toLowerCase() === email.trim().toLowerCase() &&
-        user.role?.toLowerCase() === "faculty"
-      );
-      if (!faculty) throw new Error("This email is not registered as a faculty account.");
-
       localStorage.setItem("authToken", token);
-      localStorage.setItem("currentUser", JSON.stringify({ ...data.user, ...faculty }));
+      localStorage.setItem("authScheme", authSchemeFrom(data));
+      // The dashboard resolves the full profile in parallel with its class
+      // request.  Store the login identity now so sign-in does not wait for a
+      // second, full users-list request.
+      localStorage.setItem("currentUser", JSON.stringify({
+        ...data.user,
+        college_email: data.user?.college_email || email.trim().toLowerCase(),
+        email: data.user?.email || email.trim().toLowerCase(),
+        role: data.user?.role || "faculty",
+      }));
       navigate("/faculty/dashboard");
     } catch (error) {
       const message = error.response?.data?.detail || (

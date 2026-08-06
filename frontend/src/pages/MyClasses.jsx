@@ -36,7 +36,7 @@ const fetchClasses = async()=>{
 try{
 
 
-const response = await classApi.list();
+const response = await classApi.listMine();
 
 console.log("CLASS API DATA:",response);
 

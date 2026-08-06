@@ -12,89 +12,24 @@ function StudentTable({
 
   return (
 
-    <div className="student-table-card">
+    <div className="student-table-card prototype-roster">
 
-      <table className="student-table">
+      <div className="roster-heading"><h2>Roll</h2><span>{students.length} students on roll</span></div>
 
-        <thead>
-
-          <tr>
-            <th>Sl No.</th>
-            <th>Regd No</th>
-            <th>Student Name</th>
-            <th>Status</th>
-          </tr>
-
-        </thead>
-
-        <tbody>
-
-          {students.length === 0 ? (
-
-            <tr>
-
-              <td
-                colSpan="4"
-                className="no-data"
-              >
-                No students found.
-              </td>
-
-            </tr>
-
-          ) : (
-
-            students.map((student, index) => (
-
-              <tr key={student.id}>
-
-                <td>{index + 1}</td>
-
-                <td>{student.registration_no}</td>
-
-                <td>{student.student_name}</td>
-
-                <td>
-
-                  <div className="status-toggle">
-
-                    <button
-                      className={
-                        student.present
-                          ? "toggle-btn active-present"
-                          : "toggle-btn"
-                      }
-                      onClick={() => updateAttendance(student.id, true)}
-                      disabled={isSaving}
-                    >
-                      Present
-                    </button>
-
-                    <button
-                      className={
-                        !student.present
-                          ? "toggle-btn active-absent"
-                          : "toggle-btn"
-                      }
-                      onClick={() => updateAttendance(student.id, false)}
-                      disabled={isSaving}
-                    >
-                      Absent
-                    </button>
-
-                  </div>
-
-                </td>
-
-              </tr>
-
-            ))
-
-          )}
-
-        </tbody>
-
-      </table>
+      <div className="roster-list">
+        {students.length === 0 ? (
+          <p className="no-data">No students found.</p>
+        ) : students.map((student, index) => (
+          <div className="roster-row" key={student.id}>
+            <span className="roster-number">{String(index + 1).padStart(2, "0")}</span>
+            <div className="roster-student"><strong>{student.student_name}</strong><span>{student.registration_no}</span></div>
+            <div className="status-toggle">
+              <button className={student.present ? "toggle-btn active-present" : "toggle-btn"} onClick={() => updateAttendance(student.id, true)} disabled={isSaving}>Present</button>
+              <button className={!student.present ? "toggle-btn active-absent" : "toggle-btn"} onClick={() => updateAttendance(student.id, false)} disabled={isSaving}>Absent</button>
+            </div>
+          </div>
+        ))}
+      </div>
 
       <div className="table-buttons">
 

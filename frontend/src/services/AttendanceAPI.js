@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../api/authApi";
+import { API_BASE_URL, authorizationHeader } from "../api/authApi";
 
 const request = async (path, options = {}) => {
   const token = localStorage.getItem("authToken");
@@ -6,7 +6,7 @@ const request = async (path, options = {}) => {
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Token ${token}` } : {}),
+      ...authorizationHeader(token),
       ...(options.headers || {}),
     },
   });

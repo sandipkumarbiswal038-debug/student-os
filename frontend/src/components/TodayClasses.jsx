@@ -28,7 +28,7 @@ export default function TodayClasses({ onSelectClass }) {
       try {
 
 
-        const response = await classApi.list();
+          const response = await classApi.listToday();
 
 
         console.log("CLASS API RESPONSE:", response);

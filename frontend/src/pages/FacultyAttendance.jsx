@@ -115,7 +115,7 @@ const handleLoadStudents = async (data) => {
 
     const classSessionId = data.classSessionId;
     if (!classSessionId) throw new Error("Please select a class before loading students.");
-    const response = await studentApi.classRoll(classSessionId);
+    const response = await studentApi.classRoll(classSessionId, data.course);
 
     console.log("STUDENTS API RESPONSE:", response);
 
@@ -125,12 +125,21 @@ const handleLoadStudents = async (data) => {
 
         id: student.id,
 
-        apiStudentId: student.id,
+        // A class-roll entry can have its own row ID. Submit the underlying
+        // student/user ID so attendance cannot be written for another person.
+        apiStudentId:
+          student.student?.id ??
+          student.student_id ??
+          student.user?.id ??
+          student.user_id ??
+          student.id,
 
         registration_no:
           student.registration_no || student.roll_number || "-",
 
         student_name:
+          student.student?.name ||
+          student.user?.name ||
           student.name ||
           "Unknown Student",
 
@@ -279,6 +288,10 @@ const saveAttendance = async () => {
       status: student.present ? "Present" : "Absent"
     }));
 
+    if (attendanceData.some((entry) => entry.student_id === undefined || entry.student_id === null || entry.student_id === "")) {
+      throw new Error("One or more students do not have a valid student ID for this class session.");
+    }
+
 
 
 
@@ -377,7 +390,7 @@ return (
     </p>
 
     <h1>
-      Attendance
+      {showTable ? `${attendanceInfo.subject || "Attendance"}${attendanceInfo.section ? ` · Sec ${attendanceInfo.section}` : ""}` : "Attendance"}
     </h1>
 
     <p className="page-description">
@@ -623,7 +636,7 @@ onStartAttendance={handleSelectClass}
 activeTab === "history" &&
 
 
-<AttendanceHistory />
+<AttendanceHistory classSessionId={attendanceInfo.classSessionId} />
 
 
 }

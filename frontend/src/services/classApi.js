@@ -1,10 +1,21 @@
 import { authenticatedRequest } from "../api/authApi";
 
+const matches = (left, right) => left != null && right != null && String(left).toLowerCase() === String(right).toLowerCase();
+const facultyFromSession = (session) => session.faculty?.id ?? session.faculty_id ?? session.faculty?.college_email ?? session.faculty_email ?? session.faculty?.email ?? session.faculty;
+
+export const classesForFaculty = (sessions, faculty) => {
+  const identities = [faculty?.id, faculty?.college_email, faculty?.email, faculty?.name];
+  return sessions.filter((session) => {
+    const assignedFaculty = facultyFromSession(session);
+    return assignedFaculty != null && identities.some((identity) => matches(assignedFaculty, identity));
+  });
+};
+
 export const classApi = {
   list: async () => {
     const token = localStorage.getItem("authToken");
     const [sessionsPayload, subjectsPayload] = await Promise.all([
-      // Faculty sees only the sessions assigned to them for the current day.
+      // This endpoint supplies the complete timetable for today.
       authenticatedRequest("/api/class-sessions/today/", token),
       authenticatedRequest("/api/subjects/", token),
     ]);
@@ -42,4 +53,13 @@ export const classApi = {
       };
     });
   },
+};
+
+// Today Classes intentionally shows the complete timetable. My Classes uses
+// the same API response but only retains classes assigned to the signed-in
+// faculty member.
+classApi.listToday = classApi.list;
+classApi.listMine = async () => {
+  const savedUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+  return classesForFaculty(await classApi.listToday(), savedUser);
 };
