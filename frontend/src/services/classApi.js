@@ -15,8 +15,7 @@ export const classApi = {
   list: async () => {
     const token = localStorage.getItem("authToken");
     const [sessionsPayload, subjectsPayload] = await Promise.all([
-      // This endpoint supplies the complete timetable for today.
-      authenticatedRequest("/api/class-sessions/today/", token),
+      authenticatedRequest("/api/class-sessions/", token),
       authenticatedRequest("/api/subjects/", token),
     ]);
     const sessions = Array.isArray(sessionsPayload) ? sessionsPayload : sessionsPayload?.results || sessionsPayload?.data || [];
@@ -55,10 +54,25 @@ export const classApi = {
   },
 };
 
-// Today Classes intentionally shows the complete timetable. My Classes uses
-// the same API response but only retains classes assigned to the signed-in
-// faculty member.
-classApi.listToday = classApi.list;
+// The attendance landing page must only show classes scheduled for today.
+// Keep the response formatting in one place so both class-session endpoints
+// expose the same fields to the UI.
+classApi.listToday = async () => {
+  const token = localStorage.getItem("authToken");
+  const payload = await authenticatedRequest("/api/class-sessions/today/", token);
+  const sessions = Array.isArray(payload) ? payload : payload?.results || payload?.data || [];
+  return sessions.map((session) => ({
+    ...session,
+    subject_name: session.subject_name || session.subject_detail?.name || session.subject?.name || session.subject || "Subject not assigned",
+    subject_code: session.subject_code || session.subject_detail?.code || session.subject?.code,
+    course_name: session.course_name || session.course?.name || session.course?.course_name || session.course || "-",
+    section: session.section || session.section_name || "-",
+    semester: session.semester ?? session.semester_number ?? "-",
+    date: session.date || session.class_date || "-",
+    start_time: session.start_time || session.start || "-",
+    end_time: session.end_time || session.end || "-",
+  }));
+};
 classApi.listMine = async () => {
   const savedUser = JSON.parse(localStorage.getItem("currentUser") || "null");
   return classesForFaculty(await classApi.listToday(), savedUser);

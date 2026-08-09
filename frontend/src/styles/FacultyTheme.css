@@ -171,10 +171,14 @@
 .attendance-layout .roster-student span { color:#586074; font:11.5px 'IBM Plex Mono', monospace; }
 .attendance-layout .status-toggle { justify-self:end; display:inline-flex; overflow:hidden; border:1.5px solid #C3CAD8; border-radius:8px; }
 .attendance-layout .toggle-btn { min-width:0; padding:7px 13px; border:0; border-radius:0; background:#fff; color:#586074; font-size:12px; font-weight:600; }
-.attendance-layout .toggle-btn.active-present { background:#DCEFE1; color:#1F7A3D; }
-.attendance-layout .toggle-btn.active-absent { background:#F8E0DB; color:#B23120; }
+.attendance-layout .toggle-btn.active-present { background:#20803F; color:#fff; }
+.attendance-layout .toggle-btn.active-absent { background:#C73525; color:#fff; }
+.attendance-layout .toggle-btn:not(.active-present):not(.active-absent):hover { background:#F4F6FA; }
+.attendance-layout .toggle-btn:disabled { cursor:not-allowed; opacity:.7; }
 .attendance-layout .table-buttons { margin:0; padding:16px 18px; border-top:1px solid #DDE2EC; background:#EEF1F7; }
 .attendance-layout .back-btn,.attendance-layout .submit-btn { min-width:148px; height:40px; border-radius:8px; font-size:12px; }
+.attendance-layout .back-btn { border-color:#C73525; background:#C73525; color:#fff; }
+.attendance-layout .back-btn:hover { background:#A92C20; }
 
 @media (max-width:900px) {
   .attendance-layout .attendance-class-summary { grid-template-columns:repeat(3,1fr); }

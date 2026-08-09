@@ -59,7 +59,16 @@ function StudentAttendance() {
     loadDashboard();
     // Attendance becomes visible on the student dashboard without requiring logout/login.
     refreshTimer = window.setInterval(() => loadDashboard(false), 30000);
-    return () => window.clearInterval(refreshTimer);
+    // A faculty submission in another tab triggers an immediate refresh. The
+    // interval above remains the fallback for a student on another device.
+    const refreshAfterSubmission = (event) => {
+      if (event.key === "attendanceLastUpdated") loadDashboard(false);
+    };
+    window.addEventListener("storage", refreshAfterSubmission);
+    return () => {
+      window.clearInterval(refreshTimer);
+      window.removeEventListener("storage", refreshAfterSubmission);
+    };
   }, [navigate]);
 
   if (loading) {

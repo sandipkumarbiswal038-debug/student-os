@@ -38,11 +38,22 @@ export default function FacultyDashboard() {
       .catch((requestError) => setError(requestError.message || "Unable to load faculty dashboard."));
   }, [navigate]);
 
+  const today = new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+
   const displayClasses = classes.map((item) => ({
     id: item.id,
     time: item.start_time || item.time || "-",
+    endTime: item.end_time || item.endTime || "",
     subject: item.subject_name || item.subject?.name || item.subject || "Subject",
+    course: item.course_name || item.course || "",
+    semester: item.semester ?? item.semester_number ?? "",
     section: item.section || item.batch || "-",
+    // A dashboard card always opens attendance for the faculty's local today.
+    date: today,
     detail: [item.course_name || item.course, item.semester !== undefined && item.semester !== "-" ? `Semester ${item.semester}` : null, item.room].filter(Boolean).join(" · ") || "Class details not available",
     count: item.students_count ? `${item.students_count} students` : "—",
   }));

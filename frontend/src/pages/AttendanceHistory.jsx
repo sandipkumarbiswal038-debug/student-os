@@ -45,7 +45,10 @@ function AttendanceHistory({ classSessionId }) {
         // When History is opened from a class, it must show that exact class
         // session. This includes a session the API reports as already saved.
         if (classSessionId) return recordSessionId === String(classSessionId);
-        return facultySessionIds.has(recordSessionId);
+        // Some class-session responses do not include a faculty field. The
+        // attendance endpoint is already authenticated, so in that case show
+        // its returned records instead of hiding newly saved attendance.
+        return facultySessionIds.size === 0 || facultySessionIds.has(recordSessionId);
       });
       setHistory(sessionRecords.map((record) => {
         const student = byId.get(String(record.student?.id ?? record.student_id ?? record.student));

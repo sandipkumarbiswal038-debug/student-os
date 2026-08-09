@@ -20,9 +20,25 @@ function SubjectDetails() {
       return;
     }
 
-    getSubjectAttendance(token, student, subject)
-      .then(setDetails)
+    let refreshTimer;
+    const loadDetails = () => getSubjectAttendance(token, student, subject)
+      .then((attendance) => {
+        setDetails(attendance);
+        setError("");
+      })
       .catch((requestError) => setError(requestError.message || "Unable to load attendance details."));
+
+    loadDetails();
+    // Keep this selected subject current when a faculty submits attendance.
+    refreshTimer = window.setInterval(loadDetails, 30000);
+    const refreshAfterSubmission = (event) => {
+      if (event.key === "attendanceLastUpdated") loadDetails();
+    };
+    window.addEventListener("storage", refreshAfterSubmission);
+    return () => {
+      window.clearInterval(refreshTimer);
+      window.removeEventListener("storage", refreshAfterSubmission);
+    };
   }, [navigate, subject]);
 
   const total = details?.total ?? 0;

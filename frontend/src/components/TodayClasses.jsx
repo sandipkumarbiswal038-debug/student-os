@@ -8,9 +8,10 @@ import {
 } from "react-icons/fa";
 
 import { classApi } from "../services/classApi";
+import { attendanceApi } from "../services/attendanceApi";
 
 
-export default function TodayClasses({ onSelectClass }) {
+export default function TodayClasses({ onSelectClass, onManualAttendance }) {
 
 
   const [classes, setClasses] = useState([]);
@@ -28,7 +29,17 @@ export default function TodayClasses({ onSelectClass }) {
       try {
 
 
-          const response = await classApi.listToday();
+          const [response, attendancePayload] = await Promise.all([
+            classApi.listToday(),
+            attendanceApi.history(),
+          ]);
+          const attendanceRecords = Array.isArray(attendancePayload)
+            ? attendancePayload
+            : attendancePayload?.results || attendancePayload?.data || [];
+          const submittedSessionIds = new Set(attendanceRecords
+            .map((record) => record.class_session?.id ?? record.class_session_id ?? record.class_session?.pk ?? record.class_session)
+            .filter((id) => id !== undefined && id !== null)
+            .map(String));
 
 
         console.log("CLASS API RESPONSE:", response);
@@ -63,6 +74,8 @@ export default function TodayClasses({ onSelectClass }) {
 
 
           status: "Pending",
+
+          submitted: submittedSessionIds.has(String(item.id)),
 
 
         }));
@@ -121,9 +134,9 @@ export default function TodayClasses({ onSelectClass }) {
 
 
 
-        <button className="today-link">
+        <button className="today-link" type="button" onClick={onManualAttendance}>
 
-          View Schedule 
+          Select Manually
           <FaArrowRight />
 
         </button>
@@ -240,11 +253,11 @@ export default function TodayClasses({ onSelectClass }) {
               <div className="status">
 
 
-                <span className="pending">
+                <span className={item.submitted ? "completed" : "pending"}>
 
                   <FaClock />
 
-                  Pending
+                  {item.submitted ? "Already Submitted" : "Pending"}
 
                 </span>
 
@@ -262,7 +275,9 @@ export default function TodayClasses({ onSelectClass }) {
 
                 <button
 
-                  className="mark-btn"
+                  className={item.submitted ? "disable-btn" : "mark-btn"}
+
+                  disabled={item.submitted}
 
                   onClick={()=>
                     onSelectClass(item)
@@ -270,7 +285,7 @@ export default function TodayClasses({ onSelectClass }) {
 
                 >
 
-                  Mark Attendance
+                  {item.submitted ? "Submitted" : "Mark Attendance"}
 
 
                 </button>

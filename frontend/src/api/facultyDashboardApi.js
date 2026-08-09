@@ -8,7 +8,7 @@ const matches = (left, right) => left != null && right != null && String(left).t
 export const getFacultyDashboard = async (token, savedUser) => {
   const [usersResponse, sessions] = await Promise.all([
     authenticatedRequest("/api/users/", token),
-    classApi.list(),
+    classApi.listToday(),
   ]);
 
   const users = asList(usersResponse);

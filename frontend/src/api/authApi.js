@@ -10,7 +10,7 @@ const API_BASE_URL = (
 // The deployed backend exposes one login route.  Keeping this configurable
 // avoids a failed request before every successful login when environments use
 // different routes.
-const LOGIN_API_PATH = import.meta.env.VITE_LOGIN_API_PATH || "/api/accounts/api-login/";
+const LOGIN_API_PATH = import.meta.env.VITE_LOGIN_API_PATH || "/custom-login/api-login/";
 
 const toError = async (response) => {
   const payload = await response.json().catch(() => null);

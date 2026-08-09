@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import Sidebar from "../components/Sidebar";
@@ -11,6 +11,7 @@ import AttendanceSuccessModal from "../components/AttendanceSuccessModal";
 
 import { attendanceApi } from "../services/AttendanceAPI";
 import { studentApi } from "../services/studentApi";
+import { classApi } from "../services/classApi";
 
 import AttendanceHistory from "./AttendanceHistory";
 import MyClasses from "./MyClasses";
@@ -20,6 +21,16 @@ import "../styles/FacultyTheme.css";
 
 function FacultyAttendance() {
   const location = useLocation();
+
+const localToday = () => {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${now.getFullYear()}-${month}-${day}`;
+};
+
+const attendanceSessionId = (record) =>
+  record.class_session?.id ?? record.class_session_id ?? record.class_session?.pk ?? record.class_session;
 
 const selectedClassData = location.state;
 
@@ -45,6 +56,30 @@ const [submittedSessions, setSubmittedSessions] =
     try { return JSON.parse(localStorage.getItem("facultyAttendanceSessions") || "{}"); }
     catch { return {}; }
   });
+
+// Submission status comes from the backend, so it stays correct after a
+// refresh, a different browser, or another faculty session.
+const [submittedClassSessionIds, setSubmittedClassSessionIds] = useState(() => new Set());
+
+const refreshSubmittedClassSessions = async () => {
+  try {
+    const records = await attendanceApi.history();
+    const entries = Array.isArray(records) ? records : records?.results || records?.data || [];
+    setSubmittedClassSessionIds(new Set(
+      entries
+        .map(attendanceSessionId)
+        .filter((id) => id !== undefined && id !== null)
+        .map(String)
+    ));
+  } catch (error) {
+    // Do not block attendance if the history request is temporarily unavailable.
+    console.error("Unable to check submitted attendance:", error);
+  }
+};
+
+useEffect(() => {
+  refreshSubmittedClassSessions();
+}, []);
 
 const [isSaving, setIsSaving] =
   useState(false);
@@ -75,11 +110,38 @@ const sessionKey = (info) => [
 
   date:
     selectedClassData?.date ||
-    new Date().toISOString().split("T")[0],
+    localToday(),
 
   time: selectedClassData?.time || "",
 
 });
+
+// Dashboard cards only need to send a session ID. Resolve the complete
+// session again from today's schedule so all fields always match the class
+// that was clicked, even if the dashboard was open before a schedule change.
+useEffect(() => {
+  const sessionId = selectedClassData?.classSessionId;
+  if (!sessionId) return;
+
+  classApi.listToday()
+    .then((sessions) => {
+      const session = sessions.find((item) => String(item.id) === String(sessionId));
+      if (!session) return;
+
+      setAttendanceInfo((previous) => ({
+        ...previous,
+        classSessionId: session.id,
+        course: session.course_name || session.course || "",
+        semester: session.semester ?? "",
+        section: session.section || "",
+        subject: session.subject_name || session.subject || "",
+        date: localToday(),
+        time: session.start_time || "",
+        endTime: session.end_time || "",
+      }));
+    })
+    .catch((error) => console.error("Unable to resolve today's selected class:", error));
+}, [selectedClassData?.classSessionId]);
 // ================= SELECT CLASS =================
 const handleSelectClass = (classData) => {
 
@@ -105,6 +167,26 @@ const handleSelectClass = (classData) => {
 
   });
 
+};
+
+// Faculty can either select one of today's class cards (which fills these
+// values automatically) or open the same form and choose a session manually.
+const handleManualAttendance = () => {
+  setActiveTab("attendance");
+  setSelectedClass(true);
+  setShowTable(false);
+  setStudents([]);
+  setSearch("");
+  setAttendanceInfo({
+    classSessionId: "",
+    course: "",
+    semester: "",
+    section: "",
+    subject: "",
+    date: new Date().toISOString().split("T")[0],
+    time: "",
+    endTime: "",
+  });
 };
 // ================= LOAD STUDENTS =================
 const handleLoadStudents = async (data) => {
@@ -224,7 +306,7 @@ const handleNotHeld = () => {
   const key = sessionKey(attendanceInfo);
 
 
-  if (submittedSessions[key]) {
+  if (submittedClassSessionIds.has(String(attendanceInfo.classSessionId))) {
 
     alert("This attendance is already submitted.");
 
@@ -269,7 +351,7 @@ const saveAttendance = async () => {
   }
 
   const key = sessionKey(attendanceInfo);
-  if (submittedSessions[key]) {
+  if (submittedClassSessionIds.has(String(classSessionId))) {
     alert("Attendance for this class has already been submitted.");
     return;
   }
@@ -308,18 +390,10 @@ const saveAttendance = async () => {
     await attendanceApi.submit(classSessionId, attendanceData);
 
     rememberSession(key, "submitted");
+    setSubmittedClassSessionIds((previous) => new Set([...previous, String(classSessionId)]));
     // Student dashboards poll this shared API every 30 seconds. This timestamp
     // also lets another open tab refresh immediately on its next API check.
     localStorage.setItem("attendanceLastUpdated", new Date().toISOString());
-
-
-
-
-
-    alert(
-      "Attendance submitted successfully"
-    );
-
 
     setShowSuccessModal(true);
 
@@ -443,6 +517,8 @@ activeTab === "attendance" &&
 <TodayClasses
 
 onSelectClass={handleSelectClass}
+
+onManualAttendance={handleManualAttendance}
 
 />
 
