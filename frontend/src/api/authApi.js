@@ -24,17 +24,30 @@ const toError = async (response) => {
 };
 
 export const apiRequest = async (path, options = {}) => {
+  const requestOptions = {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    },
+  };
   let response;
-  try {
-    response = await fetch(`${API_BASE_URL}${path}`, {
-      ...options,
-      headers: {
-        "Content-Type": "application/json",
-        ...(options.headers || {}),
-      },
-    });
-  } catch {
-    throw new Error("Unable to reach the login server. Please try again shortly.");
+
+  // Render can return a short-lived 502 while a sleeping instance wakes up.
+  // Retry once so a faculty/student does not need to re-enter credentials.
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    try {
+      response = await fetch(`${API_BASE_URL}${path}`, requestOptions);
+    } catch {
+      if (attempt === 0) {
+        await new Promise((resolve) => window.setTimeout(resolve, 1500));
+        continue;
+      }
+      throw new Error("Unable to reach the login server. Please try again shortly.");
+    }
+
+    if (response.status !== 502 || attempt === 1) break;
+    await new Promise((resolve) => window.setTimeout(resolve, 1500));
   }
 
   if (!response.ok) {

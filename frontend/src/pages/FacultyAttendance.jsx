@@ -12,6 +12,7 @@ import AttendanceSuccessModal from "../components/AttendanceSuccessModal";
 import { attendanceApi } from "../services/AttendanceAPI";
 import { studentApi } from "../services/studentApi";
 import { classApi } from "../services/classApi";
+import { sortByRegistrationNumber } from "../utils/studentSort";
 
 import AttendanceHistory from "./AttendanceHistory";
 import MyClasses from "./MyClasses";
@@ -233,7 +234,7 @@ const handleLoadStudents = async (data) => {
       }));
 
 
-    setStudents(formattedStudents);
+    setStudents(sortByRegistrationNumber(formattedStudents));
 
     setShowTable(true);
 

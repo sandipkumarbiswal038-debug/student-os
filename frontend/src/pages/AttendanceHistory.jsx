@@ -5,6 +5,7 @@ import "../styles/AttendanceHistoryActions.css";
 import { attendanceApi } from "../services/AttendanceAPI";
 import { studentApi } from "../services/studentApi";
 import { authenticatedRequest } from "../api/authApi";
+import { sortByRegistrationNumber } from "../utils/studentSort";
 
 const asList = (value) => Array.isArray(value) ? value : value?.results || value?.data || [];
 const timestampFor = (record) => record.updated_at || record.marked_at || record.created_at || record.attendance_date || record.date;
@@ -50,10 +51,10 @@ function AttendanceHistory({ classSessionId }) {
         // its returned records instead of hiding newly saved attendance.
         return facultySessionIds.size === 0 || facultySessionIds.has(recordSessionId);
       });
-      setHistory(sessionRecords.map((record) => {
+      setHistory(sortByRegistrationNumber(sessionRecords.map((record) => {
         const student = byId.get(String(record.student?.id ?? record.student_id ?? record.student));
         return { ...record, registration_no: record.registration_no || student?.registration_no || student?.roll_number || "-", student_name: record.student_name || student?.name || "-", date: record.date || record.attendance_date || record.marked_at?.split("T")[0] || record.created_at?.split("T")[0] || "-", status: record.status || record.attendance_status || "-" };
-      }));
+      })));
       setError("");
     } catch (err) { setError(err.message || "Unable to load attendance history."); }
     finally { setLoading(false); }
